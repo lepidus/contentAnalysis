@@ -17,6 +17,7 @@ class DocumentChecker {
     private $patternsContribution = array(
         array("contribuição", "dos", "autores"),
         array("contribuição", "das", "autoras"),
+        array("contribuições", "dos", "autores"),
         array("authors", "contributions"),
         array("colaborações", "individuais"),
         array("participación", "de", "los", "autores"),
@@ -36,7 +37,7 @@ class DocumentChecker {
                 while($end < strlen($text) && !ctype_space($text[$end]))
                     $end++;
                 
-                $this->words[] = strtolower(substr($text, $start, $end-$start));
+                $this->words[] = mb_strtolower(substr($text, $start, $end-$start));
                 $i = $end;
             }
         }
