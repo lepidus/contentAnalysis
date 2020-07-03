@@ -18,10 +18,17 @@ class DocumentChecker {
         array("contribuição", "dos", "autores"),
         array("contribuição", "das", "autoras"),
         array("contribuições", "dos", "autores"),
-        array("authors", "contributions"),
+        array("contribuição", "de", "autoria"),
         array("colaborações", "individuais"),
+        array("colaboração", "da", "produção", "do", "artigo"),
+        array("authors", "contributions"),
+        array("contribution", "of", "authority"),
+        array("equal", "contribution", "as", "first", "author"),
         array("participación", "de", "los", "autores"),
-        array("colaboração", "da", "produção", "do", "artigo")
+        array("contribución", "de", "autores"),
+        array("contribución", "de", "los", "autores"),
+        array("contribuciones", "de", "los", "autores"),
+        array("contribuciones", "de", "autoría"),
     );
 
     private function parseDocument(){
@@ -57,7 +64,7 @@ class DocumentChecker {
                 foreach($this->patternsContribution[$j] as $wordPattern){
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
 
-                    if($similarity < 90)
+                    if($similarity < 75)
                         break;
                     else {
                         $depth++;

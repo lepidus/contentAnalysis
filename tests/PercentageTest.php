@@ -25,7 +25,7 @@ final class PercentageTest extends TestCase {
         $mainPath = "/home/jhon/Documentos/base_preprints/negativos/";
         $foundNegatives = 0;
 
-        for($i = 1; $i <= 151; $i++){
+        for($i = 1; $i <= 150; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
@@ -33,7 +33,7 @@ final class PercentageTest extends TestCase {
                 $foundNegatives++;
         }
 
-        $accuracy = ($foundNegatives / 151);
+        $accuracy = ($foundNegatives / 150);
 
         $this->assertEquals(1, $accuracy);   //Sem espaço para falsos positivos
     }
