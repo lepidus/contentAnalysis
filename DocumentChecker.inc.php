@@ -77,4 +77,25 @@ class DocumentChecker {
         }
         return false;
     }
+
+    function checkAuthorsORCID(){
+        for($i = 0; $i < count($this->words); $i++){
+            $word = $this->words[$i];
+            
+            if(strlen($word) >= 19){
+                $start = 0;
+                while($start < strlen($word) && !ctype_digit($word[$start]))
+                    $start++;
+
+                if($start <= (strlen($word) - 19)){
+                    $trecho = substr($word, $start, 19);
+                    
+                    if(preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho))
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
