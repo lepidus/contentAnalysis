@@ -96,6 +96,16 @@ class DocumentChecker {
             }
         }
 
+        $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
+        
+        for($i = 0; $i < strlen($textHtml) - 37; $i++){
+            $trecho = substr($textHtml, $i, 37);
+
+            if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho))
+                return true;
+        }
+
+
         return false;
     }
 }

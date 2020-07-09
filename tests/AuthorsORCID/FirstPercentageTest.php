@@ -8,7 +8,7 @@ final class FirstPercentageTest extends TestCase {
         $mainPath = "/home/jhon/Documentos/base_preprints/positivos/";
         $foundPositives = 0;
 
-        for($i = 1; $i <= 92; $i++){
+        for($i = 1; $i <= 94; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
@@ -16,16 +16,16 @@ final class FirstPercentageTest extends TestCase {
                 $foundPositives++;
         }
 
-        $accuracy = ($foundPositives / 92);
+        $accuracy = ($foundPositives / 94);
 
-        $this->assertGreaterThanOrEqual(0.80, $accuracy);   //Espera ao menos 80% de acurácia
+        $this->assertEquals(1, $accuracy);   //Espera ao menos 80% de acurácia
     }
 
     public function testPercentageNegatives() : void {
         $mainPath = "/home/jhon/Documentos/base_preprints/negativos/";
         $foundNegatives = 0;
 
-        for($i = 1; $i <= 103; $i++){
+        for($i = 1; $i <= 101; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
@@ -33,7 +33,7 @@ final class FirstPercentageTest extends TestCase {
                 $foundNegatives++;
         }
 
-        $accuracy = ($foundNegatives / 103);
+        $accuracy = ($foundNegatives / 101);
 
         $this->assertEquals(1, $accuracy);   //Sem espaço para falsos positivos
     }
