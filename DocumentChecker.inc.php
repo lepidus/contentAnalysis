@@ -79,6 +79,8 @@ class DocumentChecker {
     }
 
     function checkAuthorsORCID(){
+        $orcidsDetected = array();
+
         for($i = 0; $i < count($this->words); $i++){
             $word = $this->words[$i];
             
@@ -90,22 +92,27 @@ class DocumentChecker {
                 if($start <= (strlen($word) - 19)){
                     $trecho = substr($word, $start, 19);
                     
-                    if(preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho))
-                        return true;
+                    if(preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho) && !in_array($trecho, $orcidsDetected)){
+                        $orcidsDetected[] = $trecho;
+                        $i += 19;
+                    }
                 }
             }
         }
 
-        $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
-        
-        for($i = 0; $i < strlen($textHtml) - 37; $i++){
-            $trecho = substr($textHtml, $i, 37);
+        if(empty($orcidsDetected)){
+            $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
+            
+            for($i = 0; $i < strlen($textHtml) - 37; $i++){
+                $trecho = substr($textHtml, $i, 37);
 
-            if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho))
-                return true;
+                if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho) && !in_array($trecho, $orcidsDetected)){
+                    $orcidsDetected[] = $trecho;
+                    $i += 37;
+                }
+            }
         }
 
-
-        return false;
+        return count($orcidsDetected);
     }
 }

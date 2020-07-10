@@ -14,13 +14,13 @@ final class PercentageTest extends TestCase {
             $checker = new DocumentChecker($path);
             $numOrcids = $checker->checkAuthorsORCID();
             
-            if($numOrcids > 0 && $numOrcids < $numAuthors[$i])
+            if($numOrcids > 0 && $numOrcids < $numAuthors[$i-1])
                 $foundPart++;
-            else if($numOrcids == $numAuthors[$i])
+            else if($numOrcids == $numAuthors[$i-1])
                 $foundTotal++;
         }
 
-        $accuracy = ($foundPart + $foundTotal / 94);
+        $accuracy = (($foundPart + $foundTotal) / 94);
 
         $this->assertEquals(1, $accuracy);
     }
