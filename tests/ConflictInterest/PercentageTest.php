@@ -31,8 +31,6 @@ final class PercentageTest extends TestCase {
 
             if(!$checker->checkConflictInterest())
                 $foundNegatives++;
-            else
-                error_log($path);
         }
 
         $accuracy = ($foundNegatives / 123);
