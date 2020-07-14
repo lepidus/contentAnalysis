@@ -31,6 +31,14 @@ class DocumentChecker {
         array("contribuciones", "de", "autoría"),
     );
 
+    private $patternsConflictInterest = array(
+        array("conflictos", "de", "intereses"),
+        array("conflictos", "de", "interés"),
+        array("conflicts", "of", "interests"),
+        array("competing", "interests"),
+        array("conflitos", "de", "interesses"),
+    );
+
     private function parseDocument(){
         $text = Pdf::getText($this->pathFile);
         
@@ -75,6 +83,7 @@ class DocumentChecker {
                     return true;
             }    
         }
+        
         return false;
     }
 
@@ -114,5 +123,28 @@ class DocumentChecker {
         }
 
         return count($orcidsDetected);
+    }
+
+    function checkConflictInterest(){
+        for($i = 0; $i < count($this->words)-3; $i++){
+            for($j = 0; $j < count($this->patternsConflictInterest); $j++){
+                $depth = 0;
+                
+                foreach($this->patternsConflictInterest[$j] as $wordPattern){
+                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
+
+                    if($similarity < 75)
+                        break;
+                    else {
+                        $depth++;
+                    }
+                }
+
+                if($depth == count($this->patternsConflictInterest[$j]))
+                    return true;
+            }    
+        }
+
+        return false;
     }
 }
