@@ -1,5 +1,0 @@
-{
-    "require": {
-        "spatie/pdf-to-text": "^1.3"
-    }
-}

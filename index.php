@@ -9,6 +9,6 @@
  * @brief Wrapper for the Document Metadata Checklist plugin.
  *
  */
-require __DIR__ . '/vendor/autoload.php';
+
 require_once('DocumentMetadataChecklistPlugin.inc.php');
 return new DocumentMetadataChecklistPlugin();

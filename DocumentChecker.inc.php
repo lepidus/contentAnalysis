@@ -8,7 +8,6 @@
  *
  * This class implements all checks made over the PDF document file
  */
-use Spatie\PdfToText\Pdf;
 
 class DocumentChecker {
     private $pathFile;
@@ -40,7 +39,11 @@ class DocumentChecker {
     );
 
     private function parseDocument(){
-        $text = Pdf::getText($this->pathFile);
+        $pathTxt = substr($this->pathFile, 0, -3) . 'txt';
+        shell_exec("pdftotext ". $this->pathFile . " " . $pathTxt . " 2>/dev/null");
+        
+        $text = file_get_contents($pathTxt, FILE_TEXT);
+        unlink($pathTxt);
         
         for($i = 0; $i < strlen($text); $i++){ 
             while($i < strlen($text) && ctype_space($text[$i]))
