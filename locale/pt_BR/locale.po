@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-07-29T11:05:18+00:00\n"
+"PO-Revision-Date: 2020-07-29T11:05:18+00:00\n"
+"Language: Português Brasileiro\n"
+
+msgid "plugins.generic.documentMetadataChecklist.displayName"
+msgstr "Verificação de metadados do documento"
+
+msgid "plugins.generic.documentMetadataChecklist.description"
+msgstr "Este plugin verifica o conteúdo do documento submetido de acordo com os metadados da submissão"
+
+
+msgid "plugins.generic.documentMetadataChecklist.status.title"
+msgstr "Verificação do documento"
+
+msgid "plugins.generic.documentMetadataChecklist.status.messageSuccess"
+msgstr "O documento enviado está de acordo com as regras de submissão"
+
+msgid "plugins.generic.documentMetadataChecklist.status.messageWarning"
+msgstr "O documento enviado possui problemas na sua composição"
+
+msgid "plugins.generic.documentMetadataChecklist.status.messageError"
+msgstr "O documento enviado possui erros na sua composição"
+
+msgid "plugins.generic.documentMetadataChecklist.status.authorsContributionSuccess"
+msgstr "A declaração de contribuição dos autores foi identificada no documento"
+
+msgid "plugins.generic.documentMetadataChecklist.status.authorContributionError"
+msgstr "A declaração de contribuição dos autores não foi identificada no documento"
+
+msgid "plugins.generic.documentMetadataChecklist.status.orcidSuccess"
+msgstr "Os ORCIDs de todos os autores foram identificados"
+
+msgid "plugins.generic.documentMetadataChecklist.status.orcidWarning"
+msgstr "Identificamos os ORCIDs de apenas {$numOrcids} autores"
+
+msgid "plugins.generic.documentMetadataChecklist.status.orcidError"
+msgstr "Não foram identificados ORCIDs no documento"
+
+msgid "plugins.generic.documentMetadataChecklist.status.conflictInterestSuccess"
+msgstr "A declaração de conflito de interesses foi identificada no documento"
+
+msgid "plugins.generic.documentMetadataChecklist.status.conflictInterestError"
+msgstr "A declaração de conflito de interesses não foi identificada no documento"
+
+msgid "plugins.generic.documentMetadataChecklist.status.advice"
+msgstr "Você pode corrigir esse problemas na revisão da submissão"
