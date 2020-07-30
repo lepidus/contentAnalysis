@@ -1,0 +1,60 @@
+#checklistHeader h2 {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+#checklistBody {
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.checklistSuccess {
+    border: solid 2px #0EB00A;
+}
+
+.checklistWarning {
+    border: solid 2px #F8E00E;
+}
+
+.checklistError {
+    border: solid 2px #D6170B;
+}
+
+#titleMessage {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+#titleMessage img {
+    width: 28px;
+    height: 28px;
+}
+
+#titleMessage h3 {
+    margin-top: 0px;
+    margin-left: 14px;
+}
+
+.elementSuccess, .elementWarning, .elementError {
+    border-radius: 4px;
+    border: solid 1px lightgrey;
+    padding-left: 8px;
+    margin-top: 6px;
+}
+
+.elementSuccess {
+    border-left: solid 4px #0EB00A;
+}
+
+.elementWarning {
+    border-left: solid 4px #F8E00E;
+}
+
+.elementError {
+    border-left: solid 4px #D6170B;
+}
+
+#checklistAdvice {
+    margin-top: 16px;
+}

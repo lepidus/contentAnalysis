@@ -33,7 +33,7 @@ msgstr "El documento enviado tiene errores en su composición"
 msgid "plugins.generic.documentMetadataChecklist.status.authorsContributionSuccess"
 msgstr "La declaración de contribución de los autores fue identificada en el documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.authorContributionError"
+msgid "plugins.generic.documentMetadataChecklist.status.authorsContributionError"
 msgstr "La declaración de contribución de los autores no fue identificada en el documento"
 
 msgid "plugins.generic.documentMetadataChecklist.status.orcidSuccess"
