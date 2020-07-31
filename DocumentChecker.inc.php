@@ -150,4 +150,39 @@ class DocumentChecker {
 
         return false;
     }
+
+    function executeChecklist($submission){
+        $dataChecklist = array();
+
+        if($this->checkAuthorsContribution())
+            $dataChecklist['contributionStatus'] = 'Success';
+        else
+            $dataChecklist['contributionStatus'] = 'Error';
+
+        $numAuthors = count($submission->getAuthors());
+        $orcidsDetected = $this->checkAuthorsORCID();
+
+        if($orcidsDetected >= $numAuthors)
+            $dataChecklist['orcidStatus'] = 'Success';
+        else if($orcidsDetected > 0 && $orcidsDetected < $numAuthors) {
+            $dataChecklist['orcidStatus'] = 'Warning';
+            $dataChecklist['numOrcids'] = $orcidsDetected;
+        }
+        else
+            $dataChecklist['orcidStatus'] = 'Error';
+            
+        if($this->checkConflictInterest())
+            $dataChecklist['conflictInterestStatus'] = 'Success';
+        else
+            $dataChecklist['conflictInterestStatus'] = 'Error';
+            
+        if(in_array('Error', $dataChecklist))
+            $dataChecklist['generalStatus'] = 'Error';
+        else if(in_array('Warning', $dataChecklist))
+            $dataChecklist['generalStatus'] = 'Warning';
+        else
+            $dataChecklist['generalStatus'] = 'Success';
+
+        return $dataChecklist;
+    }
 }
