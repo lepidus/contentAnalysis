@@ -40,7 +40,7 @@ msgid "plugins.generic.documentMetadataChecklist.status.orcidSuccess"
 msgstr "Os ORCIDs de todos os autores foram identificados"
 
 msgid "plugins.generic.documentMetadataChecklist.status.orcidWarning"
-msgstr "Identificamos os ORCIDs de apenas {$numOrcids} autores"
+msgstr "Identificamos {$numOrcids} ORCIDs de um total de {$numAuthors} autores"
 
 msgid "plugins.generic.documentMetadataChecklist.status.orcidError"
 msgstr "Não foram identificados ORCIDs no documento"

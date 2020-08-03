@@ -167,6 +167,7 @@ class DocumentChecker {
         else if($orcidsDetected > 0 && $orcidsDetected < $numAuthors) {
             $dataChecklist['orcidStatus'] = 'Warning';
             $dataChecklist['numOrcids'] = $orcidsDetected;
+            $dataChecklist['numAuthors'] = $numAuthors;
         }
         else
             $dataChecklist['orcidStatus'] = 'Error';

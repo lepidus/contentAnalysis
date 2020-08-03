@@ -19,6 +19,7 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
         
         if ($success && $this->getEnabled($mainContextId)) {
             HookRegistry::register('Template::Workflow::Publication', array($this, 'addToWorkflow'));
+            HookRegistry::register('submissionsubmitstep4form::display', array($this, 'addToStep4'));
         }
         
         return $success;
@@ -57,5 +58,41 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
                 $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
             );
         }
+    }
+
+    function addToStep4($hookName, $params){
+        $output =& $params[1];
+        $submission = $params[0]->submission;
+        $templateMgr = TemplateManager::getManager(null);
+        $outputWasEmpty = false;
+
+        if($output == "") {
+            $outputWasEmpty = true;
+            $output = $templateMgr->fetch($params[0]->getTemplate());
+        }
+        
+        $galleys = $submission->getGalleys();
+
+        if(count($galleys) > 0) {
+            $galley = $galleys[0];
+            $path = $galley->getFile()->getFilePath();
+            
+            $checker = new DocumentChecker($path);
+            $dataChecklist = $checker->executeChecklist($submission);
+            $dataChecklist['placedOn'] = 'step4';
+
+            $templateMgr->assign($dataChecklist);
+            $statusChecklist = $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'));
+
+            $this->insertTemplateIntoStep4($statusChecklist, $output);
+            if(!$outputWasEmpty) return true;
+        }
+    }
+
+    private function insertTemplateIntoStep4($template, &$step4) {
+        $posInsert = strpos($step4, "<p>");
+        $newStep4 = substr_replace($step4, $template, $posInsert, 0);
+
+        $step4 = $newStep4;
     }
 }

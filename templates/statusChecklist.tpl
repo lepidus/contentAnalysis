@@ -4,8 +4,6 @@
     <div id="checklistHeader">
         {if $placedOn == 'workflow'}
             <h2>{translate key="plugins.generic.documentMetadataChecklist.status.title"}</h2>
-        {else}
-            <h3>{translate key="plugins.generic.documentMetadataChecklist.status.title"}</h3>
         {/if}
     </div>
     <div id="checklistBody" class="checklist{$generalStatus}">
@@ -17,7 +15,7 @@
         <div id="statusContribution" class="element{$contributionStatus}">{translate key="plugins.generic.documentMetadataChecklist.status.authorsContribution{$contributionStatus}"}</div>
 
         {if $orcidStatus == "Warning"}
-            <div id="statusORCID" class="element{$orcidStatus}">{translate key="plugins.generic.documentMetadataChecklist.status.orcid{$orcidStatus}" numOrcids=$numOrcids}</div>
+            <div id="statusORCID" class="element{$orcidStatus}">{translate key="plugins.generic.documentMetadataChecklist.status.orcid{$orcidStatus}" numOrcids=$numOrcids numAuthors=$numAuthors}</div>
         {else}
             <div id="statusORCID" class="element{$orcidStatus}">{translate key="plugins.generic.documentMetadataChecklist.status.orcid{$orcidStatus}"}</div>
         {/if}
