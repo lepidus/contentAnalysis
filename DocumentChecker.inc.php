@@ -104,9 +104,8 @@ class DocumentChecker {
                 if($start <= (strlen($word) - 19)){
                     $trecho = substr($word, $start, 19);
                     
-                    if(preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho) && !in_array($trecho, $orcidsDetected)){
+                    if(preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $trecho) && !in_array($trecho, $orcidsDetected)){
                         $orcidsDetected[] = $trecho;
-                        $i += 19;
                     }
                 }
             }
@@ -118,7 +117,7 @@ class DocumentChecker {
             for($i = 0; $i < strlen($textHtml) - 37; $i++){
                 $trecho = substr($textHtml, $i, 37);
 
-                if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X)~", $trecho) && !in_array($trecho, $orcidsDetected)){
+                if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $trecho) && !in_array($trecho, $orcidsDetected)){
                     $orcidsDetected[] = $trecho;
                     $i += 37;
                 }
