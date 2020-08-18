@@ -12,7 +12,7 @@ final class PercentageTest extends TestCase {
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
             
-            if($checker->checkConflictInterest())
+            if($checker->checkConflictInterest() == 'Success')
                 $foundPositives++;
         }
 
@@ -29,7 +29,7 @@ final class PercentageTest extends TestCase {
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
-            if(!$checker->checkConflictInterest())
+            if($checker->checkConflictInterest() == 'Error')
                 $foundNegatives++;
         }
 

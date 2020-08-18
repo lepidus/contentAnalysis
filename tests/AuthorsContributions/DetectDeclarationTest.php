@@ -8,13 +8,13 @@ final class DetectDeclarationTest extends TestCase {
         $pathDocument = "/home/jhon/Documentos/amostra_preprints/case_positive.pdf";
         $checker = new DocumentChecker($pathDocument);
 
-        $this->assertTrue($checker->checkAuthorsContribution());
+        $this->assertEquals('Success', $checker->checkAuthorsContribution());
     }
 
     public function testDeclarationNotPresent() : void{
         $pathDocument = "/home/jhon/Documentos/amostra_preprints/case_negative.pdf";
         $checker = new DocumentChecker($pathDocument);
 
-        $this->assertFalse($checker->checkAuthorsContribution());
+        $this->assertEquals('Error', $checker->checkAuthorsContribution());
     }
 }

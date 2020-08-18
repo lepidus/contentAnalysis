@@ -12,7 +12,7 @@ final class FirstPercentageTest extends TestCase {
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
-            if($checker->checkAuthorsContribution())
+            if($checker->checkAuthorsContribution() == 'Success')
                 $countPositives++;
         }
 
@@ -27,7 +27,7 @@ final class FirstPercentageTest extends TestCase {
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
-            if(!$checker->checkAuthorsContribution())
+            if($checker->checkAuthorsContribution() == 'Error')
                 $countNegatives++;
         }
 

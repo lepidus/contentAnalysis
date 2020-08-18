@@ -83,11 +83,11 @@ class DocumentChecker {
                 }
 
                 if($depth == count($this->patternsContribution[$j]))
-                    return true;
+                    return 'Success';
             }    
         }
         
-        return false;
+        return 'Error';
     }
 
     function checkAuthorsORCID(){
@@ -143,24 +143,21 @@ class DocumentChecker {
                 }
 
                 if($depth == count($this->patternsConflictInterest[$j]))
-                    return true;
+                    return 'Success';
             }    
         }
 
-        return false;
+        return 'Error';
     }
 
     function executeChecklist($submission){
         $dataChecklist = array();
 
-        if($this->checkAuthorsContribution())
-            $dataChecklist['contributionStatus'] = 'Success';
-        else
-            $dataChecklist['contributionStatus'] = 'Error';
+        $dataChecklist['contributionStatus'] = $this->checkAuthorsContribution();
+        $dataChecklist['conflictInterestStatus'] = $this->checkConflictInterest();
 
         $numAuthors = count($submission->getAuthors());
         $orcidsDetected = $this->checkAuthorsORCID();
-
         if($orcidsDetected >= $numAuthors)
             $dataChecklist['orcidStatus'] = 'Success';
         else if($orcidsDetected > 0 && $orcidsDetected < $numAuthors) {
@@ -170,11 +167,6 @@ class DocumentChecker {
         }
         else
             $dataChecklist['orcidStatus'] = 'Error';
-            
-        if($this->checkConflictInterest())
-            $dataChecklist['conflictInterestStatus'] = 'Success';
-        else
-            $dataChecklist['conflictInterestStatus'] = 'Error';
             
         if(in_array('Error', $dataChecklist))
             $dataChecklist['generalStatus'] = 'Error';
