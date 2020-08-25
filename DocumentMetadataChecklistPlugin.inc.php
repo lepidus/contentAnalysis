@@ -85,8 +85,8 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
             $statusChecklist = $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'));
 
             $this->insertTemplateIntoStep4($statusChecklist, $output);
-            if(!$outputWasEmpty) return true;
         }
+        if(!$outputWasEmpty) return true;
     }
 
     private function insertTemplateIntoStep4($template, &$step4) {
