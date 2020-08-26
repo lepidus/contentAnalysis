@@ -30,6 +30,10 @@ class DocumentChecker {
         array("contribuciones", "de", "autoría"),
     );
 
+    private function isORCID($texto) {
+        return !preg_match("~doi\.org~", $texto) && (preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $texto) || preg_match("~http[s]?:\/\/orcid\.org\/~", $texto));
+    }
+
     private $patternsConflictInterest = array(
         array("conflictos", "de", "intereses"),
         array("conflictos", "de", "interés"),
@@ -55,7 +59,11 @@ class DocumentChecker {
                 while($end < strlen($text) && !ctype_space($text[$end]))
                     $end++;
                 
-                $this->words[] = mb_strtolower(substr($text, $start, $end-$start));
+                $word = mb_strtolower(substr($text, $start, $end-$start));
+                
+                if(strlen($word) >= 4 || !is_numeric($word)) {
+                    $this->words[] = $word;
+                }
                 $i = $end;
             }
         }
@@ -93,25 +101,21 @@ class DocumentChecker {
     function checkAuthorsORCID(){
         $orcidsDetected = array();
 
-        for($i = 0; $i < count($this->words); $i++){
+        for($i = 0; $i < count($this->words)-1; $i++){
             $word = $this->words[$i];
-            
-            if(strlen($word) >= 19){
-                $start = 0;
-                while($start < strlen($word) && !ctype_digit($word[$start]))
-                    $start++;
-
-                if($start <= (strlen($word) - 19)){
-                    $trecho = substr($word, $start, 19);
+            $nextWord = $this->words[$i+1];
                     
-                    if(preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $trecho) && !in_array($trecho, $orcidsDetected)){
-                        $orcidsDetected[] = $trecho;
-                    }
-                }
+            if($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
+                $orcidsDetected[] = $word;
+                $i++;
+            }
+            else if($this->isORCID($word.$nextWord) && !in_array($word.$nextWord, $orcidsDetected)) {
+                $orcidsDetected[] = $word.$nextWord;
+                $i++;
             }
         }
 
-        if(empty($orcidsDetected)){
+        if(empty($orcidsDetected)){ //Se nada foi detectado, provavelmente os ORCIDs estão no formato de imagem-link
             $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
             
             for($i = 0; $i < strlen($textHtml) - 37; $i++){
