@@ -44,7 +44,7 @@ class DocumentChecker {
 
     private function parseDocument(){
         $pathTxt = substr($this->pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext ". $this->pathFile . " " . $pathTxt . " 2>/dev/null");
+        shell_exec("pdftotext ". $this->pathFile . " " . $pathTxt . " -layout 2>/dev/null");
         
         $text = file_get_contents($pathTxt, FILE_TEXT);
         unlink($pathTxt);

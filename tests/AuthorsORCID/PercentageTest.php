@@ -16,7 +16,7 @@ final class PercentageTest extends TestCase {
             
             if($numOrcids > 0 && $numOrcids < $numAuthors[$i-1])
                 $foundPart++;
-            else if($numOrcids == $numAuthors[$i-1])
+            else if($numOrcids >= $numAuthors[$i-1])
                 $foundTotal++;
         }
 
