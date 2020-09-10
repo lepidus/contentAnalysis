@@ -3,57 +3,51 @@
     margin-bottom: 18px;
 }
 
-#checklistBody {
-    border-radius: 14px;
-    padding: 14px;
-}
-
-.checklistSuccess {
-    border: solid 2px #0EB00A;
-}
-
-.checklistWarning {
-    border: solid 2px #F8E00E;
-}
-
-.checklistError {
-    border: solid 2px #D6170B;
-}
-
 #titleMessage {
-    display: flex;
-    align-items: center;
-    margin-bottom: 14px;
-}
-
-#titleMessage img {
-    width: 28px;
-    height: 28px;
+    margin-bottom: 18px;
 }
 
 #titleMessage h3 {
-    margin-top: 0px;
-    margin-left: 14px;
-    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0px 0px;
 }
 
-.elementSuccess, .elementWarning, .elementError {
-    border-radius: 4px;
-    border: solid 1px lightgrey;
-    padding-left: 8px;
+#statusContribution, #statusORCID, #statusConflictInterest {
+    display: flex;
+    align-items: center;
+    background-color: #DCDCDC;
+    padding: 8px;
+    border-radius: 10px;
     margin-top: 6px;
+    margin-bottom: 18px;
 }
 
-.elementSuccess {
-    border-left: solid 4px #0EB00A;
+#statusContribution span, #statusORCID span, #statusConflictInterest span {
+    line-height: 24px;
+    font-size: 16px;
+    margin-left: 0.5em;
 }
 
-.elementWarning {
-    border-left: solid 4px #F8E00E;
+.statusSuccess {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #00b28d;
 }
 
-.elementError {
-    border-left: solid 4px #D6170B;
+.statusWarning {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #daa520;
+}
+
+.statusError {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #d00a6c;
 }
 
 #checklistAdvice {
