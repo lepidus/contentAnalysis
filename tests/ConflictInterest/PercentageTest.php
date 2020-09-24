@@ -5,10 +5,10 @@ use PHPUnit\Framework\TestCase;
 final class PercentageTest extends TestCase {
 
     public function testPercentagePositives() : void {
-        $mainPath = "/home/jhon/Documentos/base_preprints/positivos/";
+        $mainPath = "/home/jhon/Documentos/base_conflito_interesses/positivos/";
         $foundPositives = 0;
 
-        for($i = 1; $i <= 72; $i++){
+        for($i = 1; $i <= 135; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
             
@@ -16,16 +16,16 @@ final class PercentageTest extends TestCase {
                 $foundPositives++;
         }
 
-        $accuracy = ($foundPositives / 72);
+        $accuracy = ($foundPositives / 135);
 
         $this->assertGreaterThanOrEqual(0.85, $accuracy);
     }
 
     public function testPercentageNegatives() : void {
-        $mainPath = "/home/jhon/Documentos/base_preprints/negativos/";
+        $mainPath = "/home/jhon/Documentos/base_conflito_interesses/negativos/";
         $foundNegatives = 0;
 
-        for($i = 1; $i <= 123; $i++){
+        for($i = 1; $i <= 265; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
@@ -33,7 +33,7 @@ final class PercentageTest extends TestCase {
                 $foundNegatives++;
         }
 
-        $accuracy = ($foundNegatives / 123);
+        $accuracy = ($foundNegatives / 265);
 
         $this->assertEquals(1, $accuracy);
     }
