@@ -42,6 +42,40 @@ class DocumentChecker {
         array("conflitos", "de", "interesses"),
     );
 
+    private $patternsKeywordsEnglish = array(
+        array("keywords"),
+        array("keyword"),
+        array("headings"),
+        array("key", "words"),
+        array("descriptors")
+    );
+
+    private $patternsAbstractEnglish = array(
+        array("abstract"),
+        array("summary")
+    );
+
+    private function createPatternFromString($string){
+        $pattern = array();
+
+        for($i = 0; $i < strlen($string); $i++){ 
+            while($i < strlen($string) && ctype_space($string[$i]))
+                $i++;
+            
+            if($i < strlen($string)){
+                $start = $end = $i;
+
+                while($end < strlen($string) && !ctype_space($string[$end]))
+                    $end++;
+                
+                $pattern[] = mb_strtolower(substr($string, $start, $end-$start));
+                $i = $end;
+            }
+        }
+
+        return $pattern;
+    }
+
     private function parseDocument(){
         $pathTxt = substr($this->pathFile, 0, -3) . 'txt';
         shell_exec("pdftotext ". $this->pathFile . " " . $pathTxt . " -layout 2>/dev/null");
@@ -152,6 +186,98 @@ class DocumentChecker {
         }
 
         return 'Error';
+    }
+
+    private function checkKeywordsEnglish(){
+        for($i = 0; $i < count($this->words)-2; $i++){
+            for($j = 0; $j < count($this->patternsKeywordsEnglish); $j++){
+                $depth = 0;
+                
+                foreach($this->patternsKeywordsEnglish[$j] as $wordPattern){
+                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
+
+                    if($similarity < 75)
+                        break;
+                    else {
+                        $depth++;
+                    }
+                }
+
+                if($depth == count($this->patternsKeywordsEnglish[$j]))
+                    return 'Success';
+            }
+        }
+
+        return 'Error';
+    }
+
+    private function checkAbstractEnglish(){
+        for($i = 0; $i < count($this->words)-2; $i++){
+            for($j = 0; $j < count($this->patternsAbstractEnglish); $j++){
+                $depth = 0;
+                
+                foreach($this->patternsAbstractEnglish[$j] as $wordPattern){
+                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
+
+                    if($similarity < 75)
+                        break;
+                    else {
+                        $depth++;
+                    }
+                }
+
+                if($depth == count($this->patternsAbstractEnglish[$j]))
+                    return 'Success';
+            }
+        }
+
+        return 'Error';
+    }
+
+    private function checkTitleEnglish($patternTitle){
+        for($i = 0; $i < count($this->words)-count($patternTitle); $i++){
+            for($j = 0; $j < count($patternTitle); $j++){
+                $depth = 0;
+                
+                foreach($patternTitle[$j] as $wordPattern){
+                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
+
+                    if($similarity < 75)
+                        break;
+                    else {
+                        $depth++;
+                    }
+                }
+
+                if($depth == count($patternTitle[$j]))
+                    return 'Success';
+            }
+        }
+
+        return 'Error';
+    }
+
+    function checkMetadataInEnglish($title){
+        $status = array();
+        
+        $status['keywords'] = $this->checkKeywordsEnglish();
+        $status['abstract'] = $this->checkAbstractEnglish();
+        if($title){
+            $patternTitle = $this->createPatternFromString($title);
+            $status['title'] = $this->checkTitleEnglish(array($patternTitle));
+        }
+        else{
+            $status['title'] = 'Error';
+        }
+
+        if(!in_array('Success', $status))
+            $status['statusMetadataEnglish'] = 'Error';
+        else if(in_array('Error', $status))
+            $status['statusMetadataEnglish'] = 'Warning';
+        else
+            $status['statusMetadataEnglish'] = 'Success';
+
+        return $status;
     }
 
     function executeChecklist($submission){
