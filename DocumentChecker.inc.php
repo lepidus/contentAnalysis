@@ -45,9 +45,7 @@ class DocumentChecker {
     private $patternsKeywordsEnglish = array(
         array("keywords"),
         array("keyword"),
-        array("headings"),
         array("key", "words"),
-        array("descriptors")
     );
 
     private $patternsAbstractEnglish = array(
@@ -196,7 +194,7 @@ class DocumentChecker {
                 foreach($this->patternsKeywordsEnglish[$j] as $wordPattern){
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
 
-                    if($similarity < 75)
+                    if($similarity < 90)
                         break;
                     else {
                         $depth++;
@@ -219,7 +217,7 @@ class DocumentChecker {
                 foreach($this->patternsAbstractEnglish[$j] as $wordPattern){
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
 
-                    if($similarity < 75)
+                    if($similarity < 95)
                         break;
                     else {
                         $depth++;
