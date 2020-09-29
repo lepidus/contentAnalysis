@@ -107,27 +107,31 @@ class DocumentChecker {
         $this->parseDocument();
     }
 
-    function checkAuthorsContribution(){
-        for($i = 0; $i < count($this->words)-5; $i++){
-            for($j = 0; $j < count($this->patternsContribution); $j++){
+    private function checkForPattern($patterns, $limit, $limiar){
+        for($i = 0; $i < count($this->words)-$limit; $i++){
+            for($j = 0; $j < count($patterns); $j++){
                 $depth = 0;
                 
-                foreach($this->patternsContribution[$j] as $wordPattern){
+                foreach($patterns[$j] as $wordPattern){
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
 
-                    if($similarity < 75)
+                    if($similarity < $limiar)
                         break;
                     else {
                         $depth++;
                     }
                 }
 
-                if($depth == count($this->patternsContribution[$j]))
+                if($depth == count($patterns[$j]))
                     return 'Success';
             }    
         }
         
         return 'Error';
+    }
+
+    function checkAuthorsContribution(){
+        return $this->checkForPattern($this->patternsContribution, 5, 75);
     }
 
     function checkAuthorsORCID(){
@@ -164,95 +168,23 @@ class DocumentChecker {
     }
 
     function checkConflictInterest(){
-        for($i = 0; $i < count($this->words)-3; $i++){
-            for($j = 0; $j < count($this->patternsConflictInterest); $j++){
-                $depth = 0;
-                
-                foreach($this->patternsConflictInterest[$j] as $wordPattern){
-                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
-
-                    if($similarity < 75)
-                        break;
-                    else {
-                        $depth++;
-                    }
-                }
-
-                if($depth == count($this->patternsConflictInterest[$j]))
-                    return 'Success';
-            }    
-        }
-
-        return 'Error';
+        return $this->checkForPattern($this->patternsConflictInterest, 3, 75);
     }
 
     private function checkKeywordsEnglish(){
-        for($i = 0; $i < count($this->words)-2; $i++){
-            for($j = 0; $j < count($this->patternsKeywordsEnglish); $j++){
-                $depth = 0;
-                
-                foreach($this->patternsKeywordsEnglish[$j] as $wordPattern){
-                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
-
-                    if($similarity < 90)
-                        break;
-                    else {
-                        $depth++;
-                    }
-                }
-
-                if($depth == count($this->patternsKeywordsEnglish[$j]))
-                    return 'Success';
-            }
-        }
-
-        return 'Error';
+        return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 90);
     }
 
     private function checkAbstractEnglish(){
-        for($i = 0; $i < count($this->words)-2; $i++){
-            for($j = 0; $j < count($this->patternsAbstractEnglish); $j++){
-                $depth = 0;
-                
-                foreach($this->patternsAbstractEnglish[$j] as $wordPattern){
-                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
-
-                    if($similarity < 95)
-                        break;
-                    else {
-                        $depth++;
-                    }
-                }
-
-                if($depth == count($this->patternsAbstractEnglish[$j]))
-                    return 'Success';
-            }
-        }
-
-        return 'Error';
+        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 95);
     }
 
-    private function checkTitleEnglish($patternTitle){
-        for($i = 0; $i < count($this->words)-count($patternTitle); $i++){
-            for($j = 0; $j < count($patternTitle); $j++){
-                $depth = 0;
-                
-                foreach($patternTitle[$j] as $wordPattern){
-                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
+    private function checkTitleEnglish($title){
+        if(!$title)
+            return 'Error';
 
-                    if($similarity < 75)
-                        break;
-                    else {
-                        $depth++;
-                    }
-                }
-
-                if($depth == count($patternTitle[$j]))
-                    return 'Success';
-            }
-        }
-
-        return 'Error';
+        $patternTitle = $this->createPatternFromString($title);
+        return $this->checkForPattern(array($patternTitle), count($patternTitle), 75);
     }
 
     function checkMetadataInEnglish($title){
@@ -260,13 +192,7 @@ class DocumentChecker {
         
         $status['keywords'] = $this->checkKeywordsEnglish();
         $status['abstract'] = $this->checkAbstractEnglish();
-        if($title){
-            $patternTitle = $this->createPatternFromString($title);
-            $status['title'] = $this->checkTitleEnglish(array($patternTitle));
-        }
-        else{
-            $status['title'] = 'Error';
-        }
+        $status['title'] = $this->checkTitleEnglish($title);
 
         if(!in_array('Success', $status))
             $status['statusMetadataEnglish'] = 'Error';
