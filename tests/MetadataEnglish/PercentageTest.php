@@ -7,7 +7,7 @@ final class PercentageTest extends TestCase {
         $mainPath = "/home/jhon/Documentos/base_metadados_ingles/positivos/";
         $foundPositives = 0;
         
-        for($i = 1; $i < 135; $i++){
+        for($i = 1; $i <= 137; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
@@ -15,9 +15,9 @@ final class PercentageTest extends TestCase {
                 $foundPositives++;
         }
 
-        $accuracy = ($foundPositives/135);
+        $accuracy = ($foundPositives/137);
 
-        $this->assertGreaterThanOrEqual(0.85, $accuracy);
+        $this->assertGreaterThanOrEqual(0.95, $accuracy);
     }
 
     public function testPercentageTitleEnglishPresent() : void {
@@ -42,7 +42,7 @@ final class PercentageTest extends TestCase {
             "Pandemic by COVID-19 and dental practice",
         );
         
-        for($i = 1; $i < 16; $i++){
+        for($i = 1; $i <= 16; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
@@ -59,7 +59,7 @@ final class PercentageTest extends TestCase {
         $mainPath = "/home/jhon/Documentos/base_metadados_ingles/negativos/";
         $foundNegatives = 0;
         
-        for($i = 1; $i < 49; $i++){
+        for($i = 1; $i <= 47; $i++){
             $path = $mainPath . $i . ".pdf";
             $checker = new DocumentChecker($path);
 
@@ -67,7 +67,7 @@ final class PercentageTest extends TestCase {
                 $foundNegatives++;
         }
 
-        $accuracy = ($foundNegatives/49);
+        $accuracy = ($foundNegatives/47);
 
         $this->assertEquals(1, $accuracy);
     }
