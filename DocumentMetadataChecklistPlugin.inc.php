@@ -42,7 +42,7 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
 
         $galleys = $submission->getGalleys();
 
-        if(count($galleys) > 0) {
+        if(count($galleys) > 0 && $galleys[0]->getFile()) {
             $galley = $galleys[0];
             $path = $galley->getFile()->getFilePath();
             
@@ -73,7 +73,7 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
         
         $galleys = $submission->getGalleys();
 
-        if(count($galleys) > 0) {
+        if(count($galleys) > 0 && $galleys[0]->getFile()) {
             $galley = $galleys[0];
             $path = $galley->getFile()->getFilePath();
             
