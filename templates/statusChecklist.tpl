@@ -16,21 +16,28 @@
             <span>{translate key="plugins.generic.documentMetadataChecklist.status.authorsContribution{$contributionStatus}"}</span>
         </div>
 
-        {if $orcidStatus == "Warning"}
-            <div id="statusORCID" class="element{$orcidStatus}">
-                <div class="status{$orcidStatus}"></div>
+        
+        <div id="statusORCID" class="element{$orcidStatus}">
+            <div class="status{$orcidStatus}"></div>
+            {if $orcidStatus == "Warning"}
                 <span>{translate key="plugins.generic.documentMetadataChecklist.status.orcid{$orcidStatus}" numOrcids=$numOrcids numAuthors=$numAuthors}</span>
-            </div>
-        {else}
-            <div id="statusORCID" class="element{$orcidStatus}">
-                <div class="status{$orcidStatus}"></div>
+            {else}
                 <span>{translate key="plugins.generic.documentMetadataChecklist.status.orcid{$orcidStatus}"}</span>
-            </div>
-        {/if}
+            {/if}
+        </div>
 
         <div id="statusConflictInterest" class="element{$conflictInterestStatus}">
             <div class="status{$conflictInterestStatus}"></div>
             <span>{translate key="plugins.generic.documentMetadataChecklist.status.conflictInterest{$conflictInterestStatus}"}</span>
+        </div>
+
+        <div id="statusMetadataEnglish" class="element{$metadataEnglishStatus}">
+            <div class="status{$metadataEnglishStatus}"></div>
+            {if $metadataEnglishStatus == "Warning"}
+                <span>{translate key="plugins.generic.documentMetadataChecklist.status.metadataEnglish{$metadataEnglishStatus}" textoMetadados=$textoMetadados}</span>
+            {else}
+                <span>{translate key="plugins.generic.documentMetadataChecklist.status.metadataEnglish{$metadataEnglishStatus}"}</span>
+            {/if}
         </div>
 
         {if $generalStatus != "Success"}

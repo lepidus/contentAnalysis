@@ -51,5 +51,14 @@ msgstr "The conflict of interests statement was identified in the document"
 msgid "plugins.generic.documentMetadataChecklist.status.conflictInterestError"
 msgstr "The conflict of interests statement was not identified in the document"
 
+msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishSuccess"
+msgstr "All metadata in english were detected in the document"
+
+msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishWarning"
+msgstr "The following metadata in english were not found in the document: {$textoMetadados}"
+
+msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishError"
+msgstr "No metadata in english was found in the document"
+
 msgid "plugins.generic.documentMetadataChecklist.status.advice"
 msgstr "You can correct these problems in the submission review"

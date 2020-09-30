@@ -51,5 +51,14 @@ msgstr "A declaração de conflito de interesses foi identificada no documento"
 msgid "plugins.generic.documentMetadataChecklist.status.conflictInterestError"
 msgstr "A declaração de conflito de interesses não foi identificada no documento"
 
+msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishSuccess"
+msgstr "Todos os metadados em inglês foram detectados no documento"
+
+msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishWarning"
+msgstr "Os seguintes metadados em inglês não foram detectados no documento: {$textoMetadados}"
+
+msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishError"
+msgstr "Nenhum metadado em inglês foi detectado no documento"
+
 msgid "plugins.generic.documentMetadataChecklist.status.advice"
 msgstr "Você pode corrigir esse problemas na revisão da submissão"

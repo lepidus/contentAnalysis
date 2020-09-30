@@ -107,7 +107,7 @@ class DocumentChecker {
         $this->parseDocument();
     }
 
-    private function checkForPattern($patterns, $limit, $limiar){
+    private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern){
         for($i = 0; $i < count($this->words)-$limit; $i++){
             for($j = 0; $j < count($patterns); $j++){
                 $depth = 0;
@@ -115,14 +115,14 @@ class DocumentChecker {
                 foreach($patterns[$j] as $wordPattern){
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
 
-                    if($similarity < $limiar)
+                    if($similarity < $limiarForWord)
                         break;
                     else {
                         $depth++;
                     }
                 }
 
-                if($depth == count($patterns[$j]))
+                if($depth/count($patterns[$j]) >= $limiarForPattern)
                     return 'Success';
             }    
         }
@@ -131,7 +131,7 @@ class DocumentChecker {
     }
 
     function checkAuthorsContribution(){
-        return $this->checkForPattern($this->patternsContribution, 5, 75);
+        return $this->checkForPattern($this->patternsContribution, 5, 75, 1);
     }
 
     function checkAuthorsORCID(){
@@ -168,15 +168,15 @@ class DocumentChecker {
     }
 
     function checkConflictInterest(){
-        return $this->checkForPattern($this->patternsConflictInterest, 3, 75);
+        return $this->checkForPattern($this->patternsConflictInterest, 3, 75, 1);
     }
 
     private function checkKeywordsEnglish(){
-        return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 90);
+        return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 90, 1);
     }
 
     private function checkAbstractEnglish(){
-        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 95);
+        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 95, 1);
     }
 
     private function checkTitleEnglish($title){
@@ -184,7 +184,7 @@ class DocumentChecker {
             return 'Error';
 
         $patternTitle = $this->createPatternFromString($title);
-        return $this->checkForPattern(array($patternTitle), count($patternTitle), 75);
+        return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
     }
 
     function checkMetadataInEnglish($title){
@@ -221,7 +221,23 @@ class DocumentChecker {
         }
         else
             $dataChecklist['orcidStatus'] = 'Error';
-            
+        
+        $titleEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
+        $metaMetadata = $this->checkMetadataInEnglish($titleEnglish);
+        if($metaMetadata['statusMetadataEnglish'] == 'Warning') {
+            $metadataList = array('title', 'abstract', 'keywords');
+            $textMetadata = "";
+            foreach ($metadataList as $metadata) {
+                if($metaMetadata[$metadata] == "Error") {
+                    if($textMetadata != "")
+                        $textMetadata .= ", ";
+                    $textMetadata .= __("common." . $metadata);
+                }
+            }
+            $dataChecklist['textoMetadados'] = $textMetadata;
+        }
+        $dataChecklist['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
+
         if(in_array('Error', $dataChecklist))
             $dataChecklist['generalStatus'] = 'Error';
         else if(in_array('Warning', $dataChecklist))
