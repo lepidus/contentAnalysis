@@ -58,7 +58,7 @@ msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishWarning"
 msgstr "The following metadata in english were not found in the document: {$textoMetadados}"
 
 msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishError"
-msgstr "No metadata in english was found in the document"
+msgstr "Title, abstract and keywords in english were not found in the document"
 
 msgid "plugins.generic.documentMetadataChecklist.status.advice"
 msgstr "You can correct these problems in the submission review"

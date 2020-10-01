@@ -58,7 +58,7 @@ msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishWarning"
 msgstr "Os seguintes metadados em inglês não foram detectados no documento: {$textoMetadados}"
 
 msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishError"
-msgstr "Nenhum metadado em inglês foi detectado no documento"
+msgstr "Título, resumo e palavras-chave em inglês não foram detectados no documento"
 
 msgid "plugins.generic.documentMetadataChecklist.status.advice"
 msgstr "Você pode corrigir esse problemas na revisão da submissão"
