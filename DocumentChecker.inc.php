@@ -45,6 +45,7 @@ class DocumentChecker {
     private $patternsKeywordsEnglish = array(
         array("keywords"),
         array("keyword"),
+        array("descriptors:"),
         array("key", "words"),
     );
 
@@ -172,7 +173,7 @@ class DocumentChecker {
     }
 
     private function checkKeywordsEnglish(){
-        return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 90, 1);
+        return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 92, 1);
     }
 
     private function checkAbstractEnglish(){
