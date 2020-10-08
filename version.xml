@@ -8,7 +8,7 @@
 <version>
 	<application>documentMetadataChecklist</application>
 	<type>plugins.generic</type>
-	<release>1.1.1</release>
+	<release>1.1.2</release>
 	<date>08-10-2020</date>
 	<lazy-load>1</lazy-load>
 	<class>DocumentMetadataChecklistPlugin</class>
