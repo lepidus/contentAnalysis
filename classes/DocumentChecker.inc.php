@@ -8,6 +8,7 @@
  *
  * This class implements all checks made over the PDF document file
  */
+require __DIR__ . '/../autoload.inc.php';
 
 class DocumentChecker {
     private $pathFile;
@@ -54,58 +55,9 @@ class DocumentChecker {
         array("summary")
     );
 
-    private function createPatternFromString($string){
-        $pattern = array();
-
-        for($i = 0; $i < strlen($string); $i++){ 
-            while($i < strlen($string) && ctype_space($string[$i]))
-                $i++;
-            
-            if($i < strlen($string)){
-                $start = $end = $i;
-
-                while($end < strlen($string) && !ctype_space($string[$end]))
-                    $end++;
-                
-                $pattern[] = mb_strtolower(substr($string, $start, $end-$start));
-                $i = $end;
-            }
-        }
-
-        return $pattern;
-    }
-
-    private function parseDocument(){
-        $pathTxt = substr($this->pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext ". $this->pathFile . " " . $pathTxt . " -layout 2>/dev/null");
-        
-        $text = file_get_contents($pathTxt, FILE_TEXT);
-        unlink($pathTxt);
-        
-        for($i = 0; $i < strlen($text); $i++){ 
-            while($i < strlen($text) && ctype_space($text[$i]))
-                $i++;
-            
-            if($i < strlen($text)){
-                $start = $end = $i;
-
-                while($end < strlen($text) && !ctype_space($text[$end]))
-                    $end++;
-                
-                $word = mb_strtolower(substr($text, $start, $end-$start));
-                
-                if(strlen($word) >= 4 || !is_numeric($word)) {
-                    $this->words[] = $word;
-                }
-                $i = $end;
-            }
-        }
-    }
-
     function __construct($path){
         $this->pathFile = $path;
-        $this->words = array();
-        $this->parseDocument();
+        $this->words = ContentParser::parseDocument($path);
     }
 
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern){
@@ -184,7 +136,7 @@ class DocumentChecker {
         if(!$title)
             return 'Error';
 
-        $patternTitle = $this->createPatternFromString($title);
+        $patternTitle = ContentParser::createPatternFromString($title);
         return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
     }
 
@@ -203,49 +155,5 @@ class DocumentChecker {
             $status['statusMetadataEnglish'] = 'Success';
 
         return $status;
-    }
-
-    function executeChecklist($submission){
-        $dataChecklist = array();
-
-        $dataChecklist['contributionStatus'] = $this->checkAuthorsContribution();
-        $dataChecklist['conflictInterestStatus'] = $this->checkConflictInterest();
-
-        $numAuthors = count($submission->getAuthors());
-        $orcidsDetected = $this->checkAuthorsORCID();
-        if($orcidsDetected >= $numAuthors)
-            $dataChecklist['orcidStatus'] = 'Success';
-        else if($orcidsDetected > 0 && $orcidsDetected < $numAuthors) {
-            $dataChecklist['orcidStatus'] = 'Warning';
-            $dataChecklist['numOrcids'] = $orcidsDetected;
-            $dataChecklist['numAuthors'] = $numAuthors;
-        }
-        else
-            $dataChecklist['orcidStatus'] = 'Error';
-        
-        $titleEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
-        $metaMetadata = $this->checkMetadataInEnglish($titleEnglish);
-        if($metaMetadata['statusMetadataEnglish'] == 'Warning') {
-            $metadataList = array('title', 'abstract', 'keywords');
-            $textMetadata = "";
-            foreach ($metadataList as $metadata) {
-                if($metaMetadata[$metadata] == "Error") {
-                    if($textMetadata != "")
-                        $textMetadata .= ", ";
-                    $textMetadata .= __("common." . $metadata);
-                }
-            }
-            $dataChecklist['textoMetadados'] = $textMetadata;
-        }
-        $dataChecklist['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
-
-        if(in_array('Error', $dataChecklist))
-            $dataChecklist['generalStatus'] = 'Error';
-        else if(in_array('Warning', $dataChecklist))
-            $dataChecklist['generalStatus'] = 'Warning';
-        else
-            $dataChecklist['generalStatus'] = 'Success';
-
-        return $dataChecklist;
     }
 }

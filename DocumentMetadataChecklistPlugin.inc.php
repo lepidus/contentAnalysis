@@ -8,7 +8,7 @@
  * @brief Plugin class for the Document Metadata Checklist plugin.
  */
 import('lib.pkp.classes.plugins.GenericPlugin');
-import('plugins.generic.documentMetadataChecklist.DocumentChecker');
+import('plugins.generic.documentMetadataChecklist.classes.DocumentChecklist');
 
 class DocumentMetadataChecklistPlugin extends GenericPlugin {
     public function register($category, $path, $mainContextId = NULL) {
@@ -46,8 +46,8 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
             $galley = $galleys[0];
             $path = $galley->getFile()->getFilePath();
             
-            $checker = new DocumentChecker($path);
-            $dataChecklist = $checker->executeChecklist($submission);
+            $checklist = new DocumentChecklist($path);
+            $dataChecklist = $checklist->executeChecklist($submission);
             $dataChecklist['placedOn'] = 'workflow';
 
             $smarty->assign($dataChecklist);
@@ -77,8 +77,8 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
             $galley = $galleys[0];
             $path = $galley->getFile()->getFilePath();
             
-            $checker = new DocumentChecker($path);
-            $dataChecklist = $checker->executeChecklist($submission);
+            $checklist = new DocumentChecklist($path);
+            $dataChecklist = $checklist->executeChecklist($submission);
             $dataChecklist['placedOn'] = 'step4';
 
             $templateMgr->assign($dataChecklist);

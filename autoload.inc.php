@@ -7,7 +7,9 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'documentchecker' => '/DocumentChecker.inc.php',
+                'documentchecker' => '/classes/DocumentChecker.inc.php',
+                'contentparser' => '/classes/ContentParser.inc.php',
+                'documentchecklist' => '/classes/DocumentChecklist.inc.php',
                 'spatie\\pdftotext\\exceptions\\couldnotextracttext' => '/vendor/spatie/pdf-to-text/src/Exceptions/CouldNotExtractText.php',
                 'spatie\\pdftotext\\exceptions\\pdfnotfound' => '/vendor/spatie/pdf-to-text/src/Exceptions/PdfNotFound.php',
                 'spatie\\pdftotext\\pdf' => '/vendor/spatie/pdf-to-text/src/Pdf.php',
