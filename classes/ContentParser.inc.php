@@ -10,7 +10,7 @@
  */
 
  class ContentParser {
-    public static function parseDocument($pathFile){
+    public function parseDocument($pathFile){
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
         shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
         
@@ -40,7 +40,7 @@
         return $words;
     }
 
-    public static function createPatternFromString($string){
+    public function createPatternFromString($string){
         $pattern = array();
 
         for($i = 0; $i < strlen($string); $i++){ 

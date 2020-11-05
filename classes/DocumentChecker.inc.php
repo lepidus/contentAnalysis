@@ -57,7 +57,8 @@ class DocumentChecker {
 
     function __construct($path){
         $this->pathFile = $path;
-        $this->words = ContentParser::parseDocument($path);
+        $parser = new ContentParser();
+        $this->words = $parser->parseDocument($path);
     }
 
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern){
@@ -136,7 +137,8 @@ class DocumentChecker {
         if(!$title)
             return 'Error';
 
-        $patternTitle = ContentParser::createPatternFromString($title);
+        $parser = new ContentParser();
+        $patternTitle = $parser->createPatternFromString($title);
         return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
     }
 
