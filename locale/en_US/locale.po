@@ -55,7 +55,7 @@ msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccess"
 msgstr "All metadata in english were detected in the document"
 
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishWarning"
-msgstr "The following metadata in english were not found in the document: {$textoMetadados}"
+msgstr "The following metadata in english were not found in the document: {$textMetadata}"
 
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "Title, abstract and keywords in english were not found in the document"

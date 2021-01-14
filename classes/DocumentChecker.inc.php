@@ -31,8 +31,8 @@ class DocumentChecker {
         array("contribuciones", "de", "autoría"),
     );
 
-    private function isORCID($texto) {
-        return !preg_match("~doi\.org~", $texto) && (preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $texto) || preg_match("~http[s]?:\/\/orcid\.org\/~", $texto));
+    private function isORCID($text) {
+        return !preg_match("~doi\.org~", $text) && (preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text) || preg_match("~http[s]?:\/\/orcid\.org\/~", $text));
     }
 
     private $patternsConflictInterest = array(
@@ -109,10 +109,10 @@ class DocumentChecker {
             $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
             
             for($i = 0; $i < strlen($textHtml) - 37; $i++){
-                $trecho = substr($textHtml, $i, 37);
+                $textFragment = substr($textHtml, $i, 37);
 
-                if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $trecho) && !in_array($trecho, $orcidsDetected)){
-                    $orcidsDetected[] = $trecho;
+                if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $textFragment) && !in_array($textFragment, $orcidsDetected)){
+                    $orcidsDetected[] = $textFragment;
                     $i += 37;
                 }
             }

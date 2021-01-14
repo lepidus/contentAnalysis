@@ -34,7 +34,7 @@
         <div id="statusMetadataEnglish" class="element{$metadataEnglishStatus}">
             <div class="status{$metadataEnglishStatus}"></div>
             {if $metadataEnglishStatus == "Warning"}
-                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}" textoMetadados=$textoMetadados}</span>
+                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}" textMetadata=$textMetadata}</span>
             {else}
                 <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}"}</span>
             {/if}

@@ -47,7 +47,7 @@ require __DIR__ . '/../autoload.inc.php';
                     $textMetadata .= __("common." . $metadata);
                 }
             }
-            $dataChecklist['textoMetadados'] = $textMetadata;
+            $dataChecklist['textMetadata'] = $textMetadata;
         }
         $dataChecklist['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
 

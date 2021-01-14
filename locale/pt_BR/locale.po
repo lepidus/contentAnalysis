@@ -54,7 +54,7 @@ msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccess"
 msgstr "Todos os metadados em inglês foram detectados no documento"
 
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishWarning"
-msgstr "Os seguintes metadados em inglês não foram detectados no documento: {$textoMetadados}"
+msgstr "Os seguintes metadados em inglês não foram detectados no documento: {$textMetadata}"
 
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "Título, resumo e palavras-chave em inglês não foram detectados no documento"
