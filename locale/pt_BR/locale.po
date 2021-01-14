@@ -11,54 +11,53 @@ msgstr ""
 "PO-Revision-Date: 2020-07-29T11:05:18+00:00\n"
 "Language: Português Brasileiro\n"
 
-msgid "plugins.generic.documentMetadataChecklist.displayName"
-msgstr "Verificação de metadados do documento"
+msgid "plugins.generic.contentAnalysis.displayName"
+msgstr "Análise de Conteúdo"
 
-msgid "plugins.generic.documentMetadataChecklist.description"
+msgid "plugins.generic.contentAnalysis.description"
 msgstr "Este plugin verifica o conteúdo do documento submetido de acordo com os metadados da submissão"
 
-
-msgid "plugins.generic.documentMetadataChecklist.status.title"
+msgid "plugins.generic.contentAnalysis.status.title"
 msgstr "Verificação do documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.messageSuccess"
+msgid "plugins.generic.contentAnalysis.status.messageSuccess"
 msgstr "O documento enviado está de acordo com as regras de submissão"
 
-msgid "plugins.generic.documentMetadataChecklist.status.messageWarning"
+msgid "plugins.generic.contentAnalysis.status.messageWarning"
 msgstr "O documento enviado possui problemas na sua composição"
 
-msgid "plugins.generic.documentMetadataChecklist.status.messageError"
+msgid "plugins.generic.contentAnalysis.status.messageError"
 msgstr "O documento enviado possui erros na sua composição"
 
-msgid "plugins.generic.documentMetadataChecklist.status.authorsContributionSuccess"
+msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "A declaração de contribuição dos autores foi identificada no documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.authorsContributionError"
+msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
 msgstr "A declaração de contribuição dos autores não foi identificada no documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.orcidSuccess"
+msgid "plugins.generic.contentAnalysis.status.orcidSuccess"
 msgstr "Os ORCIDs de todos os autores foram identificados"
 
-msgid "plugins.generic.documentMetadataChecklist.status.orcidWarning"
+msgid "plugins.generic.contentAnalysis.status.orcidWarning"
 msgstr "Identificamos {$numOrcids} ORCIDs de um total de {$numAuthors} autores"
 
-msgid "plugins.generic.documentMetadataChecklist.status.orcidError"
+msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr "Não foram identificados ORCIDs no documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.conflictInterestSuccess"
+msgid "plugins.generic.contentAnalysis.status.conflictInterestSuccess"
 msgstr "A declaração de conflito de interesses foi identificada no documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.conflictInterestError"
+msgid "plugins.generic.contentAnalysis.status.conflictInterestError"
 msgstr "A declaração de conflito de interesses não foi identificada no documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishSuccess"
+msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccess"
 msgstr "Todos os metadados em inglês foram detectados no documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishWarning"
+msgid "plugins.generic.contentAnalysis.status.metadataEnglishWarning"
 msgstr "Os seguintes metadados em inglês não foram detectados no documento: {$textoMetadados}"
 
-msgid "plugins.generic.documentMetadataChecklist.status.metadataEnglishError"
+msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "Título, resumo e palavras-chave em inglês não foram detectados no documento"
 
-msgid "plugins.generic.documentMetadataChecklist.status.advice"
+msgid "plugins.generic.contentAnalysis.status.advice"
 msgstr "Você pode corrigir esse problemas na revisão da submissão"

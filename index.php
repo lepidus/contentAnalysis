@@ -1,14 +1,14 @@
 <?php
 /**
- * @defgroup plugins_generic_documentMetadataChecklist
+ * @defgroup plugins_generic_contentAnalysis
  */
 /**
- * @file plugins/generic/documentMetadataChecklist/index.php
+ * @file plugins/generic/contentAnalysis/index.php
  *
- * @ingroup plugins_generic_documentMetadataChecklist
- * @brief Wrapper for the Document Metadata Checklist plugin.
+ * @ingroup plugins_generic_contentAnalysis
+ * @brief Wrapper for the Content Analysis plugin.
  *
  */
 
-require_once('DocumentMetadataChecklistPlugin.inc.php');
-return new DocumentMetadataChecklistPlugin();
+require_once('ContentAnalysisPlugin.inc.php');
+return new ContentAnalysis();

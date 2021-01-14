@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE version SYSTEM "../../../lib/pkp/dtd/pluginVersion.dtd">
 <!--
-  * plugins/generic/documentMetadataChecklist/version.xml
+  * plugins/generic/contentAnalysis/version.xml
   *
   * Plugin version information.
   -->
 <version>
-	<application>documentMetadataChecklist</application>
+	<application>contentAnalysis</application>
 	<type>plugins.generic</type>
 	<release>1.1.2</release>
 	<date>08-10-2020</date>
 	<lazy-load>1</lazy-load>
-	<class>DocumentMetadataChecklistPlugin</class>
+	<class>ContentAnalysis</class>
 </version>

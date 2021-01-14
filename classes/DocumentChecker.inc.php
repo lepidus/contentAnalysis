@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @file plugins/generic/documentMetadataChecklist/classes/DocumentChecker.inc.php
+ * @file plugins/generic/contentAnalysis/classes/DocumentChecker.inc.php
  *
  * @class DocumentChecker
- * @ingroup plugins_generic_documentMetadataChecklist
+ * @ingroup plugins_generic_contentAnalysis
  *
  * This class implements all checks made over the PDF document file
  */
