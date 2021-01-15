@@ -105,7 +105,7 @@ class DocumentChecker {
             }
         }
 
-        if(empty($orcidsDetected)){ //Se nada foi detectado, provavelmente os ORCIDs estão no formato de imagem-link
+        if(empty($orcidsDetected)){ // If nothing was detected, the ORCIDs are probably in image-link format
             $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
             
             for($i = 0; $i < strlen($textHtml) - 37; $i++){
