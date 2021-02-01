@@ -1,47 +1,47 @@
-<link rel="stylesheet" type="text/css" href="/plugins/generic/documentMetadataChecklist/styles/statusChecklist.css">
+<link rel="stylesheet" type="text/css" href="/plugins/generic/contentAnalysis/styles/statusChecklist.css">
 
 <div id="statusChecklist">
     <div id="checklistHeader">
         {if $placedOn == 'workflow'}
-            <h2>{translate key="plugins.generic.documentMetadataChecklist.status.title"}</h2>
+            <h2>{translate key="plugins.generic.contentAnalysis.status.title"}</h2>
         {/if}
     </div>
     <div id="checklistBody" class="checklist{$generalStatus}">
         <div id="titleMessage">
-            <h3 id="statusGeneral">{translate key="plugins.generic.documentMetadataChecklist.status.message{$generalStatus}"}</h3>
+            <h3 id="statusGeneral">{translate key="plugins.generic.contentAnalysis.status.message{$generalStatus}"}</h3>
         </div>
         
         <div id="statusContribution" class="element{$contributionStatus}">
             <div class="status{$contributionStatus}"></div>
-            <span>{translate key="plugins.generic.documentMetadataChecklist.status.authorsContribution{$contributionStatus}"}</span>
+            <span>{translate key="plugins.generic.contentAnalysis.status.authorsContribution{$contributionStatus}"}</span>
         </div>
 
         
         <div id="statusORCID" class="element{$orcidStatus}">
             <div class="status{$orcidStatus}"></div>
             {if $orcidStatus == "Warning"}
-                <span>{translate key="plugins.generic.documentMetadataChecklist.status.orcid{$orcidStatus}" numOrcids=$numOrcids numAuthors=$numAuthors}</span>
+                <span>{translate key="plugins.generic.contentAnalysis.status.orcid{$orcidStatus}" numOrcids=$numOrcids numAuthors=$numAuthors}</span>
             {else}
-                <span>{translate key="plugins.generic.documentMetadataChecklist.status.orcid{$orcidStatus}"}</span>
+                <span>{translate key="plugins.generic.contentAnalysis.status.orcid{$orcidStatus}"}</span>
             {/if}
         </div>
 
         <div id="statusConflictInterest" class="element{$conflictInterestStatus}">
             <div class="status{$conflictInterestStatus}"></div>
-            <span>{translate key="plugins.generic.documentMetadataChecklist.status.conflictInterest{$conflictInterestStatus}"}</span>
+            <span>{translate key="plugins.generic.contentAnalysis.status.conflictInterest{$conflictInterestStatus}"}</span>
         </div>
 
         <div id="statusMetadataEnglish" class="element{$metadataEnglishStatus}">
             <div class="status{$metadataEnglishStatus}"></div>
             {if $metadataEnglishStatus == "Warning"}
-                <span>{translate key="plugins.generic.documentMetadataChecklist.status.metadataEnglish{$metadataEnglishStatus}" textoMetadados=$textoMetadados}</span>
+                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}" textMetadata=$textMetadata}</span>
             {else}
-                <span>{translate key="plugins.generic.documentMetadataChecklist.status.metadataEnglish{$metadataEnglishStatus}"}</span>
+                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}"}</span>
             {/if}
         </div>
 
         {if $generalStatus != "Success"}
-            <span><div id="checklistAdvice">{translate key="plugins.generic.documentMetadataChecklist.status.advice"}</div></span>
+            <span><div id="checklistAdvice">{translate key="plugins.generic.contentAnalysis.status.advice"}</div></span>
         {/if}
     </div>
 </div>

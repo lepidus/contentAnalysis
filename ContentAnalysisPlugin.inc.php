@@ -1,16 +1,16 @@
 <?php
 /**
- * @file plugins/generic/documentMetadataChecklist/AuthorDOIScreeningPlugin.inc.php
+ * @file plugins/generic/contentAnalysis/AuthorDOIScreeningPlugin.inc.php
  *
- * @class DocumentMetadataChecklistPlugin
- * @ingroup plugins_generic_documentMetadataChecklist
+ * @class ContentAnalysis
+ * @ingroup plugins_generic_contentAnalysis
  *
- * @brief Plugin class for the Document Metadata Checklist plugin.
+ * @brief Plugin class for the Content Analysis plugin.
  */
 import('lib.pkp.classes.plugins.GenericPlugin');
-import('plugins.generic.documentMetadataChecklist.classes.DocumentChecklist');
+import('plugins.generic.contentAnalysis.classes.DocumentChecklist');
 
-class DocumentMetadataChecklistPlugin extends GenericPlugin {
+class ContentAnalysis extends GenericPlugin {
     public function register($category, $path, $mainContextId = NULL) {
 		$success = parent::register($category, $path, $mainContextId);
         
@@ -26,11 +26,11 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
     }
 
     public function getDisplayName() {
-		return __('plugins.generic.documentMetadataChecklist.displayName');
+		return __('plugins.generic.contentAnalysis.displayName');
 	}
 
 	public function getDescription() {
-		return __('plugins.generic.documentMetadataChecklist.description');
+		return __('plugins.generic.contentAnalysis.description');
     }
     
     function addToWorkflow($hookName, $params) {
@@ -54,7 +54,7 @@ class DocumentMetadataChecklistPlugin extends GenericPlugin {
             
             $output .= sprintf(
                 '<tab id="checklistInfo" label="%s">%s</tab>',
-                __('plugins.generic.documentMetadataChecklist.status.title'),
+                __('plugins.generic.contentAnalysis.status.title'),
                 $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
             );
         }

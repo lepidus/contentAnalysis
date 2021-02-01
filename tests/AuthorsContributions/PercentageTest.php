@@ -18,7 +18,7 @@ final class PercentageTest extends TestCase {
 
         $accuracy = ($foundPositives / 81);
 
-        $this->assertGreaterThanOrEqual(0.75, $accuracy);   //Espera ao menos 75% de acurácia
+        $this->assertGreaterThanOrEqual(0.75, $accuracy);
     }
 
     public function testPercentageNegatives() : void {
@@ -35,6 +35,6 @@ final class PercentageTest extends TestCase {
 
         $accuracy = ($foundNegatives / 319);
 
-        $this->assertEquals(1, $accuracy);   //Sem espaço para falsos positivos
+        $this->assertEquals(1, $accuracy);
     }
 }
