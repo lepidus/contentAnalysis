@@ -11,5 +11,5 @@
 	<release>1.1.2</release>
 	<date>08-10-2020</date>
 	<lazy-load>1</lazy-load>
-	<class>ContentAnalysis</class>
+	<class>ContentAnalysisPlugin</class>
 </version>

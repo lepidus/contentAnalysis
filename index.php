@@ -11,4 +11,4 @@
  */
 
 require_once('ContentAnalysisPlugin.inc.php');
-return new ContentAnalysis();
+return new ContentAnalysisPlugin();

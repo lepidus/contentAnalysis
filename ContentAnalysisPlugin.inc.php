@@ -10,7 +10,7 @@
 import('lib.pkp.classes.plugins.GenericPlugin');
 import('plugins.generic.contentAnalysis.classes.DocumentChecklist');
 
-class ContentAnalysis extends GenericPlugin {
+class ContentAnalysisPlugin extends GenericPlugin {
     public function register($category, $path, $mainContextId = NULL) {
 		$success = parent::register($category, $path, $mainContextId);
         
