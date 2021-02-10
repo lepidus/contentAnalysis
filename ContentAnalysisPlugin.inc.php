@@ -1,6 +1,6 @@
 <?php
 /**
- * @file plugins/generic/contentAnalysis/AuthorDOIScreeningPlugin.inc.php
+ * @file plugins/generic/contentAnalysis/ContentAnalysisPlugin.inc.php
  *
  * @class ContentAnalysis
  * @ingroup plugins_generic_contentAnalysis
@@ -44,7 +44,7 @@ class ContentAnalysisPlugin extends GenericPlugin {
 
         if(count($galleys) > 0 && $galleys[0]->getFile()) {
             $galley = $galleys[0];
-            $path = $galley->getFile()->getFilePath();
+            $path = $galley->getFile()->getData('path');
             
             $checklist = new DocumentChecklist($path);
             $dataChecklist = $checklist->executeChecklist($submission);
