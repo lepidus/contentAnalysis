@@ -44,7 +44,7 @@ class ContentAnalysisPlugin extends GenericPlugin {
 
         if(count($galleys) > 0 && $galleys[0]->getFile()) {
             $galley = $galleys[0];
-            $path = $galley->getFile()->getData('path');
+            $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
             
             $checklist = new DocumentChecklist($path);
             $dataChecklist = $checklist->executeChecklist($submission);
@@ -75,7 +75,7 @@ class ContentAnalysisPlugin extends GenericPlugin {
 
         if(count($galleys) > 0 && $galleys[0]->getFile()) {
             $galley = $galleys[0];
-            $path = $galley->getFile()->getData('path');
+            $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
             
             $checklist = new DocumentChecklist($path);
             $dataChecklist = $checklist->executeChecklist($submission);
