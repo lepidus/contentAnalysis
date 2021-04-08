@@ -130,7 +130,7 @@ class DocumentChecker {
     }
 
     private function checkAbstractEnglish(){
-        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 95, 1);
+        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 94, 1);
     }
 
     private function checkTitleEnglish($title){
