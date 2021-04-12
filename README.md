@@ -1,4 +1,4 @@
-# SciELO Submissions Report Plugin 
+# Content Analysis Plugin 
 
 This plugin checks the content of the submitted document according to the submission's metadata.
 
@@ -7,7 +7,6 @@ This plugin checks the content of the submitted document according to the submis
 The latest release of this plugin is compatible with the following PKP applications:
 
 * OPS 3.3.0
-
 
 ## Plugin Download
 
