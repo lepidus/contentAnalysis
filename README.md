@@ -1,6 +1,12 @@
 # Content Analysis Plugin 
 
-This plugin checks the content of the submitted document according to the submission's metadata.
+This plugin verifies the content of the submitted document in search of certain elements and submission's metadata. Then, it shows a report of which elements had been found on the submission view.
+
+The content checked in analysis are:
+* Authors contribution statement
+* Interest conflict statement
+* Authors ORCID
+* Metadata in English (title, keywords and abstract)
 
 ## Compatibility
 
