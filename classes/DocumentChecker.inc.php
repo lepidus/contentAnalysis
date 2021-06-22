@@ -29,6 +29,7 @@ class DocumentChecker {
         array("contribución", "de", "los", "autores"),
         array("contribuciones", "de", "los", "autores"),
         array("contribuciones", "de", "autoría"),
+        array("as","contribuições","de","cada","autora:"),
     );
 
     private function isORCID($text) {
@@ -41,6 +42,7 @@ class DocumentChecker {
         array("conflicts", "of", "interests"),
         array("competing", "interests"),
         array("conflitos", "de", "interesses"),
+        array("Não","há","conflito","de","interesses"),
     );
 
     private $patternsKeywordsEnglish = array(
@@ -69,7 +71,7 @@ class DocumentChecker {
                 
                 foreach($patterns[$j] as $wordPattern){
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
-
+                    error_log($this->words[$i+$depth]);
                     if($similarity < $limiarForWord)
                         break;
                     else {
@@ -86,6 +88,7 @@ class DocumentChecker {
     }
 
     function checkAuthorsContribution(){
+        error_log(print_r($this->patternsContribution,true));
         return $this->checkForPattern($this->patternsContribution, 5, 75, 1);
     }
 
