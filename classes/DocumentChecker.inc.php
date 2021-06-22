@@ -87,7 +87,6 @@ class DocumentChecker {
     }
 
     function checkAuthorsContribution(){
-        error_log(print_r($this->patternsContribution,true));
         return $this->checkForPattern($this->patternsContribution, 5, 75, 1);
     }
 
