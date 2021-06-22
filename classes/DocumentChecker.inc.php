@@ -71,7 +71,6 @@ class DocumentChecker {
                 
                 foreach($patterns[$j] as $wordPattern){
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
-                    error_log($this->words[$i+$depth]);
                     if($similarity < $limiarForWord)
                         break;
                     else {
