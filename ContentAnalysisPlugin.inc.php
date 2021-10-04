@@ -65,18 +65,11 @@ class ContentAnalysisPlugin extends GenericPlugin {
     }
 
     function addToStep4($hookName, $params){
-        $output =& $params[1];
         $submission = $params[0]->submission;
-        $templateMgr = TemplateManager::getManager(null);
-        $outputWasEmpty = false;
-
-        if($output == "") {
-            $outputWasEmpty = true;
-            $output = $templateMgr->fetch($params[0]->getTemplate());
-        }
+        $request = PKPApplication::get()->getRequest();
+        $templateMgr = TemplateManager::getManager($request);
         
         $galleys = $submission->getGalleys();
-
         if(count($galleys) > 0 && $galleys[0]->getFile()) {
             $galley = $galleys[0];
             $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
@@ -86,17 +79,21 @@ class ContentAnalysisPlugin extends GenericPlugin {
             $dataChecklist['placedOn'] = 'step4';
 
             $templateMgr->assign($dataChecklist);
-            $statusChecklist = $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'));
-
-            $this->insertTemplateIntoStep4($statusChecklist, $output);
+            $templateMgr->registerFilter("output", array($this, 'contentAnalysisFormFilter'));
         }
-        if(!$outputWasEmpty) return true;
+        
+        return false;
     }
 
-    private function insertTemplateIntoStep4($template, &$step4) {
-        $posInsert = strpos($step4, "<p>");
-        $newStep4 = substr_replace($step4, $template, $posInsert, 0);
-
-        $step4 = $newStep4;
-    }
+    public function contentAnalysisFormFilter($output, $templateMgr) {
+		if (preg_match('/<input[^>]+name="submissionId"[^>]*>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
+			$match = $matches[0][0];
+            $posMatch = $matches[0][1];
+			$screeningTemplate = $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'));
+			
+            $output = substr_replace($output, $screeningTemplate, $posMatch + strlen($match), 0);
+			$templateMgr->unregisterFilter('output', array($this, 'contentAnalysisFormFilter'));
+		}
+		return $output;
+	}
 }
