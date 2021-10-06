@@ -70,7 +70,8 @@ class ContentAnalysisPlugin extends GenericPlugin {
         $templateMgr = TemplateManager::getManager($request);
         
         $galleys = $submission->getGalleys();
-        if(count($galleys) > 0 && $galleys[0]->getFile()) {
+        $hasValidGalley = (count($galleys) > 0 && $galleys[0]->getFile());
+        if($hasValidGalley) {
             $galley = $galleys[0];
             $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
             
@@ -86,14 +87,14 @@ class ContentAnalysisPlugin extends GenericPlugin {
     }
 
     public function contentAnalysisFormFilter($output, $templateMgr) {
-		if (preg_match('/<input[^>]+name="submissionId"[^>]*>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
-			$match = $matches[0][0];
+        if (preg_match('/<input[^>]+name="submissionId"[^>]*>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
+            $match = $matches[0][0];
             $posMatch = $matches[0][1];
-			$screeningTemplate = $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'));
-			
+            $screeningTemplate = $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'));
+
             $output = substr_replace($output, $screeningTemplate, $posMatch + strlen($match), 0);
-			$templateMgr->unregisterFilter('output', array($this, 'contentAnalysisFormFilter'));
-		}
-		return $output;
-	}
+            $templateMgr->unregisterFilter('output', array($this, 'contentAnalysisFormFilter'));
+        }
+        return $output;
+    }
 }
