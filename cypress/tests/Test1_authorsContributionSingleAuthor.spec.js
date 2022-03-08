@@ -20,7 +20,7 @@ describe('Content Analysis Plugin - Authors contribution for single author', fun
         cy.get("#contributors-grid > .pkp_controllers_grid > table > tbody > tr:visible").its('length').should('eq', 1);
 
         cy.get("#checklistInfo-button").click();
-        cy.get("#statusContribution > .statusSuccess").should('be.visible');
+        cy.get("#statusContribution > .statusSkipped").should('be.visible');
         cy.get("#statusContribution > span").contains("The author's contribution statement is not necessary in single authorship cases");
     });
 

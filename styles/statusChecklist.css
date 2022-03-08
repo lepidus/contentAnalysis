@@ -28,9 +28,10 @@
     margin-left: 0.5em;
 }
 
-.statusSuccess {
+.statusSuccess, .statusSkipped {
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
     border-radius: 12px;
     background-color: #00b28d;
 }
@@ -38,6 +39,7 @@
 .statusWarning {
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
     border-radius: 12px;
     background-color: #daa520;
 }
@@ -45,6 +47,7 @@
 .statusError {
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
     border-radius: 12px;
     background-color: #d00a6c;
 }
