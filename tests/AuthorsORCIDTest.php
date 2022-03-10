@@ -1,27 +1,14 @@
 <?php
 use PHPUnit\Framework\TestCase;
-import ('plugins.generic.contentAnalysis.classes.DocumentChecker');
+require_once ("DetectionOnDocumentTest.php");
 
-class AuthorsORCIDTest extends TestCase {
+class AuthorsORCIDTest extends DetectionOnDocumentTest {
     
-    private $documentChecker;
-    private $dummyDocumentPath;
     private $completeOrcid = "https://orcid.org/0000-0001-5727-2427";
     private $orcidOnlyNumbers = "0000-0001-5727-2427";
 
     public function setUp() : void {
-        $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document.pdf";
-        $this->documentChecker = new DocumentChecker($this->dummyDocumentPath);
-    }
-
-    private function insertArrayIntoAnother($array, $anotherArray) {
-        $midPos = (int) count($anotherArray) / 2;
-
-        return array_merge(
-            array_slice($anotherArray, 0, $midPos),
-            $array,
-            array_slice($anotherArray, $midPos + 1)
-        );
+        parent::setUp();
     }
     
     public function testDetectionCompleteOrcid() : void {
