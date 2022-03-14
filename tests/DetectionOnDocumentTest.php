@@ -1,6 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 import ('plugins.generic.contentAnalysis.classes.DocumentChecker');
+import ('plugins.generic.contentAnalysis.classes.ContentParser');
 
 class DetectionOnDocumentTest extends TestCase {
     
