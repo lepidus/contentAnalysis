@@ -11,7 +11,7 @@
 require __DIR__ . '/../autoload.inc.php';
 
 class DocumentChecklist {
-    private $docChecker;
+    public $docChecker;
 
     function __construct($path){
         $this->docChecker = new DocumentChecker($path);

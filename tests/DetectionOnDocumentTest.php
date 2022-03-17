@@ -19,7 +19,7 @@ class DetectionOnDocumentTest extends TestCase {
         return array_merge(
             array_slice($anotherArray, 0, $midPos),
             $array,
-            array_slice($anotherArray, $midPos + 1)
+            array_slice($anotherArray, $midPos)
         );
     }
 

@@ -1,11 +1,13 @@
 <?php
 use PHPUnit\Framework\TestCase;
+require_once ("DetectionOnDocumentTest.php");
 import ('plugins.generic.contentAnalysis.classes.DocumentChecklist');
 import('classes.submission.Submission');
 import('classes.publication.Publication');
 import('classes.article.Author');
 
-class DocumentChecklistTest extends TestCase {
+
+class DocumentChecklistTest extends DetectionOnDocumentTest {
 
     private $documentChecklist;
     private $submission;
@@ -14,10 +16,10 @@ class DocumentChecklistTest extends TestCase {
     private $title = "The curious world of the magical numbers";
     private $authorGivenName = "Sophie";
     private $authorFamilyName = "Anhalt-Zerbst";
-    private $dummyDocumentPath;
+    private $orcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0001-5412-2427"];
 
     public function setUp() : void {
-        $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document.pdf";
+        parent::setUp();
         $this->documentChecklist = new DocumentChecklist($this->dummyDocumentPath);
         $this->publication = $this->createPublication();
         $this->submission = $this->createSubmission();
@@ -57,5 +59,20 @@ class DocumentChecklistTest extends TestCase {
         $this->publication->setData('authors', [$this->createAuthor(), $this->createAuthor()]);
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertNotEquals('Skipped', $statusChecklist['contributionStatus']);
+    }
+
+    public function testComparisonOrcidAuthors(): void {
+        $this->publication->setData('authors', [$this->createAuthor(), $this->createAuthor()]);
+
+        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $this->assertEquals('Error', $statusChecklist['orcidStatus']);
+
+        $this->documentChecklist->docChecker->words = $this->insertArrayIntoAnother([$this->orcids[0]], $this->documentChecklist->docChecker->words);
+        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
+
+        $this->documentChecklist->docChecker->words = $this->insertArrayIntoAnother([$this->orcids[1]], $this->documentChecklist->docChecker->words);
+        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $this->assertEquals('Success', $statusChecklist['orcidStatus']);
     }
 }
