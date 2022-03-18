@@ -52,6 +52,13 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         return $author;
     }
 
+    private function getStatusChecklistWordsUpdating($word) {
+        $parser = new ContentParser();
+        $patternWord = $parser->createPatternFromString($word);
+        $this->documentChecklist->docChecker->words = $this->insertArrayIntoAnother($patternWord, $this->documentChecklist->docChecker->words);
+        return $this->documentChecklist->executeChecklist($this->submission);
+    }
+
     public function testContributionSkippedSingleAuthor(): void {
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertEquals('Skipped', $statusChecklist['contributionStatus']);
@@ -67,12 +74,28 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertEquals('Error', $statusChecklist['orcidStatus']);
 
-        $this->documentChecklist->docChecker->words = $this->insertArrayIntoAnother([$this->orcids[0]], $this->documentChecklist->docChecker->words);
-        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->orcids[0]);
         $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
 
-        $this->documentChecklist->docChecker->words = $this->insertArrayIntoAnother([$this->orcids[1]], $this->documentChecklist->docChecker->words);
-        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->orcids[1]);
         $this->assertEquals('Success', $statusChecklist['orcidStatus']);
+    }
+
+    public function testMetadataEnglishStatus(): void {
+        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $this->assertEquals('Error', $statusChecklist['metadataEnglishStatus']);
+
+        $statusChecklist = $this->getStatusChecklistWordsUpdating("abstract");
+        $missingMetadata = __("common.title") . ", " . __("common.keywords");
+        $this->assertEquals('Warning', $statusChecklist['metadataEnglishStatus']);
+        $this->assertEquals($missingMetadata, $statusChecklist['textMetadata']);
+
+        $statusChecklist = $this->getStatusChecklistWordsUpdating("keywords");
+        $missingMetadata = __("common.title");
+        $this->assertEquals('Warning', $statusChecklist['metadataEnglishStatus']);
+        $this->assertEquals($missingMetadata, $statusChecklist['textMetadata']);
+
+        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
+        $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
     }
 }
