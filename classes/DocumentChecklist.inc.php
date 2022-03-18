@@ -10,7 +10,7 @@
  */
 require __DIR__ . '/../autoload.inc.php';
 
- class DocumentChecklist {
+class DocumentChecklist {
     private $docChecker;
 
     function __construct($path){
@@ -20,10 +20,16 @@ require __DIR__ . '/../autoload.inc.php';
     public function executeChecklist($submission){
         $dataChecklist = array();
 
-        $dataChecklist['contributionStatus'] = $this->docChecker->checkAuthorsContribution();
+        $numAuthors = count($submission->getAuthors());
+        if($numAuthors > 1) {
+            $dataChecklist['contributionStatus'] = $this->docChecker->checkAuthorsContribution();
+        }
+        else {
+            $dataChecklist['contributionStatus'] = "Skipped";
+        }
+
         $dataChecklist['conflictInterestStatus'] = $this->docChecker->checkConflictInterest();
 
-        $numAuthors = count($submission->getAuthors());
         $orcidsDetected = $this->docChecker->checkAuthorsORCID();
         if($orcidsDetected >= $numAuthors)
             $dataChecklist['orcidStatus'] = 'Success';
@@ -60,4 +66,4 @@ require __DIR__ . '/../autoload.inc.php';
 
         return $dataChecklist;
     }
- }
+}

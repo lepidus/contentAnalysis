@@ -34,7 +34,10 @@ msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "La declaración de contribución de los autores fue identificada en el documento"
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
-msgstr "La declaración de contribución de los autores no fue identificada en el documento"
+msgstr "La declaración de contribución de los autores no fue identificada en el documento. Asegúrese de que haya una sección denominada \"Contribución de los autores\" en el documento."
+
+msgid "plugins.generic.contentAnalysis.status.authorsContributionSkipped"
+msgstr "La declaración de contribución de los autores no se requiere en los casos de autoría única."
 
 msgid "plugins.generic.contentAnalysis.status.orcidSuccess"
 msgstr "Se identificaron los ORCID de todos los autores"

@@ -17,7 +17,9 @@ class DocumentChecker {
     private $patternsContribution = array(
         array("contribuição", "dos", "autores"),
         array("contribuição", "das", "autoras"),
+        array("contribuição", "dos/das", "autores"),
         array("contribuições", "dos", "autores"),
+        array("contribuições", "dos/das", "autores"),
         array("contribuição", "de", "autoria"),
         array("colaborações", "individuais"),
         array("colaboração", "da", "produção", "do", "artigo"),
