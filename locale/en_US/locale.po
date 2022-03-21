@@ -46,7 +46,9 @@ msgid "plugins.generic.contentAnalysis.status.orcidWarning"
 msgstr "We identified {$numOrcids} ORCIDs from a total of {$numAuthors} authors"
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
-msgstr "No ORCIDs were identified in the document"
+msgstr ""
+"Make sure all the ORCID IDs have been inserted in the document in the <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">correct format</a>. "
+"Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship."
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestSuccess"
 msgstr "The conflict of interests statement was identified in the document"
