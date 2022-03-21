@@ -14,12 +14,12 @@ class DetectionOnDocumentTest extends TestCase {
     }
 
     protected function insertArrayIntoAnother($array, $anotherArray) {
-        $midPos = (int) count($anotherArray) / 2;
+        $middlePosition = (int) count($anotherArray) / 2;
 
         return array_merge(
-            array_slice($anotherArray, 0, $midPos),
+            array_slice($anotherArray, 0, $middlePosition),
             $array,
-            array_slice($anotherArray, $midPos)
+            array_slice($anotherArray, $middlePosition)
         );
     }
 
