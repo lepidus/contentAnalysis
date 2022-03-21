@@ -12,7 +12,7 @@ require __DIR__ . '/../autoload.inc.php';
 
 class DocumentChecker {
     private $pathFile;
-    private $words;
+    public $words;
 
     private $patternsContribution = array(
         array("contribuição", "dos", "autores"),
