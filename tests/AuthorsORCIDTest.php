@@ -6,6 +6,8 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest {
     
     private $completeOrcid = "https://orcid.org/0000-0001-5727-2427";
     private $orcidOnlyNumbers = "0000-0001-5727-2427";
+    private $invalidOrcid = "https://orcid.org/0000-0000-0000-0000";
+    private $invalidOrcidOnlyNumbers = "0000-0000-0000-0000";
 
     public function setUp() : void {
         parent::setUp();
@@ -27,4 +29,8 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest {
         $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
     }
 
+    public function testDoesntConsiderInvalidOrcids(): void {
+        $this->documentChecker->words = $this->insertArrayIntoAnother([$this->invalidOrcid, $this->invalidOrcidOnlyNumbers], $this->documentChecker->words);
+        $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
+    }
 }
