@@ -16,7 +16,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
     private $title = "The curious world of the magical numbers";
     private $authorGivenName = "Sophie";
     private $authorFamilyName = "Anhalt-Zerbst";
-    private $orcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0001-5412-2427"];
+    private $orcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0002-1648-966X"];
 
     public function setUp() : void {
         parent::setUp();
