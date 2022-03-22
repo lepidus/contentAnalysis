@@ -55,7 +55,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
     private function getStatusChecklistWordsUpdating($word) {
         $parser = new ContentParser();
         $patternWord = $parser->createPatternFromString($word);
-        $this->documentChecklist->docChecker->words = $this->insertArrayIntoAnother($patternWord, $this->documentChecklist->docChecker->words);
+        $this->documentChecklist->docChecker->words = $this->insertWordsIntoDocWordList($patternWord, $this->documentChecklist->docChecker->words);
         return $this->documentChecklist->executeChecklist($this->submission);
     }
 
