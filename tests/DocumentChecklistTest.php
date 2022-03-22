@@ -16,7 +16,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
     private $title = "The curious world of the magical numbers";
     private $authorGivenName = "Sophie";
     private $authorFamilyName = "Anhalt-Zerbst";
-    private $orcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0001-5412-2427"];
+    private $orcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0002-1648-966X"];
 
     public function setUp() : void {
         parent::setUp();
@@ -55,7 +55,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
     private function getStatusChecklistWordsUpdating($word) {
         $parser = new ContentParser();
         $patternWord = $parser->createPatternFromString($word);
-        $this->documentChecklist->docChecker->words = $this->insertArrayIntoAnother($patternWord, $this->documentChecklist->docChecker->words);
+        $this->documentChecklist->docChecker->words = $this->insertWordsIntoDocWordList($patternWord, $this->documentChecklist->docChecker->words);
         return $this->documentChecklist->executeChecklist($this->submission);
     }
 

@@ -34,8 +34,25 @@ class DocumentChecker {
         array("as","contribuições","de","cada","autora:"),
     );
 
+    private function checksumOrcid($orcid) {
+        $total = 0;
+        for ($i = 0; $i < strlen($orcid)-1; $i++) {
+            $digit = (int) $orcid[$i];
+            $total = ($total + $digit) * 2;
+        }
+        $remainder = $total % 11;
+        $result = (12 - $remainder) % 11;
+
+        $checksum = $result == 10 ? "x" : strval($result);
+        return $checksum == $orcid[-1];
+    }
+
     private function isORCID($text) {
-        return !preg_match("~doi\.org~", $text) && (preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text) || preg_match("~http[s]?:\/\/orcid\.org\/~", $text));
+        if(!preg_match("~doi\.org~", $text) && (preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text) || preg_match("~http[s]?:\/\/orcid\.org\/~", $text))) {
+            preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text, $matches);
+            $orcid = str_replace("-", "", $matches[0]);
+            return $this->checksumOrcid($orcid);
+        }
     }
 
     private $patternsConflictInterest = array(

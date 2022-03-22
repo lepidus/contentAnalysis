@@ -13,13 +13,13 @@ class DetectionOnDocumentTest extends TestCase {
         $this->documentChecker = new DocumentChecker($this->dummyDocumentPath);
     }
 
-    protected function insertArrayIntoAnother($array, $anotherArray) {
-        $middlePosition = (int) count($anotherArray) / 2;
+    protected function insertWordsIntoDocWordList($words, $docWordList) {
+        $middlePosition = (int) count($docWordList) / 2;
 
         return array_merge(
-            array_slice($anotherArray, 0, $middlePosition),
-            $array,
-            array_slice($anotherArray, $middlePosition)
+            array_slice($docWordList, 0, $middlePosition),
+            $words,
+            array_slice($docWordList, $middlePosition)
         );
     }
 

@@ -11,7 +11,7 @@ class AuthorsContributionTest extends DetectionOnDocumentTest {
     }
     
     public function testDetection() : void {
-        $this->documentChecker->words = $this->insertArrayIntoAnother($this->patternContribution, $this->documentChecker->words);
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternContribution, $this->documentChecker->words);
 
         $this->assertEquals("Success", $this->documentChecker->checkAuthorsContribution());
     }

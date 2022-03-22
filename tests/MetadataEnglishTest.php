@@ -13,14 +13,14 @@ class MetadataEnglishTest extends DetectionOnDocumentTest {
     }
     
     public function testDetectionKeyword() : void {
-        $this->documentChecker->words = $this->insertArrayIntoAnother($this->patternKeyword, $this->documentChecker->words);
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternKeyword, $this->documentChecker->words);
         $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
         
         $this->assertEquals("Success", $statusMetadata['keywords']);
     }
 
     public function testDetectionAbstract() : void {
-        $this->documentChecker->words = $this->insertArrayIntoAnother($this->patternAbstract, $this->documentChecker->words);
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternAbstract, $this->documentChecker->words);
         $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
         
         $this->assertEquals("Success", $statusMetadata['abstract']);
@@ -30,7 +30,7 @@ class MetadataEnglishTest extends DetectionOnDocumentTest {
         $parser = new ContentParser();
         $patternTitle = $parser->createPatternFromString($this->title);
         
-        $this->documentChecker->words = $this->insertArrayIntoAnother($patternTitle, $this->documentChecker->words);
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($patternTitle, $this->documentChecker->words);
         $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
         
         $this->assertEquals("Success", $statusMetadata['title']);
