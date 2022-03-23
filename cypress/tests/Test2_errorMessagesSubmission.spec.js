@@ -8,20 +8,23 @@ function loginAdminUser() {
 
 function submissionStep1() {
     cy.get('#sectionId').select('1');
-    cy.get('#pkp_submissionChecklist > ul > li > label > input').check({multiple: true});
+    cy.get('#pkp_submissionChecklist > ul > li > label > input').check();
     cy.get('#privacyConsent').check();
     cy.get('button.submitFormButton').click();
 }
 
 function submissionStep2() {
-    cy.get('a:contains("Add galley")').click();
+    cy.get('.pkp_linkaction_addGalley').click();
     cy.get('input[name="label"]').type('PDF', { delay: 0 });
     cy.get('#articleGalleyForm > .formButtons > .submitFormButton').click();
     cy.get('#genreId').select('1');
-    dummyDocument = 'dummy_document.pdf';
-    cy.fixture(dummyDocument).then(fileContent => {
-        cy.get('input[type="file"').upload({fileContent, dummyDocument, mimetype: 'application/pdf'});
+    cy.fixture('dummy.pdf', 'base64').then(fileContent => {
+        cy.get('input[type="file"]').upload({fileContent, 'fileName': 'dummy_document.pdf', 'mimeType': 'application/pdf', 'encoding': 'base64'});
     });
+    cy.get('#continueButton').click();
+    cy.get('#continueButton').click();
+    cy.get('#continueButton').click();
+    cy.get('button.submitFormButton').click();
 }
 
 describe('Content Analysis Plugin - Authors contribution for single author', function() {
