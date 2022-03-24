@@ -34,7 +34,7 @@ msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "The author's contribution statement was identified in the document"
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
-msgstr "The author's contribution statement was not identified in the document. Ensure that a section \"Author's Contribution\" has been inserted in the document."
+msgstr "Make sure that a section called \"Authors contribution\" has been inserted in the document, following preferably the <a href=\"https://casrai.org/credit/\">CRediT</a> taxonomy to list the individual contributions."
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionSkipped"
 msgstr "The author's contribution statement is not necessary in single authorship cases"
@@ -54,7 +54,9 @@ msgid "plugins.generic.contentAnalysis.status.conflictInterestSuccess"
 msgstr "The conflict of interests statement was identified in the document"
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestError"
-msgstr "The conflict of interests statement was not identified in the document"
+msgstr ""
+"Make sure that a section called \"Conflicts of interest\" has been inserted in the document. "
+"We recommend the following of the <a href=\"https://publicationethics.org/competinginterests\">COPE guidelines</a> for the formulation of the conflicts of interest declaration."
 
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccess"
 msgstr "All metadata in english were detected in the document"

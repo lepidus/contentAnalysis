@@ -65,7 +65,7 @@ function checkErrorMesssagesInStep4() {
 
     cy.get('#statusConflictInterest > .statusError').should('be.visible');
     cy.get('#statusConflictInterest > span').should(conflictInterestSpan => {
-        expect(conflictInterestSpan).to.contain("Make sure that a section called \"Conflicts of interest\" has been inserted in the document. We recommend the following of COPE guidelines for the formulation of the conflicts of interest declaration.");
+        expect(conflictInterestSpan).to.contain("Make sure that a section called \"Conflicts of interest\" has been inserted in the document. We recommend the following of the COPE guidelines for the formulation of the conflicts of interest declaration.");
     });
 
     cy.get('#statusMetadataEnglish > .statusError').should('be.visible');
