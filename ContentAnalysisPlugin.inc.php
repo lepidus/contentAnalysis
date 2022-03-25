@@ -78,6 +78,7 @@ class ContentAnalysisPlugin extends GenericPlugin {
             $checklist = new DocumentChecklist($path);
             $dataChecklist = $checklist->executeChecklist($submission);
             $dataChecklist['placedOn'] = 'step4';
+            $dataChecklist['userIsAuthor'] = $this->userIsAuthor($submission);
 
             $templateMgr->assign($dataChecklist);
             $templateMgr->registerFilter("output", array($this, 'contentAnalysisFormFilter'));
@@ -96,5 +97,21 @@ class ContentAnalysisPlugin extends GenericPlugin {
             $templateMgr->unregisterFilter('output', array($this, 'contentAnalysisFormFilter'));
         }
         return $output;
+    }
+
+    private function userIsAuthor($submission){
+        $currentUser = \Application::get()->getRequest()->getUser();
+        $currentUserAssignedRoles = array();
+        if ($currentUser) {
+            $stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
+            $stageAssignmentsResult = $stageAssignmentDao->getBySubmissionAndUserIdAndStageId($submission->getId(), $currentUser->getId(), $submission->getData('stageId'));
+            $userGroupDao = DAORegistry::getDAO('UserGroupDAO');
+            while ($stageAssignment = $stageAssignmentsResult->next()) {
+                $userGroup = $userGroupDao->getById($stageAssignment->getUserGroupId(), $submission->getData('contextId'));
+                $currentUserAssignedRoles[] = (int) $userGroup->getRoleId();
+            }
+        }
+
+        return $currentUserAssignedRoles[0] == ROLE_ID_AUTHOR;
     }
 }
