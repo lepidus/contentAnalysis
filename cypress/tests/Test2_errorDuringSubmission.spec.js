@@ -10,6 +10,9 @@ function submissionStep1() {
     cy.get('#sectionId').select('1');
     cy.get('#pkp_submissionChecklist > ul > li > label > input').check();
     cy.get('#privacyConsent').check();
+    cy.get('.checkbox_and_radiobutton > li > label:visible').contains('Author').within(() => {
+        cy.get('input').check();
+    });
     cy.get('#submissionStep1 > .formButtons > .submitFormButton').click();
 }
 
@@ -74,8 +77,12 @@ function checkErrorMesssagesInStep4() {
     });
 }
 
-describe('Content Analysis Plugin - Error messages in step 4', function() {
-    it('Check if error messages shown in step 4 are in accordance with the defined', function() {
+function checkSubmissionCantbeFinished() {
+    cy.get('#submitStep4Form > .formButtons > .submitFormButton').should('be.disabled');
+}
+
+describe('Content Analysis Plugin - Error messages and submission blocking in step 4', function() {
+    it("Check error messages shown in step 4 and whether submission can't be finished when document error occurs", function() {
         cy.visit(Cypress.env('baseUrl') + 'index.php/scielo/submissions');
         loginAdminUser();
 
@@ -85,5 +92,6 @@ describe('Content Analysis Plugin - Error messages in step 4', function() {
         submissionStep2();
         submissionStep3();
         checkErrorMesssagesInStep4();
+        checkSubmissionCantbeFinished();
     });
 });
