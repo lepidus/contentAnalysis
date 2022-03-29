@@ -47,7 +47,7 @@
     
     {if $placedOn == "step4" and $userIsAuthor and $generalStatus != "Success"}
         <script>
-            var step4SubmitButton = document.querySelector('#submitStep4Form > .formButtons > .submitFormButton');
+            const step4SubmitButton = document.querySelector('#submitStep4Form > .formButtons > .submitFormButton');
             step4SubmitButton.disabled = true;
         </script>
     {/if}
