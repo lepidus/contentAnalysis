@@ -34,7 +34,7 @@ msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "La declaración de contribución de los autores fue identificada en el documento"
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
-msgstr "La declaración de contribución de los autores no fue identificada en el documento. Asegúrese de que haya una sección denominada \"Contribución de los autores\" en el documento."
+msgstr "Asegúrese de que se haya insertado una sección llamada \"Contribución de la autoría\" en el manuscrito, preferiblemente siguiendo la taxonomía <a href=\"https://casrai.org/credit/\">CRediT</a> para enumerar las contribuciones individuales."
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionSkipped"
 msgstr "La declaración de contribución de los autores no se requiere en los casos de autoría única."
@@ -54,7 +54,9 @@ msgid "plugins.generic.contentAnalysis.status.conflictInterestSuccess"
 msgstr "La declaración de conflicto de intereses fue identificada en el documento"
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestError"
-msgstr "La declaración de conflicto de intereses no fue identificada en el documento"
+msgstr ""
+"Asegúrese de que se haya insertado una sección denominada \"Conflicto de intereses\" en el manuscrito. "
+"Recomendamos seguir los <a href=\"https://publicationethics.org/competinginterests\">lineamientos de COPE</a> para la elaboración de la declaración de conflicto de interés."
 
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccess"
 msgstr "Se detectaron todos los metadatos en inglés en el documento"
