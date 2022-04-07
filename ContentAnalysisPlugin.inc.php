@@ -24,6 +24,7 @@ class ContentAnalysisPlugin extends GenericPlugin {
         if ($success && $this->getEnabled($mainContextId)) {
             HookRegistry::register('Template::Workflow::Publication', array($this, 'addToWorkflow'));
             HookRegistry::register('submissionsubmitstep4form::display', array($this, 'addToStep4'));
+            HookRegistry::register('submissionsubmitstep4form::validate', array($this, 'addValidationToStep4'));
         }
         
         return $success;
@@ -97,6 +98,28 @@ class ContentAnalysisPlugin extends GenericPlugin {
             $templateMgr->unregisterFilter('output', array($this, 'contentAnalysisFormFilter'));
         }
         return $output;
+    }
+
+    public function addValidationToStep4($hookName, $params) {
+        $step4Form =& $params[0];
+        $submission = $step4Form->submission;
+        
+        if(!$this->userIsAuthor($submission)) return;
+        
+        $galleys = $submission->getGalleys();
+        $hasValidGalley = (count($galleys) > 0 && $galleys[0]->getFile());
+        if($hasValidGalley) {
+            $galley = $galleys[0];
+            $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
+            
+            $checklist = new DocumentChecklist($path);
+            $dataChecklist = $checklist->executeChecklist($submission);
+            if($dataChecklist['generalStatus'] != 'Success') {
+                $step4Form->addErrorField('contentAnalysisStep4ValidationError');
+                $step4Form->addError('contentAnalysisStep4ValidationError', __("plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"));
+                return;
+            }
+        }
     }
 
     private function userIsAuthor($submission){

@@ -44,11 +44,4 @@
             <span><div id="checklistAdvice">{translate key="plugins.generic.contentAnalysis.status.advice"}</div></span>
         {/if}
     </div>
-    
-    {if $placedOn == "step4" and $userIsAuthor and $generalStatus != "Success"}
-        <script>
-            const step4SubmitButton = document.querySelector('#submitStep4Form > .formButtons > .submitFormButton');
-            step4SubmitButton.disabled = true;
-        </script>
-    {/if}
 </div>

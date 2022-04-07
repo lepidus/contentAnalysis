@@ -68,3 +68,6 @@ msgstr "Título, resumo e palavras-chave em inglês não foram detectados no doc
 
 msgid "plugins.generic.contentAnalysis.status.advice"
 msgstr "Você pode corrigir esse problemas na revisão da submissão"
+
+msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
+msgstr "Você não pode finalizar a submissão sem primeiro corrigir os problemas com o documento submetido"
