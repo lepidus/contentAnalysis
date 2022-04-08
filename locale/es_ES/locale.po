@@ -34,7 +34,7 @@ msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "La declaración de contribución de los autores fue identificada en el documento"
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
-msgstr "Asegúrese de que se haya insertado una sección llamada \"Contribución de la autoría\" en el manuscrito, preferiblemente siguiendo la taxonomía <a href=\"https://casrai.org/credit/\">CRediT</a> para enumerar las contribuciones individuales."
+msgstr "La declaración de contribución de los autores no fue identificada en el documento. Asegúrese de que se haya insertado una sección llamada \"Contribución de la autoría\" en el manuscrito, preferiblemente siguiendo la taxonomía <a href=\"https://casrai.org/credit/\">CRediT</a> para enumerar las contribuciones individuales."
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionSkipped"
 msgstr "La declaración de contribución de los autores no se requiere en los casos de autoría única."
@@ -47,6 +47,7 @@ msgstr "Identificamos {$numOrcids} ORCIDs de un total de {$numAuthors} autores"
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr ""
+"No se identificaron ORCIDs en el documento. "
 "Asegúrese de que todas las ID de ORCID se hayan ingresado en el manuscrito en el <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato correcto</a>. "
 "También asegúrese de que los enlaces coincidan con el registro ORCID correcto para cada persona que figura en la autoría del manuscrito."
 
@@ -55,6 +56,7 @@ msgstr "La declaración de conflicto de intereses fue identificada en el documen
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestError"
 msgstr ""
+"La declaración de conflicto de intereses no fue identificada en el documento. "
 "Asegúrese de que se haya insertado una sección denominada \"Conflicto de intereses\" en el manuscrito. "
 "Recomendamos seguir los <a href=\"https://publicationethics.org/competinginterests\">lineamientos de COPE</a> para la elaboración de la declaración de conflicto de interés."
 

@@ -58,17 +58,17 @@ function submissionStep3() {
 function checkErrorMesssagesInStep4() {
     cy.get('#statusContribution > .statusError').should('be.visible');
     cy.get('#statusContribution > span').should(contributionSpan => {
-        expect(contributionSpan).to.contain("Make sure that a section called \"Authors contribution\" has been inserted in the document, following preferably the CRediT taxonomy to list the individual contributions.");
+        expect(contributionSpan).to.contain("The author's contribution statement was not identified in the document. Make sure that a section called \"Authors contribution\" has been inserted in the document, following preferably the CRediT taxonomy to list the individual contributions.");
     });
 
     cy.get('#statusORCID > .statusError').should('be.visible');
     cy.get('#statusORCID > span').should(orcidSpan => {
-        expect(orcidSpan).to.contain("Make sure all the ORCID IDs have been inserted in the document in the correct format. Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship.");
+        expect(orcidSpan).to.contain("No ORCIDs were identified in the document. Make sure all the ORCID IDs have been inserted in the document in the correct format. Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship.");
     });
 
     cy.get('#statusConflictInterest > .statusError').should('be.visible');
     cy.get('#statusConflictInterest > span').should(conflictInterestSpan => {
-        expect(conflictInterestSpan).to.contain("Make sure that a section called \"Conflicts of interest\" has been inserted in the document. We recommend the following of the COPE guidelines for the formulation of the conflicts of interest declaration.");
+        expect(conflictInterestSpan).to.contain("The conflict of interests statement was not identified in the document. Make sure that a section called \"Conflicts of interest\" has been inserted in the document. We recommend the following of the COPE guidelines for the formulation of the conflicts of interest declaration.");
     });
 
     cy.get('#statusMetadataEnglish > .statusError').should('be.visible');

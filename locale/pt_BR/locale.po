@@ -33,7 +33,7 @@ msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "A declaração de contribuição dos autores foi identificada no documento"
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
-msgstr "Certifique-se que foi inserida uma seção com o nome \"Contribuição de autoria\" no manuscrito, seguindo de preferência a taxonomia <a href=\"https://casrai.org/credit/\">CRediT</a> para listar as contribuições individuais."
+msgstr "A declaração de contribuição dos autores não foi identificada no documento. Certifique-se que foi inserida uma seção com o nome \"Contribuição de autoria\" no manuscrito, seguindo de preferência a taxonomia <a href=\"https://casrai.org/credit/\">CRediT</a> para listar as contribuições individuais."
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionSkipped"
 msgstr "A declaração de contribuição dos autores não é necessária em casos de autoria única"
@@ -46,6 +46,7 @@ msgstr "Identificamos {$numOrcids} ORCIDs de um total de {$numAuthors} autores"
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr ""
+"Não foram identificados ORCIDs no documento. "
 "Certifique-se de que todos os ORCID IDs foram inseridos no manuscrito no <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato correto</a>. "
 "Certifique-se também que os links correspondem ao registro ORCID correto de cada pessoa listada na autoria do manuscrito."
 
@@ -54,6 +55,7 @@ msgstr "A declaração de conflito de interesses foi identificada no documento"
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestError"
 msgstr ""
+"A declaração de conflito de interesses não foi identificada no documento. "
 "Certifique-se que foi inserida uma seção com o nome \"Conflito de interesses\" no manuscrito. "
 "Recomendamos seguir as <a href=\"https://publicationethics.org/competinginterests\">orientações do COPE</a> para elaboração da declaração de conflito de interesse."
 
