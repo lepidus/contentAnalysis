@@ -78,7 +78,11 @@ function checkErrorMesssagesInStep4() {
 }
 
 function checkSubmissionCantbeFinished() {
-    cy.get('#submitStep4Form > .formButtons > .submitFormButton').should('be.disabled');
+    cy.get('#submitStep4Form > .formButtons > .submitFormButton').click();
+    cy.get('.pkp_modal_panel > .footer > .pkpModalConfirmButton').click();
+    cy.get('.notifyFormError > .description').should(cantFinishWithDocErrors => {
+        expect(cantFinishWithDocErrors).to.contain("You can't finish the submission without fixing the errors of the submitted document");
+    });
 }
 
 describe('Content Analysis Plugin - Error messages and submission blocking in step 4', function() {
