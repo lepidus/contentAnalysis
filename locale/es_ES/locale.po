@@ -71,3 +71,6 @@ msgstr "No se detectaron título, resumen y palabras-clave en inglés en el docu
 
 msgid "plugins.generic.contentAnalysis.status.advice"
 msgstr "Puede corregir estos problemas mediante la revisión del envío"
+
+msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
+msgstr "No puede finalizar el envío sin corregir primero los problemas con el documento enviado"
