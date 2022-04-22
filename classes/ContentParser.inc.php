@@ -9,7 +9,7 @@
  * This class implements a parser that breaks contents in a list of words
  */
 
- class ContentParser {
+class ContentParser {
     public function parseDocument($pathFile){
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
         shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
@@ -60,4 +60,4 @@
 
         return $pattern;
     }
- }
+}
