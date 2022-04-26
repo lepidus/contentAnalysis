@@ -34,6 +34,16 @@ class ContentParser {
         return $words;
     }
 
+    private function parseLine($line) {
+        $lineWords = $this->parseWordsFromString($line);
+
+        if(!empty($lineWords) && is_numeric($lineWords[0])){
+            array_shift($lineWords);
+        }
+
+        return $lineWords;
+    }
+
     public function parseDocument($pathFile){
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
         shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
@@ -44,14 +54,7 @@ class ContentParser {
         unlink($pathTxt);
 
         foreach($docLines as $line) {
-            $lineWords = $this->parseWordsFromString($line);
-
-            if(!empty($lineWords)){
-                if(is_numeric($lineWords[0]))
-                    array_shift($lineWords);
-
-                $docWords = array_merge($docWords, $lineWords);
-            }
+            $docWords = array_merge($docWords, $this->parseLine($line));
         }
 
         return $docWords;
