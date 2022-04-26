@@ -9,35 +9,52 @@
  * This class implements a parser that breaks contents in a list of words
  */
 
- class ContentParser {
-    public function parseDocument($pathFile){
-        $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
-        
-        $text = file_get_contents($pathTxt, FILE_TEXT);
-        $words = array();
-        unlink($pathTxt);
+class ContentParser {
 
-        for($i = 0; $i < strlen($text); $i++){ 
-            while($i < strlen($text) && ctype_space($text[$i]))
+    private function parseWordsFromString($string) {
+        $words = array();
+        
+        for($i = 0; $i < strlen($string); $i++){
+            while($i < strlen($string) && ctype_space($string[$i]))
                 $i++;
             
-            if($i < strlen($text)){
-                $start = $end = $i;
+            if($i < strlen($string)){
+                $wordStart = $wordEnd = $i;
 
-                while($end < strlen($text) && !ctype_space($text[$end]))
-                    $end++;
+                while($wordEnd < strlen($string) && !ctype_space($string[$wordEnd]))
+                    $wordEnd++;
                 
-                $word = mb_strtolower(substr($text, $start, $end-$start));
+                $word = mb_strtolower(substr($string, $wordStart, $wordEnd-$wordStart));
                 
-                if(strlen($word) >= 4 || !is_numeric($word)) {
-                    $words[] = $word;
-                }
-                $i = $end;
+                $words[] = $word;
+                $i = $wordEnd;
             }
         }
 
         return $words;
+    }
+
+    public function parseDocument($pathFile){
+        $pathTxt = substr($pathFile, 0, -3) . 'txt';
+        shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
+        
+        $docText = file_get_contents($pathTxt, FILE_TEXT);
+        $docLines = preg_split("/\r\n|\n|\r/", $docText);
+        $docWords = array();
+        unlink($pathTxt);
+
+        foreach($docLines as $line) {
+            $lineWords = $this->parseWordsFromString($line);
+
+            if(!empty($lineWords)){
+                if(is_numeric($lineWords[0]))
+                    array_shift($lineWords);
+
+                $docWords = array_merge($docWords, $lineWords);
+            }
+        }
+
+        return $docWords;
     }
 
     public function createPatternFromString($string){
@@ -60,4 +77,4 @@
 
         return $pattern;
     }
- }
+}
