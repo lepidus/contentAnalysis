@@ -23,4 +23,13 @@ class DetectionOnDocumentTest extends TestCase {
         );
     }
 
+    public function testParserRemovesLineNumbering(): void {
+        $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document_numbered.pdf";
+        $this->documentChecker = new DocumentChecker($this->dummyDocumentPath);
+
+        $expectedWordsFirstLine = ["lorem", "ipsum", "dolor", "sit", "amet,", "consectetur", "adipiscing", "elit."];
+        $parsedWordsFirstLine = array_slice($this->documentChecker->words, 0, count($expectedWordsFirstLine));
+
+        $this->assertEquals($expectedWordsFirstLine, $parsedWordsFirstLine);
+    }
 }
