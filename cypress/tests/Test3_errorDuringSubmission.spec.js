@@ -8,11 +8,13 @@ function loginAdminUser() {
 
 function submissionStep1() {
     cy.get('#sectionId').select('1');
+    cy.get('#checkboxResearchInvolvingHumansOrAnimals').check()
     cy.get('#pkp_submissionChecklist > ul > li > label > input').check();
     cy.get('#privacyConsent').check();
     cy.get('.checkbox_and_radiobutton > li > label:visible').contains('Author').within(() => {
         cy.get('input').check();
     });
+
     cy.get('#submissionStep1 > .formButtons > .submitFormButton').click();
 }
 
@@ -74,6 +76,11 @@ function checkErrorMesssagesInStep4() {
     cy.get('#statusMetadataEnglish > .statusError').should('be.visible');
     cy.get('#statusMetadataEnglish > span').should(metadataSpan => {
         expect(metadataSpan).to.contain("Title, abstract and keywords in english were not found in the document");
+    });
+
+    cy.get('#statusEthicsCommittee > .statusError').should('be.visible');
+    cy.get('#statusEthicsCommittee > span').should(ethicsCommitteeSpan => {
+        expect(ethicsCommitteeSpan).to.contain("The Ethics Committee Approval Statement was not found in the document! Since the research involves human beings or animals, it is necessary to state in the manuscript that the research has been approved by the Ethics Committee of the institution responsible for the research. Make sure to insert the statement in text format as an integral part of the manuscript. If the statement is in image format, please transcribe it in text format. Scanned images are not detected by the system.");
     });
 }
 
