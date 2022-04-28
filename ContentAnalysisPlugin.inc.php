@@ -23,6 +23,7 @@ class ContentAnalysisPlugin extends GenericPlugin {
         
         if ($success && $this->getEnabled($mainContextId)) {
             HookRegistry::register('Template::Workflow::Publication', array($this, 'addToWorkflow'));
+            HookRegistry::register('submissionsubmitstep1form::display', array($this, 'addToStep1'));
             HookRegistry::register('submissionsubmitstep4form::display', array($this, 'addToStep4'));
             HookRegistry::register('submissionsubmitstep4form::validate', array($this, 'addValidationToStep4'));
         }
@@ -63,6 +64,26 @@ class ContentAnalysisPlugin extends GenericPlugin {
                 $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
             );
         }
+    }
+
+    function addToStep1($hookName, $params) {
+        $request = PKPApplication::get()->getRequest();
+        $templateMgr = TemplateManager::getManager($request);
+
+        $templateMgr->registerFilter("output", array($this, 'addCheckboxToStep1Filter'));
+        return false;
+    }
+
+    public function addCheckboxToStep1Filter($output, $templateMgr) {
+        if (preg_match('/<div[^>]+class="section formButtons/', $output, $matches, PREG_OFFSET_CAPTURE)) {
+            $match = $matches[0][0];
+            $posMatch = $matches[0][1];
+            $checkboxTemplate = $templateMgr->fetch($this->getTemplateResource('checkboxResearch.tpl'));
+
+            $output = substr_replace($output, $checkboxTemplate, $posMatch, 0);
+            $templateMgr->unregisterFilter('output', array($this, 'addCheckboxToStep1Filter'));
+        }
+        return $output;
     }
 
     function addToStep4($hookName, $params){
