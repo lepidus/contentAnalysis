@@ -69,6 +69,15 @@ msgstr "The following metadata in english were not found in the document: {$text
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "Title, abstract and keywords in english were not found in the document"
 
+msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
+msgstr "The Ethics Committee Approval Statement was found in the document"
+
+msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeError"
+msgstr ""
+"The Ethics Committee Approval Statement was not found in the document. "
+"Since the research involves human beings or animals, it is necessary to state in the manuscript that the research has been approved by the Ethics Committee of the institution responsible for the research. "
+"Make sure to insert the statement in text format as an integral part of the manuscript. If the statement is in image format, please transcribe it in text format. Scanned images are not detected by the system."
+
 msgid "plugins.generic.contentAnalysis.status.advice"
 msgstr "You can correct these problems in the submission review"
 

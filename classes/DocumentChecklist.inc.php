@@ -57,6 +57,10 @@ class DocumentChecklist {
         }
         $dataChecklist['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
 
+        if($submission->getData('researchInvolvingHumansOrAnimals')) {
+            $dataChecklist['ethicsCommitteeStatus'] = $this->docChecker->checkEthicsCommittee();
+        }
+
         if(in_array('Error', $dataChecklist))
             $dataChecklist['generalStatus'] = 'Error';
         else if(in_array('Warning', $dataChecklist))

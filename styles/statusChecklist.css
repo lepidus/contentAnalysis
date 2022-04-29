@@ -13,7 +13,7 @@
     margin: 0px 0px;
 }
 
-#statusContribution, #statusORCID, #statusConflictInterest, #statusMetadataEnglish {
+#statusContribution, #statusORCID, #statusConflictInterest, #statusMetadataEnglish, #statusEthicsCommittee {
     display: flex;
     align-items: center;
     background-color: #DCDCDC;
@@ -22,7 +22,7 @@
     margin-bottom: 18px;
 }
 
-#statusContribution span, #statusORCID span, #statusConflictInterest span, #statusMetadataEnglish span {
+#statusContribution span, #statusORCID span, #statusConflictInterest span, #statusMetadataEnglish span, #statusEthicsCommittee span {
     line-height: 24px;
     font-size: 16px;
     margin-left: 0.5em;

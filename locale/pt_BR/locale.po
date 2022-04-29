@@ -68,6 +68,16 @@ msgstr "Os seguintes metadados em inglês não foram detectados no documento: {$
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "Título, resumo e palavras-chave em inglês não foram detectados no documento"
 
+msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
+msgstr "A Declaração de Aprovação do Comitê de Ética foi encontrada no documento"
+
+msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeError"
+msgstr ""
+"A Declaração de Aprovação do Comitê de Ética não foi encontrada no documento. "
+"Como a pesquisa envolve seres humanos ou animais, é necessário que conste no manuscrito que a pesquisa foi aprovada pelo Comitê de Ética da instituição responsável pela pesquisa. "
+"Certifique-se de inserir a declaração em formato de texto, como parte integral do manuscrito. Se a declaração estiver no formato de imagem, por favor transcreva-a em formato texto. "
+"Imagens digitalizadas não são detectadas pelo sistema."
+
 msgid "plugins.generic.contentAnalysis.status.advice"
 msgstr "Você pode corrigir esse problemas na revisão da submissão"
 
