@@ -1,5 +1,5 @@
 {fbvFormSection id="checkboxResearchDiv"}
-    <input type="checkbox" name="researchInvolvingHumansOrAnimals" id="checkboxResearchInvolvingHumansOrAnimals" required="true" value="1"/>
+    <input type="checkbox" name="researchInvolvingHumansOrAnimals" id="checkboxResearchInvolvingHumansOrAnimals" value="1"/>
     {translate key="plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"}
 {/fbvFormSection}
 

@@ -24,6 +24,9 @@ class ContentAnalysisPlugin extends GenericPlugin {
         if ($success && $this->getEnabled($mainContextId)) {
             HookRegistry::register('Template::Workflow::Publication', array($this, 'addToWorkflow'));
             HookRegistry::register('submissionsubmitstep1form::display', array($this, 'addToStep1'));
+            HookRegistry::register('submissionsubmitstep1form::readuservars', array($this, 'allowStep1FormToReadOurFields'));
+            HookRegistry::register('SubmissionHandler::saveSubmit', array($this, 'passOurFieldsValuesToSubmission'));
+            HookRegistry::register('Schema::get::submission', array($this, 'addOurFieldsToSubmissionSchema'));
             HookRegistry::register('submissionsubmitstep4form::display', array($this, 'addToStep4'));
             HookRegistry::register('submissionsubmitstep4form::validate', array($this, 'addValidationToStep4'));
         }
@@ -85,6 +88,38 @@ class ContentAnalysisPlugin extends GenericPlugin {
         }
         return $output;
     }
+
+    public function allowStep1FormToReadOurFields($hookName, $params) {
+        $formFields =& $params[1];
+        $ourFields = ['researchInvolvingHumansOrAnimals'];
+
+        $formFields = array_merge($formFields, $ourFields);
+    }
+
+    public function passOurFieldsValuesToSubmission($hookName, $params) {
+        $step = $params[0];
+        if($step == 1) {
+            $submission =& $params[1];
+            $stepForm =& $params[2];
+            $ourField = 'researchInvolvingHumansOrAnimals';
+
+            $submission->setData($ourField, $stepForm->getData($ourField));
+        }
+
+        return false;
+    }
+
+    public function addOurFieldsToSubmissionSchema($hookName, $params) {
+		$schema =& $params[0];
+
+        $schema->properties->{'researchInvolvingHumansOrAnimals'} = (object) [
+            'type' => 'string',
+            'apiSummary' => true,
+            'validation' => ['nullable'],
+        ];
+
+        return false;
+	}
 
     function addToStep4($hookName, $params){
         $submission = $params[0]->submission;
