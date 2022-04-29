@@ -99,11 +99,16 @@ class ContentAnalysisPlugin extends GenericPlugin {
     public function passOurFieldsValuesToSubmission($hookName, $params) {
         $step = $params[0];
         if($step == 1) {
-            $submission =& $params[1];
             $stepForm =& $params[2];
-            $ourField = 'researchInvolvingHumansOrAnimals';
-
-            $submission->setData($ourField, $stepForm->getData($ourField));
+            if ($stepForm->validate()) {
+                $submissionId = $stepForm->execute();
+                $submissionDao = DAORegistry::getDAO('SubmissionDAO');
+                $submission = $submissionDao->getById($submissionId);
+                $ourField = 'researchInvolvingHumansOrAnimals';
+                $submission->setData($ourField, $stepForm->getData($ourField));
+                $submissionDao->updateObject($submission);
+                $stepForm->submission = $submission;
+            }
         }
 
         return false;
