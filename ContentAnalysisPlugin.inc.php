@@ -23,6 +23,10 @@ class ContentAnalysisPlugin extends GenericPlugin {
         
         if ($success && $this->getEnabled($mainContextId)) {
             HookRegistry::register('Template::Workflow::Publication', array($this, 'addToWorkflow'));
+            HookRegistry::register('submissionsubmitstep1form::display', array($this, 'addToStep1'));
+            HookRegistry::register('submissionsubmitstep1form::readuservars', array($this, 'allowStep1FormToReadOurFields'));
+            HookRegistry::register('SubmissionHandler::saveSubmit', array($this, 'passOurFieldsValuesToSubmission'));
+            HookRegistry::register('Schema::get::submission', array($this, 'addOurFieldsToSubmissionSchema'));
             HookRegistry::register('submissionsubmitstep4form::display', array($this, 'addToStep4'));
             HookRegistry::register('submissionsubmitstep4form::validate', array($this, 'addValidationToStep4'));
         }
@@ -64,6 +68,63 @@ class ContentAnalysisPlugin extends GenericPlugin {
             );
         }
     }
+
+    function addToStep1($hookName, $params) {
+        $request = PKPApplication::get()->getRequest();
+        $templateMgr = TemplateManager::getManager($request);
+
+        $templateMgr->registerFilter("output", array($this, 'addCheckboxToStep1Filter'));
+        return false;
+    }
+
+    public function addCheckboxToStep1Filter($output, $templateMgr) {
+        if (preg_match('/<div[^>]+class="section formButtons/', $output, $matches, PREG_OFFSET_CAPTURE)) {
+            $match = $matches[0][0];
+            $posMatch = $matches[0][1];
+            $checkboxTemplate = $templateMgr->fetch($this->getTemplateResource('checkboxResearch.tpl'));
+
+            $output = substr_replace($output, $checkboxTemplate, $posMatch, 0);
+            $templateMgr->unregisterFilter('output', array($this, 'addCheckboxToStep1Filter'));
+        }
+        return $output;
+    }
+
+    public function allowStep1FormToReadOurFields($hookName, $params) {
+        $formFields =& $params[1];
+        $ourFields = ['researchInvolvingHumansOrAnimals'];
+
+        $formFields = array_merge($formFields, $ourFields);
+    }
+
+    public function passOurFieldsValuesToSubmission($hookName, $params) {
+        $step = $params[0];
+        if($step == 1) {
+            $stepForm =& $params[2];
+            if ($stepForm->validate()) {
+                $submissionId = $stepForm->execute();
+                $submissionDao = DAORegistry::getDAO('SubmissionDAO');
+                $submission = $submissionDao->getById($submissionId);
+                $ourField = 'researchInvolvingHumansOrAnimals';
+                $submission->setData($ourField, $stepForm->getData($ourField));
+                $submissionDao->updateObject($submission);
+                $stepForm->submission = $submission;
+            }
+        }
+
+        return false;
+    }
+
+    public function addOurFieldsToSubmissionSchema($hookName, $params) {
+		$schema =& $params[0];
+
+        $schema->properties->{'researchInvolvingHumansOrAnimals'} = (object) [
+            'type' => 'string',
+            'apiSummary' => true,
+            'validation' => ['nullable'],
+        ];
+
+        return false;
+	}
 
     function addToStep4($hookName, $params){
         $submission = $params[0]->submission;

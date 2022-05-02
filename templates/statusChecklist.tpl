@@ -40,6 +40,13 @@
             {/if}
         </div>
 
+        {if isset($ethicsCommitteeStatus)}
+            <div id="statusEthicsCommittee" class="element{$ethicsCommitteeStatus}">
+                <div class="status{$ethicsCommitteeStatus}"></div>
+                <span>{translate key="plugins.generic.contentAnalysis.status.ethicsCommittee{$ethicsCommitteeStatus}"}</span>
+            </div>
+        {/if}
+
         {if $generalStatus != "Success"}
             <span><div id="checklistAdvice">{translate key="plugins.generic.contentAnalysis.status.advice"}</div></span>
         {/if}

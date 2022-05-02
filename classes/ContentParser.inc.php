@@ -10,6 +10,13 @@
  */
 
 class ContentParser {
+    public function parseDocument($pathFile){
+        $pathTxt = substr($pathFile, 0, -3) . 'txt';
+        shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
+        
+        $text = file_get_contents($pathTxt, FILE_TEXT);
+        $words = array();
+        unlink($pathTxt);
 
     private function parseWordsFromString($string) {
         $words = array();

@@ -69,8 +69,20 @@ msgstr "Los siguientes metadatos en inglés no se detectaron en el documento: {$
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "No se detectaron título, resumen y palabras-clave en inglés en el documento"
 
+msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
+msgstr "La declaración de aprobación del Comité de Ética se encuentra en el documento"
+
+msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeError"
+msgstr ""
+"La Declaración de Aprobación del Comité de Ética no se encontró en el documento. "
+"Dado que la investigación implica a seres humanos o animales, es necesario indicar en el manuscrito que la investigación ha sido aprobada por el Comité de Ética de la institución responsable de la investigación. "
+"Asegúrese de insertar la declaración en formato de texto como parte integrante del manuscrito. Si la declaración está en formato de imagen, transcríbala en formato de texto. Las imágenes escaneadas no son detectadas por el sistema."
+
 msgid "plugins.generic.contentAnalysis.status.advice"
 msgstr "Puede corregir estos problemas mediante la revisión del envío"
 
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "No puede finalizar el envío sin corregir primero los problemas con el documento enviado"
+
+msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
+msgstr "¿La investigación que ha dado lugar al manuscrito implica a seres humanos o animales?"

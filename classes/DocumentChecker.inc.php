@@ -78,6 +78,26 @@ class DocumentChecker {
         array("summary")
     );
 
+    private $patternsEthicsCommittee = array(
+        array("número", "de", "identificação/aprovação", "do", "cep"),
+        array("aprovação", "no", "comitê", "de", "ética"),
+        array("aprovação", "do", "comitê", "de", "ética"),
+        array("aprovação", "pelo", "comitê", "de", "ética"),
+        array("aprovado", "pelo", "comitê", "de", "ética"),
+        array("apresentado", "ao", "comitê", "de", "ética"),
+        array("submetido", "ao", "comitê", "de", "ética"),
+        array("autorização", "do", "comitê", "de", "ética"),
+        array("aprovado", "por", "um", "comitê", "de", "ética"),
+        array("aprovação", "de", "um", "comitê", "de", "ética"),
+        array("aprovação", "prévia", "de", "um", "comitê", "de", "ética"),
+        array("aprovação", "do", "conselho", "de", "ética"),
+        array("parecer", "comitê", "de", "ética"),
+        array("comissão", "nacional", "de", "ética", "em", "pesquisa"),
+        array("pelo", "comitê", "de", "ética"),
+        array("ethics", "committee", "approval"),
+        array("from", "the", "ethics", "committee")
+    );
+
     function __construct($path){
         $this->pathFile = $path;
         $parser = new ContentParser();
@@ -179,5 +199,9 @@ class DocumentChecker {
             $status['statusMetadataEnglish'] = 'Success';
 
         return $status;
+    }
+
+    function checkEthicsCommittee(){
+        return $this->checkForPattern($this->patternsEthicsCommittee, 6, 75, 1);
     }
 }
