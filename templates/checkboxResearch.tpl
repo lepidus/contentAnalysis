@@ -9,7 +9,7 @@
     {rdelim}
 
 
-    var sectionSelectingDiv = document.getElementById('sectionId').parentNode.parentNode;
-    var checkboxResearchDiv = document.getElementById('checkboxResearchDiv');
+    const sectionSelectingDiv = document.getElementById('sectionId').parentNode.parentNode;
+    const checkboxResearchDiv = document.getElementById('checkboxResearchDiv');
     insertAfter(checkboxResearchDiv, sectionSelectingDiv);
 </script>
