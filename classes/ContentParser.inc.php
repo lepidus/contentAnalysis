@@ -17,6 +17,7 @@ class ContentParser {
         $text = file_get_contents($pathTxt, FILE_TEXT);
         $words = array();
         unlink($pathTxt);
+    }
 
     private function parseWordsFromString($string) {
         $words = array();
