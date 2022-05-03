@@ -14,6 +14,12 @@ class DocumentChecker {
     private $pathFile;
     public $words;
 
+    function __construct($path){
+        $this->pathFile = $path;
+        $parser = new ContentParser();
+        $this->words = $parser->parseDocument($path);
+    }
+    
     private $patternsContribution = array(
         array("contribuição", "dos", "autores"),
         array("contribuição", "das", "autoras"),
@@ -97,12 +103,6 @@ class DocumentChecker {
         array("ethics", "committee", "approval"),
         array("from", "the", "ethics", "committee")
     );
-
-    function __construct($path){
-        $this->pathFile = $path;
-        $parser = new ContentParser();
-        $this->words = $parser->parseDocument($path);
-    }
 
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern){
         for($i = 0; $i < count($this->words)-$limit; $i++){
