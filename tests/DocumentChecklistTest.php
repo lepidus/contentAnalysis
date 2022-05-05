@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 require_once ("DetectionOnDocumentTest.php");
-import ('plugins.generic.contentAnalysis.classes.DocumentChecklist');
+import('plugins.generic.contentAnalysis.classes.DocumentChecklist');
 import('classes.submission.Submission');
 import('classes.publication.Publication');
 import('classes.article.Author');
@@ -97,5 +97,21 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
 
         $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
         $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
+    }
+
+    public function testChecklistForNonArticles(): void {
+        $this->submission->setData('nonArticle', true);
+        $this->submission->setData('researchInvolvingHumansOrAnimals', true);
+        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+
+        $this->assertTrue(array_key_exists('orcidStatus', $statusChecklist));
+        
+        $this->assertEquals('Error', $statusChecklist['metadataEnglishStatus']);
+        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
+        $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
+        
+        $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
+        $this->assertFalse(array_key_exists('conflictInterestStatus', $statusChecklist));
+        $this->assertFalse(array_key_exists('contributionStatus', $statusChecklist));
     }
 }
