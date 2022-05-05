@@ -19,16 +19,23 @@ class DocumentChecklist {
 
     public function executeChecklist($submission){
         $dataChecklist = array();
-
         $numAuthors = count($submission->getAuthors());
-        if($numAuthors > 1) {
-            $dataChecklist['contributionStatus'] = $this->docChecker->checkAuthorsContribution();
-        }
-        else {
-            $dataChecklist['contributionStatus'] = "Skipped";
-        }
+        $submissionIsNonArticle = $submission->getData('nonArticle');
 
-        $dataChecklist['conflictInterestStatus'] = $this->docChecker->checkConflictInterest();
+        if(!$submissionIsNonArticle) {
+            if($numAuthors > 1) {
+                $dataChecklist['contributionStatus'] = $this->docChecker->checkAuthorsContribution();
+            }
+            else {
+                $dataChecklist['contributionStatus'] = "Skipped";
+            }
+
+            $dataChecklist['conflictInterestStatus'] = $this->docChecker->checkConflictInterest();
+
+            if($submission->getData('researchInvolvingHumansOrAnimals')) {
+                $dataChecklist['ethicsCommitteeStatus'] = $this->docChecker->checkEthicsCommittee();
+            }
+        }
 
         $orcidsDetected = $this->docChecker->checkAuthorsORCID();
         if($orcidsDetected >= $numAuthors)
@@ -42,24 +49,11 @@ class DocumentChecklist {
             $dataChecklist['orcidStatus'] = 'Error';
         
         $titleEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
-        $metaMetadata = $this->docChecker->checkMetadataInEnglish($titleEnglish);
+        $metaMetadata = $this->docChecker->checkMetadataInEnglish($titleEnglish, $submissionIsNonArticle);
         if($metaMetadata['statusMetadataEnglish'] == 'Warning') {
-            $metadataList = array('title', 'abstract', 'keywords');
-            $textMetadata = "";
-            foreach ($metadataList as $metadata) {
-                if($metaMetadata[$metadata] == "Error") {
-                    if($textMetadata != "")
-                        $textMetadata .= ", ";
-                    $textMetadata .= __("common." . $metadata);
-                }
-            }
-            $dataChecklist['textMetadata'] = $textMetadata;
+            $dataChecklist['textMetadata'] = $this->getMissingMetadataText($metaMetadata);
         }
         $dataChecklist['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
-
-        if($submission->getData('researchInvolvingHumansOrAnimals')) {
-            $dataChecklist['ethicsCommitteeStatus'] = $this->docChecker->checkEthicsCommittee();
-        }
 
         if(in_array('Error', $dataChecklist))
             $dataChecklist['generalStatus'] = 'Error';
@@ -70,4 +64,19 @@ class DocumentChecklist {
 
         return $dataChecklist;
     }
+
+    private function getMissingMetadataText($metaMetadata) {
+        $metadataList = array('title', 'abstract', 'keywords');
+        $textMetadata = "";
+        foreach ($metadataList as $metadata) {
+            if($metaMetadata[$metadata] == "Error") {
+                if($textMetadata != "")
+                    $textMetadata .= ", ";
+                $textMetadata .= __("common." . $metadata);
+            }
+        }
+        
+        return $textMetadata;
+    }
+
 }

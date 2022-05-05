@@ -184,19 +184,24 @@ class DocumentChecker {
         return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
     }
 
-    function checkMetadataInEnglish($title){
+    function checkMetadataInEnglish($title, $submissionIsNonArticle = false){
         $status = array();
         
-        $status['keywords'] = $this->checkKeywordsEnglish();
-        $status['abstract'] = $this->checkAbstractEnglish();
         $status['title'] = $this->checkTitleEnglish($title);
-
-        if(!in_array('Success', $status))
-            $status['statusMetadataEnglish'] = 'Error';
-        else if(in_array('Error', $status))
-            $status['statusMetadataEnglish'] = 'Warning';
-        else
-            $status['statusMetadataEnglish'] = 'Success';
+        if($submissionIsNonArticle) {
+            $status['statusMetadataEnglish'] = $status['title'];
+        }
+        else {
+            $status['keywords'] = $this->checkKeywordsEnglish();
+            $status['abstract'] = $this->checkAbstractEnglish();
+            
+            if(!in_array('Success', $status))
+                $status['statusMetadataEnglish'] = 'Error';
+            else if(in_array('Error', $status))
+                $status['statusMetadataEnglish'] = 'Warning';
+            else
+                $status['statusMetadataEnglish'] = 'Success';
+        }
 
         return $status;
     }
