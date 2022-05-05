@@ -19,41 +19,14 @@ class DocumentChecklist {
 
     public function executeChecklist($submission){
         $dataChecklist = array();
-        $numAuthors = count($submission->getAuthors());
         $submissionIsNonArticle = $submission->getData('nonArticle');
 
         if(!$submissionIsNonArticle) {
-            if($numAuthors > 1) {
-                $dataChecklist['contributionStatus'] = $this->docChecker->checkAuthorsContribution();
-            }
-            else {
-                $dataChecklist['contributionStatus'] = "Skipped";
-            }
-
-            $dataChecklist['conflictInterestStatus'] = $this->docChecker->checkConflictInterest();
-
-            if($submission->getData('researchInvolvingHumansOrAnimals')) {
-                $dataChecklist['ethicsCommitteeStatus'] = $this->docChecker->checkEthicsCommittee();
-            }
+            $dataChecklist = array_merge($dataChecklist, $this->getStatusOfArticleChecks($submission));  
         }
-
-        $orcidsDetected = $this->docChecker->checkAuthorsORCID();
-        if($orcidsDetected >= $numAuthors)
-            $dataChecklist['orcidStatus'] = 'Success';
-        else if($orcidsDetected > 0 && $orcidsDetected < $numAuthors) {
-            $dataChecklist['orcidStatus'] = 'Warning';
-            $dataChecklist['numOrcids'] = $orcidsDetected;
-            $dataChecklist['numAuthors'] = $numAuthors;
-        }
-        else
-            $dataChecklist['orcidStatus'] = 'Error';
         
-        $titleEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
-        $metaMetadata = $this->docChecker->checkMetadataInEnglish($titleEnglish, $submissionIsNonArticle);
-        if($metaMetadata['statusMetadataEnglish'] == 'Warning') {
-            $dataChecklist['textMetadata'] = $this->getMissingMetadataText($metaMetadata);
-        }
-        $dataChecklist['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
+        $dataChecklist = array_merge($dataChecklist, $this->getStatusORCIDs($submission));    
+        $dataChecklist = array_merge($dataChecklist, $this->getMetadataEnglishStatus($submission, $submissionIsNonArticle));
 
         if(in_array('Error', $dataChecklist))
             $dataChecklist['generalStatus'] = 'Error';
@@ -63,6 +36,54 @@ class DocumentChecklist {
             $dataChecklist['generalStatus'] = 'Success';
 
         return $dataChecklist;
+    }
+
+    private function getStatusOfArticleChecks($submission) {
+        $numAuthors = count($submission->getAuthors());
+        $returnData = [];
+        
+        if($numAuthors > 1) {
+            $returnData['contributionStatus'] = $this->docChecker->checkAuthorsContribution();
+        }
+        else {
+            $returnData['contributionStatus'] = "Skipped";
+        }
+
+        $returnData['conflictInterestStatus'] = $this->docChecker->checkConflictInterest();
+
+        if($submission->getData('researchInvolvingHumansOrAnimals')) {
+            $returnData['ethicsCommitteeStatus'] = $this->docChecker->checkEthicsCommittee();
+        }
+
+        return $returnData;
+    }
+
+    private function getStatusORCIDs($submission) {
+        $numAuthors = count($submission->getAuthors());
+        $orcidsDetected = $this->docChecker->checkAuthorsORCID();
+        if($orcidsDetected >= $numAuthors)
+            return ['orcidStatus' => 'Success'];
+        else if($orcidsDetected > 0 && $orcidsDetected < $numAuthors) {
+            return [
+                'orcidStatus' => 'Warning',
+                'numOrcids' => $orcidsDetected,
+                'numAuthors' => $numAuthors
+            ];
+        }
+        else return ['orcidStatus' => 'Error'];
+    }
+
+    private function getMetadataEnglishStatus($submission, $submissionIsNonArticle) {
+        $titleEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
+        $metaMetadata = $this->docChecker->checkMetadataInEnglish($titleEnglish, $submissionIsNonArticle);
+        $returnData = [];
+
+        if($metaMetadata['statusMetadataEnglish'] == 'Warning') {
+            $returnData['textMetadata'] = $this->getMissingMetadataText($metaMetadata);
+        }
+        $returnData['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
+
+        return $returnData;
     }
 
     private function getMissingMetadataText($metaMetadata) {
