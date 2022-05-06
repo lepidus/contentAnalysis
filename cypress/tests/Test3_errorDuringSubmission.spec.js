@@ -8,7 +8,7 @@ function loginAdminUser() {
 
 function submissionStep1() {
     cy.get('#sectionId').select('1');
-    cy.get('#checkboxResearchInvolvingHumansOrAnimals').check()
+    cy.get('#checkboxResearchInvolvingHumansOrAnimalsYes').check()
     cy.get('#pkp_submissionChecklist > ul > li > label > input').check();
     cy.get('#privacyConsent').check();
     cy.get('.checkbox_and_radiobutton > li > label:visible').contains('Author').within(() => {
@@ -36,9 +36,9 @@ function submissionStep2() {
 function addContributor() {
     cy.get('a[id^="component-grid-users-author-authorgrid-addAuthor-button-"]').click();
     cy.wait(250);
-    cy.get('input[id^="givenName-en_US-"]').type("John", {delay: 0});
-    cy.get('input[id^="familyName-en_US-"]').type("Smith", {delay: 0});
-    cy.get('select[id=country]').select("Reino Unido");
+    cy.get('input[id^="givenName"]').type("John", {delay: 0});
+    cy.get('input[id^="familyName"]').type("Smith", {delay: 0});
+    cy.get('select[id=country]').select("Brazil");
     cy.get('input[id^="email"]').type("john.smith@lepidus.com.br", {delay: 0});
     cy.get('label').contains("Author").click();
     cy.get('#editAuthor > .formButtons > .submitFormButton').click();
@@ -47,11 +47,11 @@ function addContributor() {
 function submissionStep3() {
     cy.get('input[name^="title"]').first().type("Submissions title", { delay: 0 });
     cy.get('label').contains('Title').click();
-    cy.get('textarea[id^="abstract-en_US"]').then(node => {
+    cy.get('textarea[id^="abstract"]').then(node => {
         cy.setTinyMceContent(node.attr('id'), "Example of abstract");
     });
     addContributor();
-    cy.get('ul[id^="en_US-keywords-"]').then(node => {
+    cy.get('ul[id^="keywords"]').then(node => {
         node.tagit('createTag', "Dummy keyword");
     });
     cy.get('#submitStep3Form > .formButtons > .submitFormButton').click();
@@ -80,7 +80,7 @@ function checkErrorMesssagesInStep4() {
 
     cy.get('#statusEthicsCommittee > .statusError').should('be.visible');
     cy.get('#statusEthicsCommittee > span').should(ethicsCommitteeSpan => {
-        expect(ethicsCommitteeSpan).to.contain("The Ethics Committee Approval Statement was not found in the document! Since the research involves human beings or animals, it is necessary to state in the manuscript that the research has been approved by the Ethics Committee of the institution responsible for the research. Make sure to insert the statement in text format as an integral part of the manuscript. If the statement is in image format, please transcribe it in text format. Scanned images are not detected by the system.");
+        expect(ethicsCommitteeSpan).to.contain("The Ethics Committee Approval Statement was not found in the document. Since the research involves human beings or animals, it is necessary to state in the manuscript that the research has been approved by the Ethics Committee of the institution responsible for the research. Make sure to insert the statement in text format as an integral part of the manuscript. If the statement is in image format, please transcribe it in text format. Scanned images are not detected by the system.");
     });
 }
 
