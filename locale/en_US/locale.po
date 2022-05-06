@@ -86,3 +86,6 @@ msgstr "You can't finish the submission without fixing the errors of the submitt
 
 msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
 msgstr "Does the research that originated the manuscript involve human beings or animals?"
+
+msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgstr "This submission is an Editorial, Review or a document other than a scientific article"

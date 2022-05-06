@@ -73,18 +73,20 @@ class ContentAnalysisPlugin extends GenericPlugin {
         $request = PKPApplication::get()->getRequest();
         $templateMgr = TemplateManager::getManager($request);
 
-        $templateMgr->registerFilter("output", array($this, 'addCheckboxToStep1Filter'));
+        $templateMgr->registerFilter("output", array($this, 'addCheckboxesToStep1Filter'));
         return false;
     }
 
-    public function addCheckboxToStep1Filter($output, $templateMgr) {
+    public function addCheckboxesToStep1Filter($output, $templateMgr) {
         if (preg_match('/<div[^>]+class="section formButtons/', $output, $matches, PREG_OFFSET_CAPTURE)) {
             $match = $matches[0][0];
             $posMatch = $matches[0][1];
-            $checkboxTemplate = $templateMgr->fetch($this->getTemplateResource('checkboxResearch.tpl'));
+            
+            $templateMgr->assign('submitterHasJournalRole', $this->submitterHasJournalRole());
+            $checkboxesOutput = $templateMgr->fetch($this->getTemplateResource('checkboxes.tpl'));
 
-            $output = substr_replace($output, $checkboxTemplate, $posMatch, 0);
-            $templateMgr->unregisterFilter('output', array($this, 'addCheckboxToStep1Filter'));
+            $output = substr_replace($output, $checkboxesOutput, $posMatch, 0);
+            $templateMgr->unregisterFilter('output', array($this, 'addCheckboxesToStep1Filter'));
         }
         return $output;
     }

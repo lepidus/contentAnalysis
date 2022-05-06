@@ -86,3 +86,6 @@ msgstr "No puede finalizar el envío sin corregir primero los problemas con el d
 
 msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
 msgstr "¿La investigación que ha dado lugar al manuscrito implica a seres humanos o animales?"
+
+msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgstr "Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico"

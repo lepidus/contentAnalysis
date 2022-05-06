@@ -86,3 +86,6 @@ msgstr "Você não pode finalizar a submissão sem primeiro corrigir os problema
 
 msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
 msgstr "A pesquisa que deu origem ao manuscrito envolve seres humanos ou animais?"
+
+msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico"
