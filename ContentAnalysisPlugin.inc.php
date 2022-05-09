@@ -200,4 +200,20 @@ class ContentAnalysisPlugin extends GenericPlugin {
 
         return $currentUserAssignedRoles[0] == ROLE_ID_AUTHOR;
     }
+
+    private function submitterHasJournalRole() {
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+        $currentUser = $request->getUser();
+        $userGroupDao = DAORegistry::getDAO('UserGroupDAO');
+
+        $userGroups = $userGroupDao->getByUserId($currentUser->getId(), $context->getId());
+        while($userGroup = $userGroups->next()) {
+            $journalGroupAbbrev = "SciELO";
+            if($userGroup->getLocalizedData('abbrev', 'pt_BR') == $journalGroupAbbrev)
+                return true;
+        }
+
+        return false;
+    }
 }
