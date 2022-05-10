@@ -11,11 +11,12 @@
             <h3 id="statusGeneral">{translate key="plugins.generic.contentAnalysis.status.message{$generalStatus}"}</h3>
         </div>
         
-        <div id="statusContribution" class="element{$contributionStatus}">
-            <div class="status{$contributionStatus}"></div>
-            <span>{translate key="plugins.generic.contentAnalysis.status.authorsContribution{$contributionStatus}"}</span>
-        </div>
-
+        {if isset($contributionStatus)}
+            <div id="statusContribution" class="element{$contributionStatus}">
+                <div class="status{$contributionStatus}"></div>
+                <span>{translate key="plugins.generic.contentAnalysis.status.authorsContribution{$contributionStatus}"}</span>
+            </div>
+        {/if}
         
         <div id="statusORCID" class="element{$orcidStatus}">
             <div class="status{$orcidStatus}"></div>
@@ -26,17 +27,23 @@
             {/if}
         </div>
 
-        <div id="statusConflictInterest" class="element{$conflictInterestStatus}">
-            <div class="status{$conflictInterestStatus}"></div>
-            <span>{translate key="plugins.generic.contentAnalysis.status.conflictInterest{$conflictInterestStatus}"}</span>
-        </div>
+        {if isset($conflictInterestStatus)}
+            <div id="statusConflictInterest" class="element{$conflictInterestStatus}">
+                <div class="status{$conflictInterestStatus}"></div>
+                <span>{translate key="plugins.generic.contentAnalysis.status.conflictInterest{$conflictInterestStatus}"}</span>
+            </div>
+        {/if}
 
         <div id="statusMetadataEnglish" class="element{$metadataEnglishStatus}">
             <div class="status{$metadataEnglishStatus}"></div>
-            {if $metadataEnglishStatus == "Warning"}
-                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}" textMetadata=$textMetadata}</span>
+            {if $submissionIsNonArticle}
+                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}NonArticle"}</span>
             {else}
-                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}"}</span>
+                {if $metadataEnglishStatus == "Warning"}
+                    <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}" textMetadata=$textMetadata}</span>
+                {else}
+                    <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}"}</span>
+                {/if}
             {/if}
         </div>
 

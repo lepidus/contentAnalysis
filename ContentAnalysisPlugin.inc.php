@@ -73,25 +73,27 @@ class ContentAnalysisPlugin extends GenericPlugin {
         $request = PKPApplication::get()->getRequest();
         $templateMgr = TemplateManager::getManager($request);
 
-        $templateMgr->registerFilter("output", array($this, 'addCheckboxToStep1Filter'));
+        $templateMgr->registerFilter("output", array($this, 'addCheckboxesToStep1Filter'));
         return false;
     }
 
-    public function addCheckboxToStep1Filter($output, $templateMgr) {
+    public function addCheckboxesToStep1Filter($output, $templateMgr) {
         if (preg_match('/<div[^>]+class="section formButtons/', $output, $matches, PREG_OFFSET_CAPTURE)) {
             $match = $matches[0][0];
             $posMatch = $matches[0][1];
-            $checkboxTemplate = $templateMgr->fetch($this->getTemplateResource('checkboxResearch.tpl'));
+            
+            $templateMgr->assign('submitterHasJournalRole', $this->submitterHasJournalRole());
+            $checkboxesOutput = $templateMgr->fetch($this->getTemplateResource('checkboxes.tpl'));
 
-            $output = substr_replace($output, $checkboxTemplate, $posMatch, 0);
-            $templateMgr->unregisterFilter('output', array($this, 'addCheckboxToStep1Filter'));
+            $output = substr_replace($output, $checkboxesOutput, $posMatch, 0);
+            $templateMgr->unregisterFilter('output', array($this, 'addCheckboxesToStep1Filter'));
         }
         return $output;
     }
 
     public function allowStep1FormToReadOurFields($hookName, $params) {
         $formFields =& $params[1];
-        $ourFields = ['researchInvolvingHumansOrAnimals'];
+        $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
 
         $formFields = array_merge($formFields, $ourFields);
     }
@@ -104,8 +106,12 @@ class ContentAnalysisPlugin extends GenericPlugin {
                 $submissionId = $stepForm->execute();
                 $submissionDao = DAORegistry::getDAO('SubmissionDAO');
                 $submission = $submissionDao->getById($submissionId);
-                $ourField = 'researchInvolvingHumansOrAnimals';
-                $submission->setData($ourField, $stepForm->getData($ourField));
+                
+                $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
+                foreach($ourFields as $ourField){
+                    $submission->setData($ourField, $stepForm->getData($ourField));
+                }
+
                 $submissionDao->updateObject($submission);
                 $stepForm->submission = $submission;
             }
@@ -118,6 +124,11 @@ class ContentAnalysisPlugin extends GenericPlugin {
 		$schema =& $params[0];
 
         $schema->properties->{'researchInvolvingHumansOrAnimals'} = (object) [
+            'type' => 'string',
+            'apiSummary' => true,
+            'validation' => ['nullable'],
+        ];
+        $schema->properties->{'nonArticle'} = (object) [
             'type' => 'string',
             'apiSummary' => true,
             'validation' => ['nullable'],
@@ -197,5 +208,21 @@ class ContentAnalysisPlugin extends GenericPlugin {
         }
 
         return $currentUserAssignedRoles[0] == ROLE_ID_AUTHOR;
+    }
+
+    private function submitterHasJournalRole() {
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+        $currentUser = $request->getUser();
+        $userGroupDao = DAORegistry::getDAO('UserGroupDAO');
+
+        $userGroups = $userGroupDao->getByUserId($currentUser->getId(), $context->getId());
+        while($userGroup = $userGroups->next()) {
+            $journalGroupAbbrev = "SciELO";
+            if($userGroup->getLocalizedData('abbrev', 'pt_BR') == $journalGroupAbbrev)
+                return true;
+        }
+
+        return false;
     }
 }

@@ -69,6 +69,12 @@ msgstr "The following metadata in english were not found in the document: {$text
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "Title, abstract and keywords in english were not found in the document"
 
+msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccessNonArticle"
+msgstr "The english title was detected in the document"
+
+msgid "plugins.generic.contentAnalysis.status.metadataEnglishErrorNonArticle"
+msgstr "The english title was not detected in the document"
+
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "The Ethics Committee Approval Statement was found in the document"
 
@@ -95,3 +101,6 @@ msgstr "Yes"
 
 msgid "plugins.generic.contentAnalysis.checkboxInputLabelNo"
 msgstr "No"
+
+msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgstr "This submission is an Editorial, Review or a document other than a scientific article"

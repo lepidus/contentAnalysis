@@ -69,6 +69,12 @@ msgstr "Los siguientes metadatos en inglés no se detectaron en el documento: {$
 msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
 msgstr "No se detectaron título, resumen y palabras-clave en inglés en el documento"
 
+msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccessNonArticle"
+msgstr "El título en inglés fue detectado en el documento"
+
+msgid "plugins.generic.contentAnalysis.status.metadataEnglishErrorNonArticle"
+msgstr "El título en inglés no fue detectado en el documento"
+
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "La declaración de aprobación del Comité de Ética se encuentra en el documento"
 
@@ -95,3 +101,6 @@ msgstr "Sí"
 
 msgid "plugins.generic.contentAnalysis.checkboxInputLabelNo"
 msgstr "No"
+
+msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgstr "Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico"
