@@ -27,6 +27,7 @@ class DocumentChecklist {
         
         $dataChecklist = array_merge($dataChecklist, $this->getStatusORCIDs($submission));    
         $dataChecklist = array_merge($dataChecklist, $this->getMetadataEnglishStatus($submission, $submissionIsNonArticle));
+        $dataChecklist['submissionIsNonArticle'] = $submissionIsNonArticle;
 
         if(in_array('Error', $dataChecklist))
             $dataChecklist['generalStatus'] = 'Error';

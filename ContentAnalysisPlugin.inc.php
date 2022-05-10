@@ -93,7 +93,7 @@ class ContentAnalysisPlugin extends GenericPlugin {
 
     public function allowStep1FormToReadOurFields($hookName, $params) {
         $formFields =& $params[1];
-        $ourFields = ['researchInvolvingHumansOrAnimals'];
+        $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
 
         $formFields = array_merge($formFields, $ourFields);
     }
@@ -106,8 +106,12 @@ class ContentAnalysisPlugin extends GenericPlugin {
                 $submissionId = $stepForm->execute();
                 $submissionDao = DAORegistry::getDAO('SubmissionDAO');
                 $submission = $submissionDao->getById($submissionId);
-                $ourField = 'researchInvolvingHumansOrAnimals';
-                $submission->setData($ourField, $stepForm->getData($ourField));
+                
+                $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
+                foreach($ourFields as $ourField){
+                    $submission->setData($ourField, $stepForm->getData($ourField));
+                }
+
                 $submissionDao->updateObject($submission);
                 $stepForm->submission = $submission;
             }
@@ -120,6 +124,11 @@ class ContentAnalysisPlugin extends GenericPlugin {
 		$schema =& $params[0];
 
         $schema->properties->{'researchInvolvingHumansOrAnimals'} = (object) [
+            'type' => 'string',
+            'apiSummary' => true,
+            'validation' => ['nullable'],
+        ];
+        $schema->properties->{'nonArticle'} = (object) [
             'type' => 'string',
             'apiSummary' => true,
             'validation' => ['nullable'],
