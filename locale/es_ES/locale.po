@@ -96,11 +96,5 @@ msgstr "Consejo de Ética"
 msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
 msgstr "¿La investigación que ha dado lugar al manuscrito implica a seres humanos o animales?"
 
-msgid "plugins.generic.contentAnalysis.checkboxInputLabelYes"
-msgstr "Sí"
-
-msgid "plugins.generic.contentAnalysis.checkboxInputLabelNo"
-msgstr "No"
-
 msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
 msgstr "Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico"

@@ -1,7 +1,7 @@
 {fbvFormSection id="checkboxResearchDiv" title="plugins.generic.contentAnalysis.checkboxTitle" list=true required=true}
     {translate key="plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"}
-	{fbvElement type="radio" name="researchInvolvingHumansOrAnimals" id="checkboxResearchInvolvingHumansOrAnimalsYes" value="1" label="plugins.generic.contentAnalysis.checkboxInputLabelYes" required=true}
-	{fbvElement type="radio" name="researchInvolvingHumansOrAnimals" id="checkboxResearchInvolvingHumansOrAnimalsNo" value="0" label="plugins.generic.contentAnalysis.checkboxInputLabelNo" required=true}
+	{fbvElement type="radio" name="researchInvolvingHumansOrAnimals" id="checkboxResearchInvolvingHumansOrAnimalsYes" value="1" label="common.yes" required=true}
+	{fbvElement type="radio" name="researchInvolvingHumansOrAnimals" id="checkboxResearchInvolvingHumansOrAnimalsNo" value="0" label="common.no" required=true}
 {/fbvFormSection}
 
 {if $submitterHasJournalRole}
