@@ -48,9 +48,8 @@ function addContributor() {
 function submissionStep3() {
     cy.get('input[name^="title"]').first().type("Submissions title", { delay: 0 });
     cy.get('label').contains('Title').click();
-    cy.get('textarea[id^="abstract-en_US"]').then(node => {
-        cy.setTinyMceContent(node.attr('id'), "Example of abstract");
-    });
+    cy.get('textarea[id^="abstract-en_US"]').type("Example of abstract");
+    cy.get('.section > label:visible').first().click();
     addContributor();
     cy.get('ul[id^="en_US-keywords-"]').then(node => {
         node.tagit('createTag', "Dummy keyword");
@@ -63,7 +62,7 @@ function checkChecksPerformedForNonArticles() {
 
     cy.get('#statusMetadataEnglish > .statusError').should('be.visible');
     cy.get('#statusMetadataEnglish > span').should(metadataSpan => {
-        expect(metadataSpan).to.contain("The title in english was not found in the document");
+        expect(metadataSpan).to.contain("The english title was not detected in the document");
     });
 
     cy.get('#statusConflictInterest').should('not.exist');
