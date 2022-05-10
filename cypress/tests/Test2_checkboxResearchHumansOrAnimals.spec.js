@@ -16,7 +16,7 @@ describe('Content Analysis Plugin - Checkbox in submission step 1', function() {
     });
 
     it("Make sure the checkbox for research involving humans or animals on submission step 1 is not checked", function() {
-        cy.visit(Cypress.env('baseUrl') + 'index.php/ops/submissions');
+        cy.visit(Cypress.env('baseUrl') + 'index.php/scielo/submissions');
         loginAdminUser();
 
         cy.get('.pkpHeader__actions:visible > a.pkpButton').click();

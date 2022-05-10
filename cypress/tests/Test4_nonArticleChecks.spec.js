@@ -8,8 +8,8 @@ function loginAdminUser() {
 
 function submissionStep1() {
     cy.get('#sectionId').select('1');
-    cy.get('#checkboxResearchInvolvingHumansOrAnimals').check()
-    cy.get('#checkboxNonArticleSubmission').check()
+    cy.get('#checkboxResearchInvolvingHumansOrAnimalsYes').check();
+    cy.get('#checkboxNonArticleSubmission').check();
     cy.get('#pkp_submissionChecklist > ul > li > label > input').check();
     cy.get('#privacyConsent').check();
     cy.get('.checkbox_and_radiobutton > li > label:visible').contains('Author').within(() => {

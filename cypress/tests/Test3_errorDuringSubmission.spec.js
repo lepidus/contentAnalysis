@@ -8,7 +8,7 @@ function loginAdminUser() {
 
 function submissionStep1() {
     cy.get('#sectionId').select('1');
-    cy.get('#checkboxResearchInvolvingHumansOrAnimalsYes').check()
+    cy.get('#checkboxResearchInvolvingHumansOrAnimalsYes').check();
     cy.get('#pkp_submissionChecklist > ul > li > label > input').check();
     cy.get('#privacyConsent').check();
     cy.get('.checkbox_and_radiobutton > li > label:visible').contains('Author').within(() => {
@@ -36,9 +36,9 @@ function submissionStep2() {
 function addContributor() {
     cy.get('a[id^="component-grid-users-author-authorgrid-addAuthor-button-"]').click();
     cy.wait(250);
-    cy.get('input[id^="givenName"]').type("John", {delay: 0});
-    cy.get('input[id^="familyName"]').type("Smith", {delay: 0});
-    cy.get('select[id=country]').select("Brazil");
+    cy.get('input[id^="givenName-en_US-"]').type("John", {delay: 0});
+    cy.get('input[id^="familyName-en_US-"]').type("Smith", {delay: 0});
+    cy.get('select[id=country]').select("Brasil");
     cy.get('input[id^="email"]').type("john.smith@lepidus.com.br", {delay: 0});
     cy.get('label').contains("Author").click();
     cy.get('#editAuthor > .formButtons > .submitFormButton').click();
@@ -47,11 +47,10 @@ function addContributor() {
 function submissionStep3() {
     cy.get('input[name^="title"]').first().type("Submissions title", { delay: 0 });
     cy.get('label').contains('Title').click();
-    cy.get('textarea[id^="abstract"]').then(node => {
-        cy.setTinyMceContent(node.attr('id'), "Example of abstract");
-    });
+    cy.get('textarea[id^="abstract-en_US"]').type("Example of abstract");
+    cy.get('.section > label:visible').first().click();
     addContributor();
-    cy.get('ul[id^="keywords"]').then(node => {
+    cy.get('ul[id^="en_US-keywords-"]').then(node => {
         node.tagit('createTag', "Dummy keyword");
     });
     cy.get('#submitStep3Form > .formButtons > .submitFormButton').click();
