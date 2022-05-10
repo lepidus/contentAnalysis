@@ -90,6 +90,15 @@ msgstr "Você pode corrigir esse problemas na revisão da submissão"
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "Você não pode finalizar a submissão sem primeiro corrigir os problemas com o documento submetido"
 
+msgid "plugins.generic.contentAnalysis.checkboxTitle"
+msgstr "Conselho de Ética"
+
+msgid "plugins.generic.contentAnalysis.checkboxInputLabelYes"
+msgstr "Sim"
+
+msgid "plugins.generic.contentAnalysis.checkboxInputLabelNo"
+msgstr "Não"
+
 msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
 msgstr "A pesquisa que deu origem ao manuscrito envolve seres humanos ou animais?"
 
