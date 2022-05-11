@@ -99,6 +99,15 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
     }
 
+    public function testChecksEthicOnlyWhenResearchInvolvesHumansOrAnimals(): void {
+        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
+
+        $this->submission->setData('researchInvolvingHumansOrAnimals', true);
+        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
+        $this->assertTrue(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
+    }
+
     public function testChecklistForNonArticles(): void {
         $this->submission->setData('nonArticle', true);
         $this->submission->setData('researchInvolvingHumansOrAnimals', true);
