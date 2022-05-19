@@ -100,6 +100,7 @@ class DocumentChecker {
         array("parecer", "comitê", "de", "ética"),
         array("comissão", "nacional", "de", "ética", "em", "pesquisa"),
         array("pelo", "comitê", "de", "ética"),
+        array("câmara", "de", "ética"),
         array("ethics", "committee", "approval"),
         array("from", "the", "ethics", "committee")
     );
