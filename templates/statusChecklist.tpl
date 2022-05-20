@@ -2,6 +2,7 @@
 
 <div id="statusChecklist">
     <div id="checklistHeader">
+        <h2>{translate key="plugins.generic.contentAnalysis.displayName"}</h2>
         {if $placedOn == 'workflow'}
             <h2>{translate key="plugins.generic.contentAnalysis.status.title"}</h2>
         {/if}
@@ -10,7 +11,7 @@
         <div id="titleMessage">
             <h3 id="statusGeneral">{translate key="plugins.generic.contentAnalysis.status.message{$generalStatus}"}</h3>
         </div>
-        
+    
         {if isset($contributionStatus)}
             <div id="statusContribution" class="element{$contributionStatus}">
                 <div class="status{$contributionStatus}"></div>
