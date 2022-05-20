@@ -3,7 +3,9 @@
     margin-bottom: 18px;
 }
 #statusChecklist{
-    margin-bottom: 20px;
+    border: 1px solid #c2c0c0;
+    padding: 20px;
+    margin-bottom: 25px;
 }
 
 #titleMessage {

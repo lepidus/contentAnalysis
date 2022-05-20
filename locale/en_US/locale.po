@@ -14,6 +14,9 @@ msgstr ""
 msgid "plugins.generic.contentAnalysis.displayName"
 msgstr "Content Analysis"    
 
+msgid "plugins.generic.contentAnalysis.checklistTitle"
+msgstr "Analysis of galley document"
+
 msgid "plugins.generic.contentAnalysis.description"
 msgstr "This plugin checks the content of the submitted document according to the submission's metadata"
 

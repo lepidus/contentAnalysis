@@ -2,7 +2,7 @@
 
 <div id="statusChecklist">
     <div id="checklistHeader">
-        <h2>{translate key="plugins.generic.contentAnalysis.displayName"}</h2>
+        <h2>{translate key="plugins.generic.contentAnalysis.checklistTitle"}</h2>
         {if $placedOn == 'workflow'}
             <h2>{translate key="plugins.generic.contentAnalysis.status.title"}</h2>
         {/if}
