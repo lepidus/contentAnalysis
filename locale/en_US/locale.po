@@ -37,7 +37,7 @@ msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "The author's contribution statement was identified in the document"
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
-msgstr "The author's contribution statement was not identified in the document. Make sure that a section called \"Authors contribution\" has been inserted in the document, following preferably the <a href=\"https://casrai.org/credit/\">CRediT</a> taxonomy to list the individual contributions."
+msgstr "The author's contribution statement was not identified in the document. Make sure that a section called \"Authors contribution\" has been inserted in the document, following preferably the <a href=\"https://credit.niso.org/\">CRediT</a> taxonomy to list the individual contributions."
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionSkipped"
 msgstr "The author's contribution statement is not necessary in single authorship cases"

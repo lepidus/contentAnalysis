@@ -37,7 +37,7 @@ msgid "plugins.generic.contentAnalysis.status.authorsContributionSuccess"
 msgstr "La declaración de contribución de los autores fue identificada en el documento"
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionError"
-msgstr "La declaración de contribución de los autores no fue identificada en el documento. Asegúrese de que se haya insertado una sección llamada \"Contribución de la autoría\" en el manuscrito, preferiblemente siguiendo la taxonomía <a href=\"https://casrai.org/credit/\">CRediT</a> para enumerar las contribuciones individuales."
+msgstr "La declaración de contribución de los autores no fue identificada en el documento. Asegúrese de que se haya insertado una sección llamada \"Contribución de la autoría\" en el manuscrito, preferiblemente siguiendo la taxonomía <a href=\"https://credit.niso.org/\">CRediT</a> para enumerar las contribuciones individuales."
 
 msgid "plugins.generic.contentAnalysis.status.authorsContributionSkipped"
 msgstr "La declaración de contribución de los autores no se requiere en los casos de autoría única."
