@@ -41,15 +41,7 @@
     background-color: #00b28d;
 }
 
-.statusWarning {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    border-radius: 12px;
-    background-color: #daa520;
-}
-
-.statusError {
+.statusWarning, .statusError {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
