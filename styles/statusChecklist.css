@@ -41,15 +41,7 @@
     background-color: #00b28d;
 }
 
-.statusWarning {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    border-radius: 12px;
-    background-color: #daa520;
-}
-
-.statusError {
+.statusWarning, .statusError {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
@@ -59,4 +51,7 @@
 
 #checklistAdvice {
     margin-top: 16px;
+    padding-left: 0.5em;
+    border-left: .5rem solid #d00a6c;
+    color: #d00a6c;
 }
