@@ -59,4 +59,7 @@
 
 #checklistAdvice {
     margin-top: 16px;
+    padding-left: 0.5em;
+    border-left: .5rem solid #d00a6c;
+    color: #d00a6c;
 }

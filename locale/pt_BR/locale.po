@@ -45,7 +45,7 @@ msgid "plugins.generic.contentAnalysis.status.orcidSuccess"
 msgstr "Os ORCIDs de todos os autores foram identificados"
 
 msgid "plugins.generic.contentAnalysis.status.orcidWarning"
-msgstr "Identificamos {$numOrcids} ORCIDs de um total de {$numAuthors} autores"
+msgstr "Identificamos somente {$numOrcids} ORCIDs de um total de {$numAuthors} autores, certifique-se de que os ORCIDs de todos os autores foram incluídos no documento"
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr ""
@@ -88,7 +88,7 @@ msgstr ""
 "Imagens digitalizadas não são detectadas pelo sistema."
 
 msgid "plugins.generic.contentAnalysis.status.advice"
-msgstr "Você pode corrigir esse problemas na revisão da submissão"
+msgstr "É necessário corrigir esta(s) pendência(s) para concluir a sua submissão"
 
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "Você não pode finalizar a submissão sem primeiro corrigir os problemas com o documento submetido"

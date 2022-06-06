@@ -46,7 +46,7 @@ msgid "plugins.generic.contentAnalysis.status.orcidSuccess"
 msgstr "The ORCIDs of all authors were identified"
 
 msgid "plugins.generic.contentAnalysis.status.orcidWarning"
-msgstr "We identified {$numOrcids} ORCIDs from a total of {$numAuthors} authors"
+msgstr "We only identified {$numOrcids} ORCIDs out of a total of {$numAuthors} authors, make sure all authors' ORCIDs are included in the document"
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr ""
@@ -88,7 +88,7 @@ msgstr ""
 "Make sure to insert the statement in text format as an integral part of the manuscript. If the statement is in image format, please transcribe it in text format. Scanned images are not detected by the system."
 
 msgid "plugins.generic.contentAnalysis.status.advice"
-msgstr "You can correct these problems in the submission review"
+msgstr "It is necessary to correct these pending issues to complete your submission"
 
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "You can't finish the submission without fixing the errors of the submitted document"
