@@ -104,7 +104,8 @@ class DocumentChecker {
         array("aprobación", "del", "comité", "de", "ética"),
         array("aprobado", "por", "el", "comité", "de", "ética"),
         array("ethics", "committee", "approval"),
-        array("from", "the", "ethics", "committee")
+        array("from", "the", "ethics", "committee"),
+        array("approved", "by", "the", "ethics", "committee")
     );
 
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern){
