@@ -76,6 +76,7 @@ class DocumentChecker {
         array("keyword"),
         array("descriptors:"),
         array("key", "words"),
+        array("palavras-chave")
     );
 
     private $patternsAbstractEnglish = array(
