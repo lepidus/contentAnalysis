@@ -10,16 +10,18 @@
  */
 require __DIR__ . '/../autoload.inc.php';
 
-class DocumentChecker {
+class DocumentChecker
+{
     private $pathFile;
     public $words;
 
-    function __construct($path){
+    public function __construct($path)
+    {
         $this->pathFile = $path;
         $parser = new ContentParser();
         $this->words = $parser->parseDocument($path);
     }
-    
+
     private $patternsContribution = array(
         array("contribuição", "dos", "autores"),
         array("contribuição", "das", "autoras"),
@@ -41,7 +43,8 @@ class DocumentChecker {
         array("as","contribuições","de","cada","autora:"),
     );
 
-    private function checksumOrcid($orcid) {
+    private function checksumOrcid($orcid)
+    {
         $total = 0;
         for ($i = 0; $i < strlen($orcid)-1; $i++) {
             $digit = (int) $orcid[$i];
@@ -54,8 +57,9 @@ class DocumentChecker {
         return $checksum == $orcid[-1];
     }
 
-    private function isORCID($text) {
-        if(!preg_match("~doi\.org~", $text) && (preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text) || preg_match("~http[s]?:\/\/orcid\.org\/~", $text))) {
+    private function isORCID($text)
+    {
+        if (!preg_match("~doi\.org~", $text) && (preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text) || preg_match("~http[s]?:\/\/orcid\.org\/~", $text))) {
             preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text, $matches);
             $orcid = str_replace("-", "", $matches[0]);
             return $this->checksumOrcid($orcid);
@@ -109,56 +113,59 @@ class DocumentChecker {
         array("approved", "by", "the", "ethics", "committee")
     );
 
-    private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern){
-        for($i = 0; $i < count($this->words)-$limit; $i++){
-            for($j = 0; $j < count($patterns); $j++){
+    private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern)
+    {
+        for ($i = 0; $i < count($this->words)-$limit; $i++) {
+            for ($j = 0; $j < count($patterns); $j++) {
                 $depth = 0;
-                
-                foreach($patterns[$j] as $wordPattern){
+
+                foreach ($patterns[$j] as $wordPattern) {
                     similar_text($this->words[$i+$depth], $wordPattern, $similarity);
-                    if($similarity < $limiarForWord)
+                    if ($similarity < $limiarForWord) {
                         break;
-                    else {
+                    } else {
                         $depth++;
                     }
                 }
 
-                if($depth/count($patterns[$j]) >= $limiarForPattern)
+                if ($depth/count($patterns[$j]) >= $limiarForPattern) {
                     return 'Success';
-            }    
+                }
+            }
         }
-        
+
         return 'Error';
     }
 
-    function checkAuthorsContribution(){
+    public function checkAuthorsContribution()
+    {
         return $this->checkForPattern($this->patternsContribution, 5, 75, 1);
     }
 
-    function checkAuthorsORCID(){
+    public function checkAuthorsORCID()
+    {
         $orcidsDetected = array();
 
-        for($i = 0; $i < count($this->words)-1; $i++){
+        for ($i = 0; $i < count($this->words)-1; $i++) {
             $word = $this->words[$i];
             $nextWord = $this->words[$i+1];
-                    
-            if($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
+
+            if ($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
                 $orcidsDetected[] = $word;
                 $i++;
-            }
-            else if($this->isORCID($word.$nextWord) && !in_array($word.$nextWord, $orcidsDetected)) {
+            } elseif ($this->isORCID($word.$nextWord) && !in_array($word.$nextWord, $orcidsDetected)) {
                 $orcidsDetected[] = $word.$nextWord;
                 $i++;
             }
         }
 
-        if(empty($orcidsDetected)){ // If nothing was detected, the ORCIDs are probably in image-link format
+        if (empty($orcidsDetected)) { // If nothing was detected, the ORCIDs are probably in image-link format
             $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
-            
-            for($i = 0; $i < strlen($textHtml) - 37; $i++){
+
+            for ($i = 0; $i < strlen($textHtml) - 37; $i++) {
                 $textFragment = substr($textHtml, $i, 37);
 
-                if(preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $textFragment) && !in_array($textFragment, $orcidsDetected)){
+                if (preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $textFragment) && !in_array($textFragment, $orcidsDetected)) {
                     $orcidsDetected[] = $textFragment;
                     $i += 37;
                 }
@@ -168,50 +175,57 @@ class DocumentChecker {
         return count($orcidsDetected);
     }
 
-    function checkConflictInterest(){
+    public function checkConflictInterest()
+    {
         return $this->checkForPattern($this->patternsConflictInterest, 3, 75, 1);
     }
 
-    private function checkKeywordsEnglish(){
+    private function checkKeywordsEnglish()
+    {
         return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 92, 1);
     }
 
-    private function checkAbstractEnglish(){
+    private function checkAbstractEnglish()
+    {
         return $this->checkForPattern($this->patternsAbstractEnglish, 2, 95, 1);
     }
 
-    private function checkTitleEnglish($title){
-        if(!$title)
+    private function checkTitleEnglish($title)
+    {
+        if (!$title) {
             return 'Error';
+        }
 
         $parser = new ContentParser();
         $patternTitle = $parser->createPatternFromString($title);
         return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
     }
 
-    function checkMetadataInEnglish($title, $submissionIsNonArticle = false){
+    public function checkMetadataInEnglish($title, $submissionIsNonArticle = false)
+    {
         $status = array();
-        
+
         $status['title'] = $this->checkTitleEnglish($title);
-        if($submissionIsNonArticle) {
+        if ($submissionIsNonArticle) {
             $status['statusMetadataEnglish'] = $status['title'];
-        }
-        else {
+        } else {
             $status['keywords'] = $this->checkKeywordsEnglish();
             $status['abstract'] = $this->checkAbstractEnglish();
-            
-            if(!in_array('Success', $status))
+
+            if (!in_array('Success', $status)) {
                 $status['statusMetadataEnglish'] = 'Error';
-            else if(in_array('Error', $status))
+            } elseif (in_array('Error', $status)) {
                 $status['statusMetadataEnglish'] = 'Warning';
-            else
+            } else {
                 $status['statusMetadataEnglish'] = 'Success';
+            }
         }
 
         return $status;
     }
 
-    function checkEthicsCommittee(){
+    public function checkEthicsCommittee()
+    {
         return $this->checkForPattern($this->patternsEthicsCommittee, 6, 75, 1);
     }
 }

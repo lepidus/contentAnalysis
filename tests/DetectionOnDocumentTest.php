@@ -1,19 +1,23 @@
 <?php
-use PHPUnit\Framework\TestCase;
-import ('plugins.generic.contentAnalysis.classes.DocumentChecker');
-import ('plugins.generic.contentAnalysis.classes.ContentParser');
 
-class DetectionOnDocumentTest extends TestCase {
-    
+use PHPUnit\Framework\TestCase;
+
+import('plugins.generic.contentAnalysis.classes.DocumentChecker');
+import('plugins.generic.contentAnalysis.classes.ContentParser');
+
+class DetectionOnDocumentTest extends TestCase
+{
     protected $documentChecker;
     protected $dummyDocumentPath;
 
-    public function setUp() : void {
+    public function setUp(): void
+    {
         $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document.pdf";
         $this->documentChecker = new DocumentChecker($this->dummyDocumentPath);
     }
 
-    protected function insertWordsIntoDocWordList($words, $docWordList) {
+    protected function insertWordsIntoDocWordList($words, $docWordList)
+    {
         $middlePosition = (int) count($docWordList) / 2;
 
         return array_merge(
@@ -23,7 +27,8 @@ class DetectionOnDocumentTest extends TestCase {
         );
     }
 
-    public function testParserRemovesLineNumbering(): void {
+    public function testParserRemovesLineNumbering(): void
+    {
         $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document_numbered.pdf";
         $this->documentChecker = new DocumentChecker($this->dummyDocumentPath);
 

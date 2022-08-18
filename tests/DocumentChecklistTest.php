@@ -1,14 +1,16 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
-require_once ("DetectionOnDocumentTest.php");
+
+require_once("DetectionOnDocumentTest.php");
 import('plugins.generic.contentAnalysis.classes.DocumentChecklist');
 import('classes.submission.Submission');
 import('classes.publication.Publication');
 import('classes.article.Author');
 
 
-class DocumentChecklistTest extends DetectionOnDocumentTest {
-
+class DocumentChecklistTest extends DetectionOnDocumentTest
+{
     private $documentChecklist;
     private $submission;
     private $publication;
@@ -18,14 +20,16 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
     private $authorFamilyName = "Anhalt-Zerbst";
     private $orcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0002-1648-966X"];
 
-    public function setUp() : void {
+    public function setUp(): void
+    {
         parent::setUp();
         $this->documentChecklist = new DocumentChecklist($this->dummyDocumentPath);
         $this->publication = $this->createPublication();
         $this->submission = $this->createSubmission();
     }
 
-    private function createPublication() {
+    private function createPublication()
+    {
         $publication = new Publication();
         $publication->setData('id', $this->publicationId);
         $publication->setData('title', ['en_US' => $this->title]);
@@ -35,7 +39,8 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         return $publication;
     }
 
-    private function createSubmission() {
+    private function createSubmission()
+    {
         $submission = new Submission();
 
         $submission->setData('currentPublicationId', $this->publicationId);
@@ -44,7 +49,8 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         return $submission;
     }
 
-    private function createAuthor() {
+    private function createAuthor()
+    {
         $author = new Author();
         $author->setData('givenName', $this->authorGivenName);
         $author->setData('familyName', $this->authorFamilyName);
@@ -52,14 +58,16 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         return $author;
     }
 
-    private function getStatusChecklistWordsUpdating($word) {
+    private function getStatusChecklistWordsUpdating($word)
+    {
         $parser = new ContentParser();
         $patternWord = $parser->createPatternFromString($word);
         $this->documentChecklist->docChecker->words = $this->insertWordsIntoDocWordList($patternWord, $this->documentChecklist->docChecker->words);
         return $this->documentChecklist->executeChecklist($this->submission);
     }
 
-    public function testContributionSkippedSingleAuthor(): void {
+    public function testContributionSkippedSingleAuthor(): void
+    {
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertEquals('Skipped', $statusChecklist['contributionStatus']);
 
@@ -68,7 +76,8 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         $this->assertNotEquals('Skipped', $statusChecklist['contributionStatus']);
     }
 
-    public function testComparisonOrcidAuthors(): void {
+    public function testComparisonOrcidAuthors(): void
+    {
         $this->publication->setData('authors', [$this->createAuthor(), $this->createAuthor()]);
 
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
@@ -81,7 +90,8 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         $this->assertEquals('Success', $statusChecklist['orcidStatus']);
     }
 
-    public function testMetadataEnglishStatus(): void {
+    public function testMetadataEnglishStatus(): void
+    {
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertEquals('Error', $statusChecklist['metadataEnglishStatus']);
 
@@ -99,7 +109,8 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
     }
 
-    public function testChecksEthicOnlyWhenResearchInvolvesHumansOrAnimals(): void {
+    public function testChecksEthicOnlyWhenResearchInvolvesHumansOrAnimals(): void
+    {
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
 
@@ -108,17 +119,18 @@ class DocumentChecklistTest extends DetectionOnDocumentTest {
         $this->assertTrue(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
     }
 
-    public function testChecklistForNonArticles(): void {
+    public function testChecklistForNonArticles(): void
+    {
         $this->submission->setData('nonArticle', true);
         $this->submission->setData('researchInvolvingHumansOrAnimals', true);
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
 
         $this->assertTrue(array_key_exists('orcidStatus', $statusChecklist));
-        
+
         $this->assertEquals('Error', $statusChecklist['metadataEnglishStatus']);
         $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
         $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
-        
+
         $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
         $this->assertFalse(array_key_exists('conflictInterestStatus', $statusChecklist));
         $this->assertFalse(array_key_exists('contributionStatus', $statusChecklist));

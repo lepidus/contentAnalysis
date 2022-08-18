@@ -1,23 +1,27 @@
 <?php
-use PHPUnit\Framework\TestCase;
-require_once ("DetectionOnDocumentTest.php");
 
-class ConflictInterestTest extends DetectionOnDocumentTest {
-    
+use PHPUnit\Framework\TestCase;
+
+require_once("DetectionOnDocumentTest.php");
+
+class ConflictInterestTest extends DetectionOnDocumentTest
+{
     private $patternConflict = array("conflicts", "of", "interests");
 
-    public function setUp() : void {
+    public function setUp(): void
+    {
         parent::setUp();
     }
-    
-    public function testDetection() : void {
+
+    public function testDetection(): void
+    {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternConflict, $this->documentChecker->words);
 
         $this->assertEquals("Success", $this->documentChecker->checkConflictInterest());
     }
 
-    public function testDoesntDetectWhenNotPresent() : void {
+    public function testDoesntDetectWhenNotPresent(): void
+    {
         $this->assertEquals("Error", $this->documentChecker->checkConflictInterest());
     }
-
 }
