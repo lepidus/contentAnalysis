@@ -100,6 +100,7 @@ class DocumentChecker
         array("submetido", "ao", "comitê", "de", "ética"),
         array("autorização", "do", "comitê", "de", "ética"),
         array("aprovado", "por", "um", "comitê", "de", "ética"),
+        array("aprovada", "pela", "comissão", "de", "ética"),
         array("aprovação", "de", "um", "comitê", "de", "ética"),
         array("aprovação", "prévia", "de", "um", "comitê", "de", "ética"),
         array("aprovação", "do", "conselho", "de", "ética"),
