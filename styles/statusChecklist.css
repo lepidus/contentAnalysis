@@ -2,7 +2,7 @@
     margin-top: 18px;
     margin-bottom: 18px;
 }
-#statusChecklist{
+#analysisStatusChecklist{
     border: 1px solid #c2c0c0;
     padding: 20px;
     margin-bottom: 25px;
@@ -18,7 +18,7 @@
     margin: 0px 0px;
 }
 
-#statusContribution, #statusORCID, #statusConflictInterest, #statusMetadataEnglish, #statusEthicsCommittee {
+#analysisStatusContribution, #analysisStatusORCID, #analysisStatusConflictInterest, #analysisStatusMetadataEnglish, #analysisStatusEthicsCommittee {
     display: flex;
     align-items: center;
     background-color: #DCDCDC;
@@ -27,13 +27,13 @@
     margin-bottom: 18px;
 }
 
-#statusContribution span, #statusORCID span, #statusConflictInterest span, #statusMetadataEnglish span, #statusEthicsCommittee span {
+#analysisStatusContribution span, #analysisStatusORCID span, #analysisStatusConflictInterest span, #analysisStatusMetadataEnglish span, #analysisStatusEthicsCommittee span {
     line-height: 24px;
     font-size: 16px;
     margin-left: 0.5em;
 }
 
-.statusSuccess, .statusSkipped {
+.analysisStatusSuccess, .analysisStatusSkipped {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
@@ -41,7 +41,7 @@
     background-color: #00b28d;
 }
 
-.statusWarning, .statusError {
+.analysisStatusWarning, .analysisStatusError {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
