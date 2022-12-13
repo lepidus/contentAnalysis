@@ -12,7 +12,7 @@
 <version>
 	<application>contentAnalysis</application>
 	<type>plugins.generic</type>
-	<release>1.3.12</release>
+	<release>1.3.13</release>
 	<date>2022-12-13</date>
 	<lazy-load>1</lazy-load>
 	<class>ContentAnalysisPlugin</class>
