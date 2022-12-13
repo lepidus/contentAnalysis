@@ -37,6 +37,7 @@ class DocumentChecker
         array("equal", "contribution", "as", "first", "author"),
         array("participación", "de", "los", "autores"),
         array("contribución", "de", "autores"),
+        array("contribución", "de", "la", "autoría"),
         array("contribución", "de", "los", "autores"),
         array("contribuciones", "de", "los", "autores"),
         array("contribuciones", "de", "autoría"),
