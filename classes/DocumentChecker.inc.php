@@ -93,27 +93,13 @@ class DocumentChecker
 
     private $patternsEthicsCommittee = array(
         array("número", "de", "identificação/aprovação", "do", "cep"),
-        array("aprovação", "no", "comitê", "de", "ética"),
-        array("aprovação", "do", "comitê", "de", "ética"),
-        array("aprovação", "pelo", "comitê", "de", "ética"),
-        array("aprovado", "pelo", "comitê", "de", "ética"),
-        array("apresentado", "ao", "comitê", "de", "ética"),
-        array("submetido", "ao", "comitê", "de", "ética"),
-        array("autorização", "do", "comitê", "de", "ética"),
-        array("aprovado", "por", "um", "comitê", "de", "ética"),
-        array("aprovada", "pela", "comissão", "de", "ética"),
-        array("aprovação", "de", "um", "comitê", "de", "ética"),
-        array("aprovação", "prévia", "de", "um", "comitê", "de", "ética"),
-        array("aprovação", "do", "conselho", "de", "ética"),
-        array("parecer", "comitê", "de", "ética"),
-        array("comissão", "nacional", "de", "ética", "em", "pesquisa"),
-        array("pelo", "comitê", "de", "ética"),
+        array("comitê", "de", "ética"),
+        array("comissão", "de", "ética"),
+        array("conselho", "de", "ética"),
         array("câmara", "de", "ética"),
-        array("aprobación", "del", "comité", "de", "ética"),
-        array("aprobado", "por", "el", "comité", "de", "ética"),
-        array("ethics", "committee", "approval"),
-        array("from", "the", "ethics", "committee"),
-        array("approved", "by", "the", "ethics", "committee")
+        array("comissão", "nacional", "de", "ética"),
+        array("comité", "de", "ética"),
+        array("ethics", "committee"),
     );
 
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern)
