@@ -169,48 +169,25 @@ class DocumentChecker
         return $this->checkForPattern($this->patternsConflictInterest, 3, 75, 1);
     }
 
-    private function checkKeywordsEnglish()
+    public function checkKeywordsInEnglish()
     {
         return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 92, 1);
     }
 
-    private function checkAbstractEnglish()
+    public function checkAbstractInEnglish()
     {
         return $this->checkForPattern($this->patternsAbstractEnglish, 2, 95, 1);
     }
 
-    private function checkTitleEnglish($title)
+    public function checkTitleInEnglish($title)
     {
-        if (!$title) {
-            return 'Error';
+        if (empty($title)) {
+            return 'Skipped';
         }
 
         $parser = new ContentParser();
         $patternTitle = $parser->createPatternFromString($title);
         return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
-    }
-
-    public function checkMetadataInEnglish($title, $submissionIsNonArticle = false)
-    {
-        $status = array();
-
-        $status['title'] = $this->checkTitleEnglish($title);
-        if ($submissionIsNonArticle) {
-            $status['statusMetadataEnglish'] = $status['title'];
-        } else {
-            $status['keywords'] = $this->checkKeywordsEnglish();
-            $status['abstract'] = $this->checkAbstractEnglish();
-
-            if (!in_array('Success', $status)) {
-                $status['statusMetadataEnglish'] = 'Error';
-            } elseif (in_array('Error', $status)) {
-                $status['statusMetadataEnglish'] = 'Warning';
-            } else {
-                $status['statusMetadataEnglish'] = 'Success';
-            }
-        }
-
-        return $status;
     }
 
     public function checkEthicsCommittee()

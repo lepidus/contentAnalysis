@@ -65,6 +65,6 @@ class MetadataEnglishTest extends DetectionOnDocumentTest
         $emptyTitle = "";
         $statusTitle = $this->documentChecker->checkTitleInEnglish($emptyTitle);
 
-        $this->assertEquals("Error", $statusTitle);
+        $this->assertEquals("Skipped", $statusTitle);
     }
 }
