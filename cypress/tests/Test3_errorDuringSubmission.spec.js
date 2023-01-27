@@ -72,9 +72,19 @@ function checkErrorMesssagesInStep4() {
         expect(conflictInterestSpan).to.contain("The conflict of interests statement was not identified in the document. Make sure that a section called \"Conflicts of interest\" has been inserted in the document. We recommend the following of the COPE guidelines for the formulation of the conflicts of interest declaration.");
     });
 
-    cy.get('#statusMetadataEnglish > .statusError').should('be.visible');
-    cy.get('#statusMetadataEnglish > span').should(metadataSpan => {
-        expect(metadataSpan).to.contain("Title, abstract and keywords in english were not found in the document");
+    cy.get('#statusKeywordsEnglish > .statusError').should('be.visible');
+    cy.get('#statusKeywordsEnglish > span').should(keywordsSpan => {
+        expect(keywordsSpan).to.contain("The keywords in english were not found in the document");
+    });
+
+    cy.get('#statusAbstractEnglish > .statusError').should('be.visible');
+    cy.get('#statusAbstractEnglish > span').should(abstractSpan => {
+        expect(abstractSpan).to.contain("The abstract in english was not found in the document");
+    });
+
+    cy.get('#statusTitleEnglish > .statusError').should('be.visible');
+    cy.get('#statusTitleEnglish > span').should(titleSpan => {
+        expect(titleSpan).to.contain("The english title \"Submissions title\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
     });
 
     cy.get('#statusEthicsCommittee > .statusError').should('be.visible');
@@ -103,5 +113,20 @@ describe('Content Analysis Plugin - Error messages and submission blocking in st
         submissionStep3();
         checkErrorMesssagesInStep4();
         checkSubmissionCantbeFinished();
+    });
+    it("Check title message in step 4 when the english title is not informed in step 3", function() {
+        cy.visit(Cypress.env('baseUrl') + 'index.php/scielo/submissions');
+        loginAdminUser();
+
+        cy.get('.pkpHeader__actions:visible > a.pkpButton').click();
+
+        submissionStep1();
+        submissionStep2();
+        submissionStep3();
+
+        cy.get('#statusTitleEnglish > .statusSkipped').should('be.visible');
+        cy.get('#statusTitleEnglish > span').should(titleSpan => {
+            expect(titleSpan).to.contain("The checking for the english title in the PDF file couldn't be done, since this information wasn't filled in the submission's form");
+        });
     });
 });
