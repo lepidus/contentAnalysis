@@ -182,7 +182,7 @@ class DocumentChecker
     public function checkTitleInEnglish($title)
     {
         if (empty($title)) {
-            return 'Skipped';
+            return 'Unable';
         }
 
         $parser = new ContentParser();
