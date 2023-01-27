@@ -87,7 +87,10 @@ class DocumentChecklist
         $titleInEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
         $titleInEnglishStatus = $this->docChecker->checkTitleInEnglish($titleInEnglish);
 
-        return ['titleEnglishStatus' => $titleInEnglishStatus];
+        return [
+            'titleEnglishStatus' => $titleInEnglishStatus,
+            'titleInEnglish' => $titleInEnglish
+        ];
     }
 
 }

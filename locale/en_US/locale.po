@@ -63,20 +63,26 @@ msgstr ""
 "Make sure that a section called \"Conflicts of interest\" has been inserted in the document. "
 "We recommend the following of the <a href=\"https://publicationethics.org/competinginterests\">COPE guidelines</a> for the formulation of the conflicts of interest declaration."
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccess"
-msgstr "All metadata in english were detected in the document"
+msgid "plugins.generic.contentAnalysis.status.keywordsEnglishSuccess"
+msgstr "The keywords in english were found in the document"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishWarning"
-msgstr "The following metadata in english were not found in the document: {$textMetadata}"
+msgid "plugins.generic.contentAnalysis.status.keywordsEnglishError"
+msgstr "The keywords in english were not found in the document"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
-msgstr "Title, abstract and keywords in english were not found in the document"
+msgid "plugins.generic.contentAnalysis.status.abstractEnglishSuccess"
+msgstr "The abstract in english was found in the document"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccessNonArticle"
-msgstr "The english title was detected in the document"
+msgid "plugins.generic.contentAnalysis.status.abstractEnglishError"
+msgstr "The abstract in english was not found in the document"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishErrorNonArticle"
-msgstr "The english title was not detected in the document"
+msgid "plugins.generic.contentAnalysis.status.titleEnglishSuccess"
+msgstr "The title in english was found in the document"
+
+msgid "plugins.generic.contentAnalysis.status.titleEnglishUnable"
+msgstr "The checking for the english title in the PDF file couldn't be done, since this information wasn't filled in the submission's form"
+
+msgid "plugins.generic.contentAnalysis.status.titleEnglishError"
+msgstr "The english title \"{$titleInEnglish}\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form"
 
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "The Ethics Committee Approval Statement was found in the document"

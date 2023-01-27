@@ -63,20 +63,26 @@ msgstr ""
 "Asegúrese de que se haya insertado una sección denominada \"Conflicto de intereses\" en el manuscrito. "
 "Recomendamos seguir los <a href=\"https://publicationethics.org/competinginterests\">lineamientos de COPE</a> para la elaboración de la declaración de conflicto de interés."
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccess"
-msgstr "Se detectaron todos los metadatos en inglés en el documento"
+msgid "plugins.generic.contentAnalysis.status.keywordsEnglishSuccess"
+msgstr "Las palabras clave en inglés fueron identificadas en el documento"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishWarning"
-msgstr "Los siguientes metadatos en inglés no se detectaron en el documento: {$textMetadata}"
+msgid "plugins.generic.contentAnalysis.status.keywordsEnglishError"
+msgstr "Las palabras clave en inglés no fueron identificadas en el documento"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishError"
-msgstr "No se detectaron título, resumen y palabras-clave en inglés en el documento"
+msgid "plugins.generic.contentAnalysis.status.abstractEnglishSuccess"
+msgstr "El resumen en inglés fue identificado en el documento"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishSuccessNonArticle"
-msgstr "El título en inglés fue detectado en el documento"
+msgid "plugins.generic.contentAnalysis.status.abstractEnglishError"
+msgstr "El resumen en inglés no fue identificado en el documento"
 
-msgid "plugins.generic.contentAnalysis.status.metadataEnglishErrorNonArticle"
-msgstr "El título en inglés no fue detectado en el documento"
+msgid "plugins.generic.contentAnalysis.status.titleEnglishSuccess"
+msgstr "El título en inglés fue identificado en el documento"
+
+msgid "plugins.generic.contentAnalysis.status.titleEnglishUnable"
+msgstr "No se pudo realizar la verificación del título en inglés en el documento PDF, ya que esta información no se completó en el formulario de envío"
+
+msgid "plugins.generic.contentAnalysis.status.titleEnglishError"
+msgstr "El título en inglés \"{$titleInEnglish}\" no se encontró en el archivo PDF cargado. Verifique que el título del manuscrito sea el mismo que se ingresó en el formulario de envío"
 
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "La declaración de aprobación del Comité de Ética se encuentra en el documento"
