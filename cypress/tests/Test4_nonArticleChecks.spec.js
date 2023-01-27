@@ -48,7 +48,9 @@ function addContributor() {
 function submissionStep3() {
     cy.get('input[name^="title"]').first().type("Submissions title", { delay: 0 });
     cy.get('label').contains('Title').click();
-    cy.get('textarea[id^="abstract-en_US"]').type("Example of abstract");
+    cy.get('textarea[id^="abstract-"').then((node) => {
+        cy.setTinyMceContent(node.attr("id"), "Example of abstract");
+    });
     cy.get('.section > label:visible').first().click();
     addContributor();
     cy.get('ul[id^="en_US-keywords-"]').then(node => {
