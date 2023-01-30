@@ -6,7 +6,8 @@ function loginAdminUser() {
     cy.get('button[class=submit]').click();
 }
 
-function submissionStep1() {
+function submissionStep1(locale) {
+    cy.get('#locale').select(locale);
     cy.get('#sectionId').select('1');
     cy.get('#checkboxResearchInvolvingHumansOrAnimalsYes').check();
     cy.get('#pkp_submissionChecklist > ul > li > label > input').check();
@@ -28,6 +29,11 @@ function submissionStep2() {
         cy.get('input[type="file"]').upload({ fileContent, 'fileName': 'dummy_document.pdf', 'mimeType': 'application/pdf', 'encoding': 'base64' });
     });
     cy.get('#continueButton').click();
+    cy.get('input[name^="name"]').first().click();
+    cy.get('input[name^="name[en_US]"]').type('dummy_document.pdf');
+    cy.get('input[name^="name[es_ES]"]').type('dummy_document.pdf');
+    cy.get('input[name^="name[pt_BR]"]').type('dummy_document.pdf');
+    cy.get('#fileMetaData > .section > label').click();
     cy.get('#continueButton').click();
     cy.get('#continueButton').click();
     cy.get('#submitStep2Form > .formButtons > .submitFormButton').click();
@@ -36,8 +42,8 @@ function submissionStep2() {
 function addContributor() {
     cy.get('a[id^="component-grid-users-author-authorgrid-addAuthor-button-"]').click();
     cy.wait(250);
-    cy.get('input[id^="givenName-en_US-"]').type("John", {delay: 0});
-    cy.get('input[id^="familyName-en_US-"]').type("Smith", {delay: 0});
+    cy.get('input[id^="givenName"]').first().type("John", {delay: 0});
+    cy.get('input[id^="familyName"]').first().type("Smith", {delay: 0});
     cy.get('select[id=country]').select("Brasil");
     cy.get('input[id^="email"]').type("john.smith@lepidus.com.br", {delay: 0});
     cy.get('label').contains("Author").click();
@@ -52,7 +58,7 @@ function submissionStep3() {
     });
     cy.get('.section > label:visible').first().click();
     addContributor();
-    cy.get('ul[id^="en_US-keywords-"]').then(node => {
+    cy.get('ul[id*="-keywords-"]').first().then(node => {
         node.tagit('createTag', "Dummy keyword");
     });
     cy.get('#submitStep3Form > .formButtons > .submitFormButton').click();
@@ -110,7 +116,7 @@ describe('Content Analysis Plugin - Error messages and submission blocking in st
 
         cy.get('.pkpHeader__actions:visible > a.pkpButton').click();
 
-        submissionStep1();
+        submissionStep1('en_US');
         submissionStep2();
         submissionStep3();
         checkErrorMesssagesInStep4();
@@ -122,7 +128,7 @@ describe('Content Analysis Plugin - Error messages and submission blocking in st
 
         cy.get('.pkpHeader__actions:visible > a.pkpButton').click();
 
-        submissionStep1();
+        submissionStep1('pt_BR');
         submissionStep2();
         submissionStep3();
 
