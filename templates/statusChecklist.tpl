@@ -13,13 +13,13 @@
         </div>
     
         {if isset($contributionStatus)}
-            <div id="analysisStatusContribution" class="element{$contributionStatus}">
+            <div id="statusContribution" class="analysisStatusElement">
                 <div class="analysisStatus{$contributionStatus}"></div>
                 <span>{translate key="plugins.generic.contentAnalysis.status.authorsContribution{$contributionStatus}"}</span>
             </div>
         {/if}
         
-        <div id="analysisStatusORCID" class="element{$orcidStatus}">
+        <div id="statusORCID" class="analysisStatusElement">
             <div class="analysisStatus{$orcidStatus}"></div>
             {if $orcidStatus == "Warning"}
                 <span>{translate key="plugins.generic.contentAnalysis.status.orcid{$orcidStatus}" numOrcids=$numOrcids numAuthors=$numAuthors}</span>
@@ -29,27 +29,37 @@
         </div>
 
         {if isset($conflictInterestStatus)}
-            <div id="analysisStatusConflictInterest" class="element{$conflictInterestStatus}">
+            <div id="statusConflictInterest" class="analysisStatusElement">
                 <div class="analysisStatus{$conflictInterestStatus}"></div>
                 <span>{translate key="plugins.generic.contentAnalysis.status.conflictInterest{$conflictInterestStatus}"}</span>
             </div>
         {/if}
 
-        <div id="analysisStatusMetadataEnglish" class="element{$metadataEnglishStatus}">
-            <div class="analysisStatus{$metadataEnglishStatus}"></div>
-            {if $submissionIsNonArticle}
-                <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}NonArticle"}</span>
+        {if isset($keywordsEnglishStatus)}
+            <div id="statusKeywordsEnglish" class="analysisStatusElement">
+                <div class="analysisStatus{$keywordsEnglishStatus}"></div>
+                <span>{translate key="plugins.generic.contentAnalysis.status.keywordsEnglish{$keywordsEnglishStatus}"}</span>
+            </div>
+        {/if}
+
+        {if isset($abstractEnglishStatus)}
+            <div id="statusAbstractEnglish" class="analysisStatusElement">
+                <div class="analysisStatus{$abstractEnglishStatus}"></div>
+                <span>{translate key="plugins.generic.contentAnalysis.status.abstractEnglish{$abstractEnglishStatus}"}</span>
+            </div>
+        {/if}
+
+        <div id="statusTitleEnglish" class="analysisStatusElement">
+            <div class="analysisStatus{$titleEnglishStatus}"></div>
+            {if $titleEnglishStatus == "Error"}
+                <span>{translate key="plugins.generic.contentAnalysis.status.titleEnglish{$titleEnglishStatus}" titleInEnglish=$titleInEnglish}</span>
             {else}
-                {if $metadataEnglishStatus == "Warning"}
-                    <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}" textMetadata=$textMetadata}</span>
-                {else}
-                    <span>{translate key="plugins.generic.contentAnalysis.status.metadataEnglish{$metadataEnglishStatus}"}</span>
-                {/if}
+                <span>{translate key="plugins.generic.contentAnalysis.status.titleEnglish{$titleEnglishStatus}"}</span>
             {/if}
         </div>
 
         {if isset($ethicsCommitteeStatus)}
-            <div id="analysisStatusEthicsCommittee" class="element{$ethicsCommitteeStatus}">
+            <div id="statusEthicsCommittee" class="analysisStatusElement">
                 <div class="analysisStatus{$ethicsCommitteeStatus}"></div>
                 <span>{translate key="plugins.generic.contentAnalysis.status.ethicsCommittee{$ethicsCommitteeStatus}"}</span>
             </div>

@@ -90,25 +90,6 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->assertEquals('Success', $statusChecklist['orcidStatus']);
     }
 
-    public function testMetadataEnglishStatus(): void
-    {
-        $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
-        $this->assertEquals('Error', $statusChecklist['metadataEnglishStatus']);
-
-        $statusChecklist = $this->getStatusChecklistWordsUpdating("abstract");
-        $missingMetadata = __("common.title") . ", " . __("common.keywords");
-        $this->assertEquals('Warning', $statusChecklist['metadataEnglishStatus']);
-        $this->assertEquals($missingMetadata, $statusChecklist['textMetadata']);
-
-        $statusChecklist = $this->getStatusChecklistWordsUpdating("keywords");
-        $missingMetadata = __("common.title");
-        $this->assertEquals('Warning', $statusChecklist['metadataEnglishStatus']);
-        $this->assertEquals($missingMetadata, $statusChecklist['textMetadata']);
-
-        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
-        $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
-    }
-
     public function testChecksEthicOnlyWhenResearchInvolvesHumansOrAnimals(): void
     {
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
@@ -126,10 +107,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
 
         $this->assertTrue(array_key_exists('orcidStatus', $statusChecklist));
-
-        $this->assertEquals('Error', $statusChecklist['metadataEnglishStatus']);
-        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
-        $this->assertEquals('Success', $statusChecklist['metadataEnglishStatus']);
+        $this->assertTrue(array_key_exists('titleEnglishStatus', $statusChecklist));
 
         $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
         $this->assertFalse(array_key_exists('conflictInterestStatus', $statusChecklist));

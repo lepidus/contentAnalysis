@@ -6,7 +6,7 @@ require_once("DetectionOnDocumentTest.php");
 
 class MetadataEnglishTest extends DetectionOnDocumentTest
 {
-    private $patternKeyword = array("keywords");
+    private $patternKeywords = array("keywords");
     private $patternAbstract = array("abstract");
     private $title = "A beautiful title";
 
@@ -15,20 +15,20 @@ class MetadataEnglishTest extends DetectionOnDocumentTest
         parent::setUp();
     }
 
-    public function testDetectionKeyword(): void
+    public function testDetectionKeywords(): void
     {
-        $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternKeyword, $this->documentChecker->words);
-        $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternKeywords, $this->documentChecker->words);
+        $statusKeywords = $this->documentChecker->checkKeywordsInEnglish($this->title);
 
-        $this->assertEquals("Success", $statusMetadata['keywords']);
+        $this->assertEquals("Success", $statusKeywords);
     }
 
     public function testDetectionAbstract(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternAbstract, $this->documentChecker->words);
-        $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
+        $statusAbstract = $this->documentChecker->checkAbstractInEnglish($this->title);
 
-        $this->assertEquals("Success", $statusMetadata['abstract']);
+        $this->assertEquals("Success", $statusAbstract);
     }
 
     public function testDetectionTitle(): void
@@ -37,34 +37,34 @@ class MetadataEnglishTest extends DetectionOnDocumentTest
         $patternTitle = $parser->createPatternFromString($this->title);
 
         $this->documentChecker->words = $this->insertWordsIntoDocWordList($patternTitle, $this->documentChecker->words);
-        $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
+        $statusTitle = $this->documentChecker->checkTitleInEnglish($this->title);
 
-        $this->assertEquals("Success", $statusMetadata['title']);
+        $this->assertEquals("Success", $statusTitle);
     }
 
-    public function testDoesntDetectKeyword(): void
+    public function testDoesntDetectKeywords(): void
     {
-        $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
-        $this->assertEquals("Error", $statusMetadata['keywords']);
+        $statusKeywords = $this->documentChecker->checkKeywordsInEnglish($this->title);
+        $this->assertEquals("Error", $statusKeywords);
     }
 
     public function testDoesntDetectAbstract(): void
     {
-        $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
-        $this->assertEquals("Error", $statusMetadata['abstract']);
+        $statusAbstract = $this->documentChecker->checkAbstractInEnglish($this->title);
+        $this->assertEquals("Error", $statusAbstract);
     }
 
     public function testDoesntDetectTitle(): void
     {
-        $statusMetadata = $this->documentChecker->checkMetadataInEnglish($this->title);
-        $this->assertEquals("Error", $statusMetadata['title']);
+        $statusTitle = $this->documentChecker->checkTitleInEnglish($this->title);
+        $this->assertEquals("Error", $statusTitle);
     }
 
     public function testDetectionEmptyTitle(): void
     {
         $emptyTitle = "";
-        $statusMetadata = $this->documentChecker->checkMetadataInEnglish($emptyTitle);
+        $statusTitle = $this->documentChecker->checkTitleInEnglish($emptyTitle);
 
-        $this->assertEquals("Error", $statusMetadata['title']);
+        $this->assertEquals("Unable", $statusTitle);
     }
 }

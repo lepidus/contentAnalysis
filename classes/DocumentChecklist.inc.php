@@ -22,15 +22,15 @@ class DocumentChecklist
     public function executeChecklist($submission)
     {
         $dataChecklist = array();
-        $submissionIsNonArticle = $submission->getData('nonArticle');
+        $submissionIsArticle = !$submission->getData('nonArticle');
 
-        if (!$submissionIsNonArticle) {
-            $dataChecklist = array_merge($dataChecklist, $this->getStatusOfArticleChecks($submission));
+        if ($submissionIsArticle) {
+            $dataChecklist = array_merge($dataChecklist, $this->getStatusOfArticleExclusiveCheckings($submission));
         }
 
         $dataChecklist = array_merge($dataChecklist, $this->getStatusORCIDs($submission));
-        $dataChecklist = array_merge($dataChecklist, $this->getMetadataEnglishStatus($submission, $submissionIsNonArticle));
-        $dataChecklist['submissionIsNonArticle'] = $submissionIsNonArticle;
+        $dataChecklist = array_merge($dataChecklist, $this->getTitleInEnglishStatus($submission));
+        $dataChecklist['submissionIsNonArticle'] = !$submissionIsArticle;
 
         if (in_array('Error', $dataChecklist)) {
             $dataChecklist['generalStatus'] = 'Error';
@@ -43,7 +43,7 @@ class DocumentChecklist
         return $dataChecklist;
     }
 
-    private function getStatusOfArticleChecks($submission)
+    private function getStatusOfArticleExclusiveCheckings($submission)
     {
         $numAuthors = count($submission->getAuthors());
         $returnData = [];
@@ -55,6 +55,8 @@ class DocumentChecklist
         }
 
         $returnData['conflictInterestStatus'] = $this->docChecker->checkConflictInterest();
+        $returnData['keywordsEnglishStatus'] = $this->docChecker->checkKeywordsInEnglish();
+        $returnData['abstractEnglishStatus'] = $this->docChecker->checkAbstractInEnglish();
 
         if ($submission->getData('researchInvolvingHumansOrAnimals')) {
             $returnData['ethicsCommitteeStatus'] = $this->docChecker->checkEthicsCommittee();
@@ -80,33 +82,15 @@ class DocumentChecklist
         }
     }
 
-    private function getMetadataEnglishStatus($submission, $submissionIsNonArticle)
+    private function getTitleInEnglishStatus($submission)
     {
-        $titleEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
-        $metaMetadata = $this->docChecker->checkMetadataInEnglish($titleEnglish, $submissionIsNonArticle);
-        $returnData = [];
+        $titleInEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
+        $titleInEnglishStatus = $this->docChecker->checkTitleInEnglish($titleInEnglish);
 
-        if ($metaMetadata['statusMetadataEnglish'] == 'Warning') {
-            $returnData['textMetadata'] = $this->getMissingMetadataText($metaMetadata);
-        }
-        $returnData['metadataEnglishStatus'] = $metaMetadata['statusMetadataEnglish'];
-
-        return $returnData;
+        return [
+            'titleEnglishStatus' => $titleInEnglishStatus,
+            'titleInEnglish' => $titleInEnglish
+        ];
     }
 
-    private function getMissingMetadataText($metaMetadata)
-    {
-        $metadataList = array('title', 'abstract', 'keywords');
-        $textMetadata = "";
-        foreach ($metadataList as $metadata) {
-            if ($metaMetadata[$metadata] == "Error") {
-                if ($textMetadata != "") {
-                    $textMetadata .= ", ";
-                }
-                $textMetadata .= __("common." . $metadata);
-            }
-        }
-
-        return $textMetadata;
-    }
 }
