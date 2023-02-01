@@ -51,7 +51,7 @@ class ContentParser
     public function parseDocument($pathFile)
     {
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout");
+        shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
 
         $docText = file_get_contents($pathTxt, FILE_TEXT);
         $docLines = preg_split("/\r\n|\n|\r/", $docText);
