@@ -93,6 +93,7 @@ class DocumentChecker
 
     private $patternsEthicsCommittee = array(
         array("número", "de", "identificação/aprovação", "do", "cep"),
+        array("parecer", "do", "cep"),
         array("comitê", "de", "ética"),
         array("comissão", "de", "ética"),
         array("conselho", "de", "ética"),
