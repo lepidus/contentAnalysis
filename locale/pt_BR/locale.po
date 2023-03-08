@@ -45,12 +45,14 @@ msgid "plugins.generic.contentAnalysis.status.orcidSuccess"
 msgstr "Os ORCIDs de todos os autores foram identificados"
 
 msgid "plugins.generic.contentAnalysis.status.orcidWarning"
-msgstr "Identificamos somente {$numOrcids} ORCIDs de um total de {$numAuthors} autores, certifique-se de que os ORCIDs de todos os autores foram incluídos no documento"
+msgstr ""
+"Identificamos somente {$numOrcids} ORCIDs de um total de {$numAuthors} autores, certifique-se de que os ORCIDs de todos os autores foram incluídos no documento. "
+"Certifique-se também que todos os ORCIDs foram inseridos no manuscrito no <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato de link recomendado pela ORCID</a>."
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr ""
 "Não foram identificados ORCIDs no documento. "
-"Certifique-se de que todos os ORCID IDs foram inseridos no manuscrito no <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato correto</a>. "
+"Certifique-se de que todos os ORCIDs foram inseridos no manuscrito no <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato de link recomendado pela ORCID</a>. "
 "Certifique-se também que os links correspondem ao registro ORCID correto de cada pessoa listada na autoria do manuscrito."
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestSuccess"

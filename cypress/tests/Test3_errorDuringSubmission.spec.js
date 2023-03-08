@@ -72,7 +72,7 @@ function checkErrorMesssagesInStep4() {
 
     cy.get('#statusORCID > .analysisStatusError').should('be.visible');
     cy.get('#statusORCID > span').should(orcidSpan => {
-        expect(orcidSpan).to.contain("No ORCIDs were identified in the document. Make sure all the ORCID IDs have been inserted in the document in the correct format. Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship.");
+        expect(orcidSpan).to.contain("No ORCIDs were identified in the document. Make sure all the ORCIDs have been inserted in the document following the link format recommended by ORCID. Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship.");
     });
 
     cy.get('#statusConflictInterest > .analysisStatusError').should('be.visible');

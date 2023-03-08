@@ -9,7 +9,6 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
     private $completeOrcid = "https://orcid.org/0000-0001-5727-2427";
     private $orcidOnlyNumbers = "0000-0001-5727-2427";
     private $invalidOrcid = "https://orcid.org/0000-0000-0000-0000";
-    private $invalidOrcidOnlyNumbers = "0000-0000-0000-0000";
 
     public function setUp(): void
     {
@@ -23,11 +22,11 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
         $this->assertEquals(1, $this->documentChecker->checkAuthorsORCID());
     }
 
-    public function testDetectionOrcidOnlyNumbers(): void
+    public function testDoesntDetectsOrcidOnlyNumbers(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->orcidOnlyNumbers], $this->documentChecker->words);
 
-        $this->assertEquals(1, $this->documentChecker->checkAuthorsORCID());
+        $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
     }
 
     public function testDoesntDetectOrcidWhenNotPresent(): void
@@ -35,9 +34,9 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
         $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
     }
 
-    public function testDoesntConsiderInvalidOrcids(): void
+    public function testDoesntConsiderInvalidOrcid(): void
     {
-        $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->invalidOrcid, $this->invalidOrcidOnlyNumbers], $this->documentChecker->words);
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->invalidOrcid], $this->documentChecker->words);
         $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
     }
 }
