@@ -12,8 +12,8 @@
 <version>
 	<application>contentAnalysis</application>
 	<type>plugins.generic</type>
-	<release>1.4.0</release>
-	<date>2023-01-30</date>
+	<release>1.4.1</release>
+	<date>2023-03-08</date>
 	<lazy-load>1</lazy-load>
 	<class>ContentAnalysisPlugin</class>
 </version>
