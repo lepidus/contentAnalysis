@@ -19,24 +19,24 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->completeOrcid], $this->documentChecker->words);
 
-        $this->assertEquals(1, $this->documentChecker->checkAuthorsORCID());
+        $this->assertEquals(1, $this->documentChecker->checkOrcidsNumber());
     }
 
     public function testDoesntDetectsOrcidOnlyNumbers(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->orcidOnlyNumbers], $this->documentChecker->words);
 
-        $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
+        $this->assertEquals(0, $this->documentChecker->checkOrcidsNumber());
     }
 
     public function testDoesntDetectOrcidWhenNotPresent(): void
     {
-        $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
+        $this->assertEquals(0, $this->documentChecker->checkOrcidsNumber());
     }
 
     public function testDoesntConsiderInvalidOrcid(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->invalidOrcid], $this->documentChecker->words);
-        $this->assertEquals(0, $this->documentChecker->checkAuthorsORCID());
+        $this->assertEquals(0, $this->documentChecker->checkOrcidsNumber());
     }
 }

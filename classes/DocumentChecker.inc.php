@@ -132,7 +132,7 @@ class DocumentChecker
         return $this->checkForPattern($this->patternsContribution, 5, 75, 1);
     }
 
-    public function checkAuthorsORCID()
+    public function checkOrcidsNumber()
     {
         $orcidsDetected = array();
 
@@ -149,10 +149,11 @@ class DocumentChecker
             }
         }
 
-        if (empty($orcidsDetected)) { // If nothing was detected, the ORCIDs are probably in image-link format
+        if (empty($orcidsDetected)) { // If nothing was detected, check if ORCIDs are in image-link format
             $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
 
-            for ($i = 0; $i < strlen($textHtml) - 37; $i++) {
+            $lengthFullOrcid = 37;
+            for ($i = 0; $i < strlen($textHtml) - $lengthFullOrcid; $i++) {
                 $textFragment = substr($textHtml, $i, 37);
 
                 if (preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $textFragment) && !in_array($textFragment, $orcidsDetected)) {

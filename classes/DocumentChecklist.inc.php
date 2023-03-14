@@ -68,7 +68,7 @@ class DocumentChecklist
     private function getStatusORCIDs($submission)
     {
         $numAuthors = count($submission->getAuthors());
-        $orcidsDetected = $this->docChecker->checkAuthorsORCID();
+        $orcidsDetected = $this->docChecker->checkOrcidsNumber();
         if ($orcidsDetected >= $numAuthors) {
             return ['orcidStatus' => 'Success'];
         } elseif ($orcidsDetected > 0 && $orcidsDetected < $numAuthors) {
