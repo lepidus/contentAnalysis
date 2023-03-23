@@ -8,5 +8,6 @@ include:
       - 'templates/groups/pkp_plugin.yml'
       - 'templates/groups/ops_plugins_unit_tests_model.yml'
 
-before_script:
-  - apt update && apt install poppler-utils -yqq
+.unit_test_template:
+  before_script:
+    - apt update && apt install poppler-utils -yqq
