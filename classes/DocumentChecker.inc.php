@@ -179,7 +179,7 @@ class DocumentChecker
 
     public function checkAbstractInEnglish()
     {
-        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 95, 1);
+        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 92, 1);
     }
 
     public function checkTitleInEnglish($title)
