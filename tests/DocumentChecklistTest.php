@@ -106,11 +106,27 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->submission->setData('researchInvolvingHumansOrAnimals', true);
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
 
+        $this->assertEquals('1', $statusChecklist['submissionIsNonArticle']);
         $this->assertTrue(array_key_exists('orcidStatus', $statusChecklist));
         $this->assertTrue(array_key_exists('titleEnglishStatus', $statusChecklist));
 
         $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
         $this->assertFalse(array_key_exists('conflictInterestStatus', $statusChecklist));
         $this->assertFalse(array_key_exists('contributionStatus', $statusChecklist));
+    }
+
+    public function testChecklistGeneralStatusWorksCorrectlyForNonArticles(): void
+    {
+        $this->submission->setData('nonArticle', true);
+        $this->submission->setData('researchInvolvingHumansOrAnimals', true);
+        $this->publication->setData('authors', [$this->createAuthor()]);
+
+        $this->getStatusChecklistWordsUpdating($this->orcids[0]);
+        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
+
+        $this->assertEquals('1', $statusChecklist['submissionIsNonArticle']);
+        $this->assertEquals('Success', $statusChecklist['orcidStatus']);
+        $this->assertEquals('Success', $statusChecklist['titleEnglishStatus']);
+        $this->assertEquals('Success', $statusChecklist['generalStatus']);
     }
 }
