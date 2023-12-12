@@ -9,6 +9,8 @@
  * This class implements a parser that breaks contents in a list of words
  */
 
+namespace APP\plugins\generic\contentAnalysis\classes;
+
 class ContentParser
 {
     private function parseWordsFromString($string)
@@ -27,7 +29,7 @@ class ContentParser
                     $wordEnd++;
                 }
 
-                $word = mb_strtolower(substr($string, $wordStart, $wordEnd-$wordStart));
+                $word = mb_strtolower(substr($string, $wordStart, $wordEnd - $wordStart));
 
                 $words[] = $word;
                 $i = $wordEnd;
@@ -81,7 +83,7 @@ class ContentParser
                     $end++;
                 }
 
-                $pattern[] = mb_strtolower(substr($string, $start, $end-$start));
+                $pattern[] = mb_strtolower(substr($string, $start, $end - $start));
                 $i = $end;
             }
         }
