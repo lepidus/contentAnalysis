@@ -5,14 +5,22 @@
  * @class ContentAnalysis
  * @ingroup plugins_generic_contentAnalysis
  *
- * Copyright (c) 2020-2021 Lepidus Tecnologia
- * Copyright (c) 2020-2021 SciELO
+ * Copyright (c) 2020-2024 Lepidus Tecnologia
+ * Copyright (c) 2020-2024 SciELO
  * Distributed under the GNU GPL v3. For full terms see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
  *
  * @brief Plugin class for the Content Analysis plugin.
  */
-import('lib.pkp.classes.plugins.GenericPlugin');
-import('plugins.generic.contentAnalysis.classes.DocumentChecklist');
+
+namespace APP\plugins\generic\contentAnalysis;
+
+use PKP\plugins\GenericPlugin;
+use PKP\plugins\Hook;
+use APP\core\Application;
+use APP\template\TemplateManager;
+use APP\facades\Repo;
+use PKP\security\Role;
+use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
 
 class ContentAnalysisPlugin extends GenericPlugin
 {
@@ -20,18 +28,18 @@ class ContentAnalysisPlugin extends GenericPlugin
     {
         $success = parent::register($category, $path, $mainContextId);
 
-        if (!Config::getVar('general', 'installed') || defined('RUNNING_UPGRADE')) {
-            return true;
+        if (Application::isUnderMaintenance()) {
+            return $success;
         }
 
         if ($success && $this->getEnabled($mainContextId)) {
-            HookRegistry::register('Template::Workflow::Publication', array($this, 'addToWorkflow'));
-            HookRegistry::register('submissionsubmitstep1form::display', array($this, 'addToStep1'));
-            HookRegistry::register('submissionsubmitstep1form::readuservars', array($this, 'allowStep1FormToReadOurFields'));
-            HookRegistry::register('SubmissionHandler::saveSubmit', array($this, 'passOurFieldsValuesToSubmission'));
-            HookRegistry::register('Schema::get::submission', array($this, 'addOurFieldsToSubmissionSchema'));
-            HookRegistry::register('submissionsubmitstep4form::display', array($this, 'addToStep4'));
-            HookRegistry::register('submissionsubmitstep4form::validate', array($this, 'addValidationToStep4'));
+            Hook::add('Template::Workflow::Publication', [$this, 'addToWorkflow']);
+            //Hook::add('submissionsubmitstep1form::display', [$this, 'addToStep1']);
+            //Hook::add('submissionsubmitstep1form::readuservars', [$this, 'allowStep1FormToReadOurFields']);
+            //Hook::add('SubmissionHandler::saveSubmit', [$this, 'passOurFieldsValuesToSubmission']);
+            Hook::add('Schema::get::submission', [$this, 'addOurFieldsToSubmissionSchema']);
+            //Hook::add('submissionsubmitstep4form::display', [$this, 'addToStep4']);
+            //Hook::add('submissionsubmitstep4form::validate', [$this, 'addValidationToStep4']);
         }
 
         return $success;
@@ -49,10 +57,10 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function addToWorkflow($hookName, $params)
     {
-        $smarty =& $params[1];
-        $output =& $params[2];
+        $smarty = &$params[1];
+        $output = &$params[2];
 
-        $submission = $smarty->get_template_vars('submission');
+        $submission = $smarty->getTemplateVars('submission');
         $publication = $submission->getCurrentPublication();
 
         $galleys = $submission->getGalleys();
@@ -77,7 +85,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function addToStep1($hookName, $params)
     {
-        $request = PKPApplication::get()->getRequest();
+        $request = Application::get()->getRequest();
         $templateMgr = TemplateManager::getManager($request);
 
         $templateMgr->registerFilter("output", array($this, 'addCheckboxesToStep1Filter'));
@@ -101,7 +109,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function allowStep1FormToReadOurFields($hookName, $params)
     {
-        $formFields =& $params[1];
+        $formFields = &$params[1];
         $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
 
         $formFields = array_merge($formFields, $ourFields);
@@ -111,7 +119,7 @@ class ContentAnalysisPlugin extends GenericPlugin
     {
         $step = $params[0];
         if ($step == 1) {
-            $stepForm =& $params[2];
+            $stepForm = &$params[2];
             if ($stepForm->validate()) {
                 $submissionId = $stepForm->execute();
                 $submissionDao = DAORegistry::getDAO('SubmissionDAO');
@@ -132,7 +140,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function addOurFieldsToSubmissionSchema($hookName, $params)
     {
-        $schema =& $params[0];
+        $schema = &$params[0];
 
         $schema->properties->{'researchInvolvingHumansOrAnimals'} = (object) [
             'type' => 'string',
@@ -151,7 +159,7 @@ class ContentAnalysisPlugin extends GenericPlugin
     public function addToStep4($hookName, $params)
     {
         $submission = $params[0]->submission;
-        $request = PKPApplication::get()->getRequest();
+        $request = Application::get()->getRequest();
         $templateMgr = TemplateManager::getManager($request);
 
         $galleys = $submission->getGalleys();
@@ -187,7 +195,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function addValidationToStep4($hookName, $params)
     {
-        $step4Form =& $params[0];
+        $step4Form = &$params[0];
         $submission = $step4Form->submission;
 
         if (!$this->userIsAuthor($submission)) {
@@ -212,19 +220,19 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     private function userIsAuthor($submission)
     {
-        $currentUser = \Application::get()->getRequest()->getUser();
+        $currentUser = Application::get()->getRequest()->getUser();
         $currentUserAssignedRoles = array();
         if ($currentUser) {
             $stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
             $stageAssignmentsResult = $stageAssignmentDao->getBySubmissionAndUserIdAndStageId($submission->getId(), $currentUser->getId(), $submission->getData('stageId'));
-            $userGroupDao = DAORegistry::getDAO('UserGroupDAO');
+
             while ($stageAssignment = $stageAssignmentsResult->next()) {
-                $userGroup = $userGroupDao->getById($stageAssignment->getUserGroupId(), $submission->getData('contextId'));
+                $userGroup = Repo::userGroup()->get($stageAssignment->getUserGroupId(), $submission->getData('contextId'));
                 $currentUserAssignedRoles[] = (int) $userGroup->getRoleId();
             }
         }
 
-        return $currentUserAssignedRoles[0] == ROLE_ID_AUTHOR;
+        return $currentUserAssignedRoles[0] == Role::ROLE_ID_AUTHOR;
     }
 
     private function submitterHasJournalRole()
@@ -232,10 +240,13 @@ class ContentAnalysisPlugin extends GenericPlugin
         $request = Application::get()->getRequest();
         $context = $request->getContext();
         $currentUser = $request->getUser();
-        $userGroupDao = DAORegistry::getDAO('UserGroupDAO');
 
-        $userGroups = $userGroupDao->getByUserId($currentUser->getId(), $context->getId());
-        while ($userGroup = $userGroups->next()) {
+        $userGroups = Repo::userGroup()->getCollector()
+            ->filterByUserIds([$currentUser->getId()])
+            ->filterByContextIds([$context->getId()])
+            ->getMany();
+
+        foreach ($userGroups as $userGroup) {
             $journalGroupAbbrev = "SciELO";
             if ($userGroup->getLocalizedData('abbrev', 'pt_BR') == $journalGroupAbbrev) {
                 return true;
