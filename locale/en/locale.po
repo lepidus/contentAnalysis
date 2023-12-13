@@ -99,11 +99,14 @@ msgstr "It is necessary to correct these pending issues to complete your submiss
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "You can't finish the submission without fixing the errors of the submitted document"
 
-msgid "plugins.generic.contentAnalysis.checkboxTitle"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.label"
 msgstr "Ethics Council"
 
-msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "Does the research that originated the manuscript involve human beings or animals?"
 
-msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgid "plugins.generic.contentAnalysis.submissionType.label"
+msgstr "Submission type"
+
+msgid "plugins.generic.contentAnalysis.submissionType.option"
 msgstr "This submission is an Editorial, Review or a document other than a scientific article"

@@ -101,11 +101,14 @@ msgstr "É necessário corrigir esta(s) pendência(s) para concluir a sua submis
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "Você não pode finalizar a submissão sem primeiro corrigir os problemas com o documento submetido"
 
-msgid "plugins.generic.contentAnalysis.checkboxTitle"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.label"
 msgstr "Conselho de Ética"
 
-msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "A pesquisa que deu origem ao manuscrito envolve seres humanos ou animais?"
 
-msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgid "plugins.generic.contentAnalysis.submissionType.label"
+msgstr "Tipo da submissão"
+
+msgid "plugins.generic.contentAnalysis.submissionType.option"
 msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico"

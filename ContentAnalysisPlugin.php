@@ -20,6 +20,8 @@ use APP\core\Application;
 use APP\template\TemplateManager;
 use APP\facades\Repo;
 use PKP\security\Role;
+use APP\pages\submission\SubmissionHandler;
+use APP\plugins\generic\contentAnalysis\classes\components\forms\ContentAnalysisForm;
 use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
 
 class ContentAnalysisPlugin extends GenericPlugin
@@ -33,13 +35,12 @@ class ContentAnalysisPlugin extends GenericPlugin
         }
 
         if ($success && $this->getEnabled($mainContextId)) {
+            Hook::add('TemplateManager::display', [$this, 'addToDetailsStep']);
             Hook::add('Template::Workflow::Publication', [$this, 'addToWorkflow']);
-            //Hook::add('submissionsubmitstep1form::display', [$this, 'addToStep1']);
-            //Hook::add('submissionsubmitstep1form::readuservars', [$this, 'allowStep1FormToReadOurFields']);
-            //Hook::add('SubmissionHandler::saveSubmit', [$this, 'passOurFieldsValuesToSubmission']);
-            Hook::add('Schema::get::submission', [$this, 'addOurFieldsToSubmissionSchema']);
+
             //Hook::add('submissionsubmitstep4form::display', [$this, 'addToStep4']);
             //Hook::add('submissionsubmitstep4form::validate', [$this, 'addValidationToStep4']);
+            Hook::add('Schema::get::submission', [$this, 'addOurFieldsToSubmissionSchema']);
         }
 
         return $success;
@@ -53,6 +54,50 @@ class ContentAnalysisPlugin extends GenericPlugin
     public function getDescription()
     {
         return __('plugins.generic.contentAnalysis.description');
+    }
+
+    public function addToDetailsStep($hookName, $params)
+    {
+        $request = Application::get()->getRequest();
+        $templateMgr = $params[0];
+
+        if ($request->getRequestedPage() !== 'submission' || $request->getRequestedOp() === 'saved') {
+            return false;
+        }
+
+        $submission = $request
+            ->getRouter()
+            ->getHandler()
+            ->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
+
+        if (!$submission || !$submission->getData('submissionProgress')) {
+            return false;
+        }
+
+        $apiUrl = 'fakeUrl';
+        $contentAnalysisForm = new ContentAnalysisForm(
+            $apiUrl,
+            $submission,
+            $this->submitterHasJournalRole()
+        );
+
+        $steps = $templateMgr->getState('steps');
+        $steps = array_map(function ($step) use ($contentAnalysisForm) {
+            if ($step['id'] === 'details') {
+                $step['sections'][] = [
+                    'id' => 'contentAnalysis',
+                    'name' => 'Name',
+                    'description' => 'Description',
+                    'type' => SubmissionHandler::SECTION_TYPE_FORM,
+                    'form' => $contentAnalysisForm->getConfig(),
+                ];
+            }
+            return $step;
+        }, $steps);
+
+        $templateMgr->setState(['steps' => $steps]);
+
+        return false;
     }
 
     public function addToWorkflow($hookName, $params)
@@ -81,61 +126,6 @@ class ContentAnalysisPlugin extends GenericPlugin
                 $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
             );
         }
-    }
-
-    public function addToStep1($hookName, $params)
-    {
-        $request = Application::get()->getRequest();
-        $templateMgr = TemplateManager::getManager($request);
-
-        $templateMgr->registerFilter("output", array($this, 'addCheckboxesToStep1Filter'));
-        return false;
-    }
-
-    public function addCheckboxesToStep1Filter($output, $templateMgr)
-    {
-        if (preg_match('/<div[^>]+class="section formButtons/', $output, $matches, PREG_OFFSET_CAPTURE)) {
-            $match = $matches[0][0];
-            $posMatch = $matches[0][1];
-
-            $templateMgr->assign('submitterHasJournalRole', $this->submitterHasJournalRole());
-            $checkboxesOutput = $templateMgr->fetch($this->getTemplateResource('checkboxes.tpl'));
-
-            $output = substr_replace($output, $checkboxesOutput, $posMatch, 0);
-            $templateMgr->unregisterFilter('output', array($this, 'addCheckboxesToStep1Filter'));
-        }
-        return $output;
-    }
-
-    public function allowStep1FormToReadOurFields($hookName, $params)
-    {
-        $formFields = &$params[1];
-        $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
-
-        $formFields = array_merge($formFields, $ourFields);
-    }
-
-    public function passOurFieldsValuesToSubmission($hookName, $params)
-    {
-        $step = $params[0];
-        if ($step == 1) {
-            $stepForm = &$params[2];
-            if ($stepForm->validate()) {
-                $submissionId = $stepForm->execute();
-                $submissionDao = DAORegistry::getDAO('SubmissionDAO');
-                $submission = $submissionDao->getById($submissionId);
-
-                $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
-                foreach ($ourFields as $ourField) {
-                    $submission->setData($ourField, $stepForm->getData($ourField));
-                }
-
-                $submissionDao->updateObject($submission);
-                $stepForm->submission = $submission;
-            }
-        }
-
-        return false;
     }
 
     public function addOurFieldsToSubmissionSchema($hookName, $params)

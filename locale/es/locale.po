@@ -101,11 +101,14 @@ msgstr "Es necesario corregir estos asuntos pendientes para completar su envío"
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "No puede finalizar el envío sin corregir primero los problemas con el documento enviado"
 
-msgid "plugins.generic.contentAnalysis.checkboxTitle"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.label"
 msgstr "Consejo de Ética"
 
-msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "¿La investigación que ha dado lugar al manuscrito implica a seres humanos o animales?"
 
-msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
+msgid "plugins.generic.contentAnalysis.submissionType.label"
+msgstr "Tipo de envío"
+
+msgid "plugins.generic.contentAnalysis.submissionType.option"
 msgstr "Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico"
