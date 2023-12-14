@@ -107,8 +107,8 @@ msgstr "Conselho de Ética"
 msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "A pesquisa que deu origem ao manuscrito envolve seres humanos ou animais?"
 
-msgid "plugins.generic.contentAnalysis.submissionType.label"
-msgstr "Tipo da submissão"
+msgid "plugins.generic.contentAnalysis.documentType.label"
+msgstr "Tipo de documento"
 
-msgid "plugins.generic.contentAnalysis.submissionType.option"
+msgid "plugins.generic.contentAnalysis.documentType.option"
 msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico"

@@ -21,6 +21,7 @@ use APP\template\TemplateManager;
 use APP\facades\Repo;
 use PKP\security\Role;
 use APP\pages\submission\SubmissionHandler;
+use APP\plugins\generic\contentAnalysis\api\v1\contentAnalysis\ContentAnalysisHandler;
 use APP\plugins\generic\contentAnalysis\classes\components\forms\ContentAnalysisForm;
 use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
 
@@ -40,6 +41,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
             //Hook::add('submissionsubmitstep4form::display', [$this, 'addToStep4']);
             //Hook::add('submissionsubmitstep4form::validate', [$this, 'addValidationToStep4']);
+            Hook::add('Dispatcher::dispatch', [$this, 'setupAPIHandler']);
             Hook::add('Schema::get::submission', [$this, 'addOurFieldsToSubmissionSchema']);
         }
 
@@ -59,6 +61,7 @@ class ContentAnalysisPlugin extends GenericPlugin
     public function addToDetailsStep($hookName, $params)
     {
         $request = Application::get()->getRequest();
+        $context = $request->getContext();
         $templateMgr = $params[0];
 
         if ($request->getRequestedPage() !== 'submission' || $request->getRequestedOp() === 'saved') {
@@ -74,9 +77,9 @@ class ContentAnalysisPlugin extends GenericPlugin
             return false;
         }
 
-        $apiUrl = 'fakeUrl';
+        $saveFormUrl = $request->getDispatcher()->url($request, Application::ROUTE_API, $context->getPath(), "contentAnalysis/saveForm", null, null, ['submissionId' => $submission->getId()]);
         $contentAnalysisForm = new ContentAnalysisForm(
-            $apiUrl,
+            $saveFormUrl,
             $submission,
             $this->submitterHasJournalRole()
         );
@@ -126,6 +129,28 @@ class ContentAnalysisPlugin extends GenericPlugin
                 $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
             );
         }
+    }
+
+    public function setupAPIHandler(string $hookname, array $params): void
+    {
+        $request = $params[0];
+        $router = $request->getRouter();
+
+        if (!($router instanceof \PKP\core\APIRouter)) {
+            return;
+        }
+
+        if (str_contains($request->getRequestPath(), 'api/v1/contentAnalysis')) {
+            $handler = new ContentAnalysisHandler();
+        }
+
+        if (!isset($handler)) {
+            return;
+        }
+
+        $router->setHandler($handler);
+        $handler->getApp()->run();
+        exit;
     }
 
     public function addOurFieldsToSubmissionSchema($hookName, $params)

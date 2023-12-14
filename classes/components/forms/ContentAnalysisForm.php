@@ -29,11 +29,11 @@ class ContentAnalysisForm extends FormComponent
         ]));
 
         if (!$submitterHasJournalRole) {
-            $this->addField(new FieldOptions('submissionType', [
-                'label' => __('plugins.generic.contentAnalysis.submissionType.label'),
+            $this->addField(new FieldOptions('documentType', [
+                'label' => __('plugins.generic.contentAnalysis.documentType.label'),
                 'type' => 'checkbox',
                 'options' => [
-                    ['value' => '1', 'label' => __('plugins.generic.contentAnalysis.submissionType.option')],
+                    ['value' => '1', 'label' => __('plugins.generic.contentAnalysis.documentType.option')],
                 ],
                 'value' => $submission->getData('nonArticle')
             ]));

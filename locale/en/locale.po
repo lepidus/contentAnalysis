@@ -105,8 +105,8 @@ msgstr "Ethics Council"
 msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "Does the research that originated the manuscript involve human beings or animals?"
 
-msgid "plugins.generic.contentAnalysis.submissionType.label"
-msgstr "Submission type"
+msgid "plugins.generic.contentAnalysis.documentType.label"
+msgstr "Document type"
 
-msgid "plugins.generic.contentAnalysis.submissionType.option"
+msgid "plugins.generic.contentAnalysis.documentType.option"
 msgstr "This submission is an Editorial, Review or a document other than a scientific article"
