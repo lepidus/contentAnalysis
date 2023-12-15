@@ -110,5 +110,5 @@ msgstr "¿La investigación que ha dado lugar al manuscrito implica a seres huma
 msgid "plugins.generic.contentAnalysis.documentType.label"
 msgstr "Tipo de documento"
 
-msgid "plugins.generic.contentAnalysis.documentType.option"
-msgstr "Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico"
+msgid "plugins.generic.contentAnalysis.documentType.description"
+msgstr "¿Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico?"

@@ -4,8 +4,9 @@ namespace APP\plugins\generic\contentAnalysis\API\v1\contentAnalysis;
 
 use PKP\handler\APIHandler;
 use PKP\security\Role;
-use PKP\security\authorization\PolicySet;
-use PKP\security\authorization\RoleBasedHandlerOperationPolicy;
+use APP\facades\Repo;
+use PKP\security\authorization\ContextAccessPolicy;
+use PKP\security\authorization\UserRolesRequiredPolicy;
 
 class ContentAnalysisHandler extends APIHandler
 {
@@ -14,9 +15,9 @@ class ContentAnalysisHandler extends APIHandler
         $this->_handlerPath = 'contentAnalysis';
         $roles = [Role::ROLE_ID_MANAGER, Role::ROLE_ID_SUB_EDITOR, Role::ROLE_ID_AUTHOR];
         $this->_endpoints = [
-            'POST' => [
+            'PUT' => [
                 [
-                    'pattern' => $this->getEndpointPattern() . '/saveForm',
+                    'pattern' => $this->getEndpointPattern() . '/saveForm/{submissionId:\d+}',
                     'handler' => [$this, 'saveForm'],
                     'roles' => $roles,
                 ],
@@ -28,12 +29,8 @@ class ContentAnalysisHandler extends APIHandler
 
     public function authorize($request, &$args, $roleAssignments)
     {
-        $rolePolicy = new PolicySet(PolicySet::COMBINING_PERMIT_OVERRIDES);
-
-        foreach ($roleAssignments as $role => $operations) {
-            $rolePolicy->addPolicy(new RoleBasedHandlerOperationPolicy($request, $role, $operations));
-        }
-        $this->addPolicy($rolePolicy);
+        $this->addPolicy(new UserRolesRequiredPolicy($request), true);
+        $this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
 
         return parent::authorize($request, $args, $roleAssignments);
     }
@@ -41,14 +38,15 @@ class ContentAnalysisHandler extends APIHandler
     public function saveForm($slimRequest, $response, $args)
     {
         $params = $slimRequest->getParsedBody();
-        $submissionId = $args['submissionId'];
+        $submission = Repo::submission()->get($args['submissionId']);
 
         $ethicsCouncil = $params['ethicsCouncil'];
-        $documentType = $params['documentType'];
+        $documentType = ($params['documentType']);
 
-        error_log($submissionId);
-        error_log($ethicsCouncil);
-        error_log($documentType);
+        Repo::submission()->edit($submission, [
+            'researchInvolvingHumansOrAnimals' => $ethicsCouncil,
+            'nonArticle' => $documentType
+        ]);
 
         return $response->withStatus(200);
     }

@@ -108,5 +108,5 @@ msgstr "Does the research that originated the manuscript involve human beings or
 msgid "plugins.generic.contentAnalysis.documentType.label"
 msgstr "Document type"
 
-msgid "plugins.generic.contentAnalysis.documentType.option"
-msgstr "This submission is an Editorial, Review or a document other than a scientific article"
+msgid "plugins.generic.contentAnalysis.documentType.description"
+msgstr "This submission is an Editorial, Review or a document other than a scientific article?"

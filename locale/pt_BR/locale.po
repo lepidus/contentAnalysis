@@ -110,5 +110,5 @@ msgstr "A pesquisa que deu origem ao manuscrito envolve seres humanos ou animais
 msgid "plugins.generic.contentAnalysis.documentType.label"
 msgstr "Tipo de documento"
 
-msgid "plugins.generic.contentAnalysis.documentType.option"
-msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico"
+msgid "plugins.generic.contentAnalysis.documentType.description"
+msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico?"

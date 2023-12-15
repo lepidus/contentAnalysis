@@ -4,13 +4,12 @@ namespace APP\plugins\generic\contentAnalysis\classes\components\forms;
 
 use PKP\components\forms\FormComponent;
 use PKP\components\forms\FieldRadioInput;
-use PKP\components\forms\FieldOptions;
 use APP\submission\Submission;
 
 class ContentAnalysisForm extends FormComponent
 {
     public $id = 'contentAnalysisForm';
-    public $method = 'POST';
+    public $method = 'PUT';
 
     public function __construct(string $action, Submission $submission, bool $submitterHasJournalRole)
     {
@@ -28,12 +27,16 @@ class ContentAnalysisForm extends FormComponent
             'value' => $submission->getData('researchInvolvingHumansOrAnimals')
         ]));
 
+        //Tá errado. Tirar o not
         if (!$submitterHasJournalRole) {
-            $this->addField(new FieldOptions('documentType', [
+            $this->addField(new FieldRadioInput('documentType', [
                 'label' => __('plugins.generic.contentAnalysis.documentType.label'),
-                'type' => 'checkbox',
+                'description' => __('plugins.generic.contentAnalysis.documentType.description'),
+                'type' => 'radio',
+                'isRequired' => true,
                 'options' => [
-                    ['value' => '1', 'label' => __('plugins.generic.contentAnalysis.documentType.option')],
+                    ['value' => '1', 'label' => __('common.yes')],
+                    ['value' => '0', 'label' => __('common.no')]
                 ],
                 'value' => $submission->getData('nonArticle')
             ]));

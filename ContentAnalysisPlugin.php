@@ -77,7 +77,7 @@ class ContentAnalysisPlugin extends GenericPlugin
             return false;
         }
 
-        $saveFormUrl = $request->getDispatcher()->url($request, Application::ROUTE_API, $context->getPath(), "contentAnalysis/saveForm", null, null, ['submissionId' => $submission->getId()]);
+        $saveFormUrl = $request->getDispatcher()->url($request, Application::ROUTE_API, $context->getPath(), "contentAnalysis/saveForm/" . $submission->getId());
         $contentAnalysisForm = new ContentAnalysisForm(
             $saveFormUrl,
             $submission,
