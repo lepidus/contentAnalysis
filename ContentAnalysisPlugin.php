@@ -39,8 +39,6 @@ class ContentAnalysisPlugin extends GenericPlugin
             Hook::add('TemplateManager::display', [$this, 'addToDetailsStep']);
             Hook::add('Template::Workflow::Publication', [$this, 'addToWorkflow']);
 
-            //Hook::add('submissionsubmitstep4form::display', [$this, 'addToStep4']);
-            //Hook::add('submissionsubmitstep4form::validate', [$this, 'addValidationToStep4']);
             Hook::add('Dispatcher::dispatch', [$this, 'setupAPIHandler']);
             Hook::add('Schema::get::submission', [$this, 'addOurFieldsToSubmissionSchema']);
         }
@@ -89,8 +87,6 @@ class ContentAnalysisPlugin extends GenericPlugin
             if ($step['id'] === 'details') {
                 $step['sections'][] = [
                     'id' => 'contentAnalysis',
-                    'name' => 'Name',
-                    'description' => 'Description',
                     'type' => SubmissionHandler::SECTION_TYPE_FORM,
                     'form' => $contentAnalysisForm->getConfig(),
                 ];
@@ -99,6 +95,20 @@ class ContentAnalysisPlugin extends GenericPlugin
         }, $steps);
 
         $templateMgr->setState(['steps' => $steps]);
+
+        return false;
+    }
+
+    public function addToReviewStep(string $hookName, array $params): bool
+    {
+        $step = $params[0]['step'];
+        $templateMgr = $params[1];
+        $output = &$params[2];
+        $context = Application::get()->getRequest()->getContext();
+
+        if ($step === 'details') {
+            $output .= $templateMgr->fetch($this->plugin->getTemplateResource('review-contentAnalysis.tpl'));
+        }
 
         return false;
     }
@@ -169,68 +179,6 @@ class ContentAnalysisPlugin extends GenericPlugin
         ];
 
         return false;
-    }
-
-    public function addToStep4($hookName, $params)
-    {
-        $submission = $params[0]->submission;
-        $request = Application::get()->getRequest();
-        $templateMgr = TemplateManager::getManager($request);
-
-        $galleys = $submission->getGalleys();
-        $hasValidGalley = (count($galleys) > 0 && $galleys[0]->getFile());
-        if ($hasValidGalley) {
-            $galley = $galleys[0];
-            $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
-
-            $checklist = new DocumentChecklist($path);
-            $dataChecklist = $checklist->executeChecklist($submission);
-            $dataChecklist['placedOn'] = 'step4';
-            $dataChecklist['userIsAuthor'] = $this->userIsAuthor($submission);
-
-            $templateMgr->assign($dataChecklist);
-            $templateMgr->registerFilter("output", array($this, 'contentAnalysisFormFilter'));
-        }
-
-        return false;
-    }
-
-    public function contentAnalysisFormFilter($output, $templateMgr)
-    {
-        if (preg_match('/<input[^>]+name="submissionId"[^>]*>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
-            $match = $matches[0][0];
-            $posMatch = $matches[0][1];
-            $screeningTemplate = $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'));
-
-            $output = substr_replace($output, $screeningTemplate, $posMatch + strlen($match), 0);
-            $templateMgr->unregisterFilter('output', array($this, 'contentAnalysisFormFilter'));
-        }
-        return $output;
-    }
-
-    public function addValidationToStep4($hookName, $params)
-    {
-        $step4Form = &$params[0];
-        $submission = $step4Form->submission;
-
-        if (!$this->userIsAuthor($submission)) {
-            return;
-        }
-
-        $galleys = $submission->getGalleys();
-        $hasValidGalley = (count($galleys) > 0 && $galleys[0]->getFile());
-        if ($hasValidGalley) {
-            $galley = $galleys[0];
-            $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
-
-            $checklist = new DocumentChecklist($path);
-            $dataChecklist = $checklist->executeChecklist($submission);
-            if ($dataChecklist['generalStatus'] != 'Success') {
-                $step4Form->addErrorField('contentAnalysisStep4ValidationError');
-                $step4Form->addError('contentAnalysisStep4ValidationError', __("plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"));
-                return;
-            }
-        }
     }
 
     private function userIsAuthor($submission)

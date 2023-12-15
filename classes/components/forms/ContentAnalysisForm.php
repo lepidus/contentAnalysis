@@ -27,8 +27,7 @@ class ContentAnalysisForm extends FormComponent
             'value' => $submission->getData('researchInvolvingHumansOrAnimals')
         ]));
 
-        //Tá errado. Tirar o not
-        if (!$submitterHasJournalRole) {
+        if ($submitterHasJournalRole) {
             $this->addField(new FieldRadioInput('documentType', [
                 'label' => __('plugins.generic.contentAnalysis.documentType.label'),
                 'description' => __('plugins.generic.contentAnalysis.documentType.description'),
