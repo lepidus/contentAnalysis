@@ -15,9 +15,16 @@
         <div class="submissionWizard__reviewPanel__item">
             <h4 class="submissionWizard__reviewPanel__item__header">
                 {translate key="plugins.generic.contentAnalysis.ethicsCouncil.label"}
-            </h4>
+            </h4>    
             <div class="submissionWizard__reviewPanel__item__value">
-                {translate key="plugins.generic.contentAnalysis.ethicsCouncil.selected.{$ethicsCouncilSelection}"}
+                {if $ethicsCouncilSelection == 'notInformed'}
+                    <notification type="warning">
+                        <icon icon="exclamation-triangle" :inline="true"></icon>
+                        {translate key="plugins.generic.contentAnalysis.ethicsCouncil.selected.notInformed"}
+                    </notification>
+                {else}
+                    {translate key="plugins.generic.contentAnalysis.ethicsCouncil.selected.{$ethicsCouncilSelection}"}
+                {/if}
             </div>
         </div>
         {if $submitterHasJournalRole}
@@ -26,7 +33,14 @@
                     {translate key="plugins.generic.contentAnalysis.documentType.label"}
                 </h4>
                 <div class="submissionWizard__reviewPanel__item__value">
-                    {translate key="plugins.generic.contentAnalysis.documentType.selected.{$documentTypeSelection}"}
+                    {if $documentTypeSelection == 'notInformed'}
+                        <notification type="warning">
+                            <icon icon="exclamation-triangle" :inline="true"></icon>
+                            {translate key="plugins.generic.contentAnalysis.documentType.selected.notInformed"}
+                        </notification>
+                    {else}
+                        {translate key="plugins.generic.contentAnalysis.documentType.selected.{$documentTypeSelection}"}
+                    {/if}
                 </div>
             </div>
         {/if}
