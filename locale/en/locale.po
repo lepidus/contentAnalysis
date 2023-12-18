@@ -99,6 +99,14 @@ msgstr "It is necessary to correct these pending issues to complete your submiss
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "You can't finish the submission without fixing the errors of the submitted document"
 
+msgid "plugins.generic.contentAnalysis.stepSection.name"
+msgstr "Manuscript details"
+
+msgid "plugins.generic.contentAnalysis.stepSection.description"
+msgstr ""
+"In compliance with the SciELO Preprints Editorial Policy, please provide the following details about your manuscript.<br><br>"
+"When the research involves humans or animals, the approval of the Ethics Committee of the institution responsible must be explicitly stated in the manuscript."
+
 msgid "plugins.generic.contentAnalysis.ethicsCouncil.label"
 msgstr "Ethics Council"
 

@@ -88,6 +88,8 @@ class ContentAnalysisPlugin extends GenericPlugin
             if ($step['id'] === 'details') {
                 $step['sections'][] = [
                     'id' => 'contentAnalysis',
+                    'name' => __('plugins.generic.contentAnalysis.stepSection.name'),
+                    'description' => __('plugins.generic.contentAnalysis.stepSection.description'),
                     'type' => SubmissionHandler::SECTION_TYPE_FORM,
                     'form' => $contentAnalysisForm->getConfig(),
                 ];
