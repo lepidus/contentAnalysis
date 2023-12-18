@@ -107,8 +107,26 @@ msgstr "Conselho de Ética"
 msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "A pesquisa que deu origem ao manuscrito envolve seres humanos ou animais?"
 
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.yes"
+msgstr "Você selecionou que a pesquisa que deu origem ao manuscrito envolve seres humanos ou animais"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.no"
+msgstr "Você selecionou que a pesquisa que deu origem ao manuscrito NÃO envolve seres humanos ou animais"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.notInformed"
+msgstr "Você deve selecionar uma opção para o Conselho de Ética"
+
 msgid "plugins.generic.contentAnalysis.documentType.label"
 msgstr "Tipo de documento"
 
 msgid "plugins.generic.contentAnalysis.documentType.description"
 msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico?"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.yes"
+msgstr "Você selecionou que esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.no"
+msgstr "Você selecionou que esta submissão trata-se de um artigo científico"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.notInformed"
+msgstr "Você deve selecionar uma opção para o tipo do documento"

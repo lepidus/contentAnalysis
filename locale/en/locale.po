@@ -105,8 +105,26 @@ msgstr "Ethics Council"
 msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "Does the research that originated the manuscript involve human beings or animals?"
 
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.yes"
+msgstr "You selected that the research that originated the manuscript involve human beings or animals"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.no"
+msgstr "You selected that the research that originated the manuscript DOES NOT involve human beings or animals"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.notInformed"
+msgstr "You must select an option for the Ethics Council"
+
 msgid "plugins.generic.contentAnalysis.documentType.label"
 msgstr "Document type"
 
 msgid "plugins.generic.contentAnalysis.documentType.description"
 msgstr "This submission is an Editorial, Review or a document other than a scientific article?"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.yes"
+msgstr "You selected that this submission is an Editorial, Review or a document other than a scientific article"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.no"
+msgstr "You selected that this submission is a scientific article"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.notInformed"
+msgstr "You must select an option for the document type"

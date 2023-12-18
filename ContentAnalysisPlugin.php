@@ -38,6 +38,7 @@ class ContentAnalysisPlugin extends GenericPlugin
         if ($success && $this->getEnabled($mainContextId)) {
             Hook::add('TemplateManager::display', [$this, 'addToDetailsStep']);
             Hook::add('Template::Workflow::Publication', [$this, 'addToWorkflow']);
+            Hook::add('Template::SubmissionWizard::Section::Review', [$this, 'addToReviewStep']);
 
             Hook::add('Dispatcher::dispatch', [$this, 'setupAPIHandler']);
             Hook::add('Schema::get::submission', [$this, 'addOurFieldsToSubmissionSchema']);
@@ -107,10 +108,34 @@ class ContentAnalysisPlugin extends GenericPlugin
         $context = Application::get()->getRequest()->getContext();
 
         if ($step === 'details') {
-            $output .= $templateMgr->fetch($this->plugin->getTemplateResource('review-contentAnalysis.tpl'));
+            $submission = $templateMgr->getTemplateVars('submission');
+            $ethicsCouncilSelection = $submission->getData('researchInvolvingHumansOrAnimals');
+            $documentTypeSelection = $submission->getData('nonArticle');
+            $settingMap = [
+                null => 'notInformed',
+                '1' => 'yes',
+                '0' => 'no'
+            ];
+
+            $templateMgr->assign([
+                'submitterHasJournalRole' => $this->submitterHasJournalRole(),
+                'ethicsCouncilSelection' => $settingMap[$ethicsCouncilSelection],
+                'documentTypeSelection' => $settingMap[$documentTypeSelection]
+            ]);
+
+            $output .= $templateMgr->fetch($this->getTemplateResource('review-contentAnalysis.tpl'));
         }
 
         return false;
+    }
+
+    private function mapSettingToLocaleSuffix(?string $setting): string
+    {
+        if (is_null($setting)) {
+            return 'notInformed';
+        }
+
+        return ($setting === '1');
     }
 
     public function addToWorkflow($hookName, $params)
