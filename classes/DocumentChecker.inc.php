@@ -8,7 +8,6 @@
  *
  * This class implements all checks made over the PDF document file
  */
-require __DIR__ . '/../autoload.inc.php';
 
 class DocumentChecker
 {
@@ -48,7 +47,7 @@ class DocumentChecker
     private function checksumOrcid($orcid)
     {
         $total = 0;
-        for ($i = 0; $i < strlen($orcid)-1; $i++) {
+        for ($i = 0; $i < strlen($orcid) - 1; $i++) {
             $digit = (int) $orcid[$i];
             $total = ($total + $digit) * 2;
         }
@@ -61,7 +60,7 @@ class DocumentChecker
 
     private function isORCID($text)
     {
-        if (!preg_match("~doi\.org~", $text) && preg_match("~http[s]?:\/\/orcid\.org\/~", $text)) {
+        if (!preg_match("~doi\.org~", $text) && preg_match("~ht[t]?p[s]?:\/\/orcid\.org\/~", $text)) {
             preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text, $matches);
             $orcid = str_replace("-", "", $matches[0]);
             return $this->checksumOrcid($orcid);
@@ -106,12 +105,12 @@ class DocumentChecker
 
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern)
     {
-        for ($i = 0; $i < count($this->words)-$limit; $i++) {
+        for ($i = 0; $i < count($this->words) - $limit; $i++) {
             for ($j = 0; $j < count($patterns); $j++) {
                 $depth = 0;
 
                 foreach ($patterns[$j] as $wordPattern) {
-                    similar_text($this->words[$i+$depth], $wordPattern, $similarity);
+                    similar_text($this->words[$i + $depth], $wordPattern, $similarity);
                     if ($similarity < $limiarForWord) {
                         break;
                     } else {
@@ -119,7 +118,7 @@ class DocumentChecker
                     }
                 }
 
-                if ($depth/count($patterns[$j]) >= $limiarForPattern) {
+                if ($depth / count($patterns[$j]) >= $limiarForPattern) {
                     return 'Success';
                 }
             }
@@ -137,9 +136,9 @@ class DocumentChecker
     {
         $orcidsDetected = array();
 
-        for ($i = 0; $i < count($this->words)-1; $i++) {
+        for ($i = 0; $i < count($this->words) - 1; $i++) {
             $word = $this->words[$i];
-            $nextWord = $this->words[$i+1];
+            $nextWord = $this->words[$i + 1];
 
             if ($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
                 $orcidsDetected[] = $word;
