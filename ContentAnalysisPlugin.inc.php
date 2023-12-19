@@ -49,8 +49,8 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function addToWorkflow($hookName, $params)
     {
-        $smarty =& $params[1];
-        $output =& $params[2];
+        $smarty = &$params[1];
+        $output = &$params[2];
 
         $submission = $smarty->get_template_vars('submission');
         $publication = $submission->getCurrentPublication();
@@ -101,7 +101,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function allowStep1FormToReadOurFields($hookName, $params)
     {
-        $formFields =& $params[1];
+        $formFields = &$params[1];
         $ourFields = ['researchInvolvingHumansOrAnimals', 'nonArticle'];
 
         $formFields = array_merge($formFields, $ourFields);
@@ -111,7 +111,7 @@ class ContentAnalysisPlugin extends GenericPlugin
     {
         $step = $params[0];
         if ($step == 1) {
-            $stepForm =& $params[2];
+            $stepForm = &$params[2];
             if ($stepForm->validate()) {
                 $submissionId = $stepForm->execute();
                 $submissionDao = DAORegistry::getDAO('SubmissionDAO');
@@ -132,7 +132,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function addOurFieldsToSubmissionSchema($hookName, $params)
     {
-        $schema =& $params[0];
+        $schema = &$params[0];
 
         $schema->properties->{'researchInvolvingHumansOrAnimals'} = (object) [
             'type' => 'string',
@@ -187,7 +187,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
     public function addValidationToStep4($hookName, $params)
     {
-        $step4Form =& $params[0];
+        $step4Form = &$params[0];
         $submission = $step4Form->submission;
 
         if (!$this->userIsAuthor($submission)) {
