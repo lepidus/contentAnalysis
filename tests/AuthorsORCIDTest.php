@@ -7,6 +7,7 @@ require_once("DetectionOnDocumentTest.php");
 class AuthorsORCIDTest extends DetectionOnDocumentTest
 {
     private $completeOrcid = "https://orcid.org/0000-0001-5727-2427";
+    private $orcidWithoutT = "htps://orcid.org/0000-0001-5727-2427";
     private $orcidOnlyNumbers = "0000-0001-5727-2427";
     private $invalidOrcid = "https://orcid.org/0000-0000-0000-0000";
 
@@ -18,6 +19,13 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
     public function testDetectionCompleteOrcid(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->completeOrcid], $this->documentChecker->words);
+
+        $this->assertEquals(1, $this->documentChecker->checkOrcidsNumber());
+    }
+
+    public function testDetectsOrcidWithoutT(): void
+    {
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->orcidWithoutT], $this->documentChecker->words);
 
         $this->assertEquals(1, $this->documentChecker->checkOrcidsNumber());
     }

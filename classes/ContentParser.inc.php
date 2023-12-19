@@ -27,7 +27,7 @@ class ContentParser
                     $wordEnd++;
                 }
 
-                $word = mb_strtolower(substr($string, $wordStart, $wordEnd-$wordStart));
+                $word = mb_strtolower(substr($string, $wordStart, $wordEnd - $wordStart));
 
                 $words[] = $word;
                 $i = $wordEnd;
@@ -51,7 +51,7 @@ class ContentParser
     public function parseDocument($pathFile)
     {
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext ". $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
+        shell_exec("pdftotext " . $pathFile . " " . $pathTxt . " -enc ASCII7 -layout 2>/dev/null");
 
         $docText = file_get_contents($pathTxt, FILE_TEXT);
         $docLines = preg_split("/\r\n|\n|\r/", $docText);
@@ -81,7 +81,7 @@ class ContentParser
                     $end++;
                 }
 
-                $pattern[] = mb_strtolower(substr($string, $start, $end-$start));
+                $pattern[] = mb_strtolower(substr($string, $start, $end - $start));
                 $i = $end;
             }
         }
