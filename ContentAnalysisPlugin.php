@@ -185,7 +185,7 @@ class ContentAnalysisPlugin extends GenericPlugin
             $output .= sprintf(
                 '<tab id="checklistInfo" label="%s">%s</tab>',
                 __('plugins.generic.contentAnalysis.status.title'),
-                $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
+                $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'))
             );
         }
     }
