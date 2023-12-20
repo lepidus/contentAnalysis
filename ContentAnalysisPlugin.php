@@ -109,9 +109,9 @@ class ContentAnalysisPlugin extends GenericPlugin
         $templateMgr = $params[1];
         $output = &$params[2];
         $context = Application::get()->getRequest()->getContext();
+        $submission = $templateMgr->getTemplateVars('submission');
 
         if ($step === 'details') {
-            $submission = $templateMgr->getTemplateVars('submission');
             $ethicsCouncilSelection = $submission->getData('researchInvolvingHumansOrAnimals');
             $documentTypeSelection = $submission->getData('nonArticle');
             $settingMap = [
@@ -126,7 +126,28 @@ class ContentAnalysisPlugin extends GenericPlugin
                 'documentTypeSelection' => $settingMap[$documentTypeSelection]
             ]);
 
-            $output .= $templateMgr->fetch($this->getTemplateResource('review-contentAnalysis.tpl'));
+            $output .= $templateMgr->fetch($this->getTemplateResource('review/details.tpl'));
+        }
+
+        if ($step === 'files') {
+            $galleys = Repo::galley()
+                ->getCollector()
+                ->filterByPublicationIds([$submission->getCurrentPublication()->getId()])
+                ->getMany()
+                ->toArray();
+
+            if (count($galleys) > 0 && $galleys[0]->getFile()) {
+                $galley = $galleys[0];
+                $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
+
+                $checklist = new DocumentChecklist($path);
+                $dataChecklist = $checklist->executeChecklist($submission);
+                $dataChecklist['placedOn'] = 'submission';
+
+                $templateMgr->assign($dataChecklist);
+
+                $output .= $templateMgr->fetch($this->getTemplateResource('review/checklist.tpl'));
+            }
         }
 
         return false;
@@ -156,9 +177,11 @@ class ContentAnalysisPlugin extends GenericPlugin
         $output = &$params[2];
 
         $submission = $smarty->getTemplateVars('submission');
-        $publication = $submission->getCurrentPublication();
-
-        $galleys = $submission->getGalleys();
+        $galleys = Repo::galley()
+            ->getCollector()
+            ->filterByPublicationIds([$submission->getCurrentPublication()->getId()])
+            ->getMany()
+            ->toArray();
 
         if (count($galleys) > 0 && $galleys[0]->getFile()) {
             $galley = $galleys[0];

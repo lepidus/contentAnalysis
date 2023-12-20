@@ -1,15 +1,14 @@
 <link rel="stylesheet" type="text/css" href="/plugins/generic/contentAnalysis/styles/statusChecklist.css">
 
-<div id="analysisStatusChecklist">
-    <div id="checklistHeader">
-        <h2>{translate key="plugins.generic.contentAnalysis.checklistTitle"}</h2>
-        {if $placedOn == 'workflow'}
+<div id="statusChecklist">
+    {if $placedOn == 'workflow'}
+        <div id="checklistHeader">
             <h2>{translate key="plugins.generic.contentAnalysis.status.title"}</h2>
-        {/if}
-    </div>
+        </div>
+    {/if}
     <div id="checklistBody" class="checklist{$generalStatus}">
         <div id="titleMessage">
-            <h3 id="analysisStatusGeneral">{translate key="plugins.generic.contentAnalysis.status.message{$generalStatus}"}</h3>
+            <h4 id="analysisStatusGeneral">{translate key="plugins.generic.contentAnalysis.status.message{$generalStatus}"}</h4>
         </div>
     
         {if isset($contributionStatus)}
@@ -65,8 +64,11 @@
             </div>
         {/if}
 
-        {if $generalStatus != "Success"}
-            <span><div id="checklistAdvice">{translate key="plugins.generic.contentAnalysis.status.advice"}</div></span>
+        {if $generalStatus != "Success" and $placedOn == 'submission'}
+            <notification type="warning">
+                <icon icon="exclamation-triangle" :inline="true"></icon>
+                {translate key="plugins.generic.contentAnalysis.status.advice"}
+            </notification>
         {/if}
     </div>
 </div>
