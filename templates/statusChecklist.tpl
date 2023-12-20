@@ -64,8 +64,8 @@
             </div>
         {/if}
 
-        {if $generalStatus != "Success" and $placedOn == 'submission'}
-            <notification type="warning">
+        {if $placedOn == 'submission'}
+            <notification v-if="errors.documentChecklist" type="warning">
                 <icon icon="exclamation-triangle" :inline="true"></icon>
                 {translate key="plugins.generic.contentAnalysis.status.advice"}
             </notification>

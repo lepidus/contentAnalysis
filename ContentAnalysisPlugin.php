@@ -130,21 +130,11 @@ class ContentAnalysisPlugin extends GenericPlugin
         }
 
         if ($step === 'files') {
-            $galleys = Repo::galley()
-                ->getCollector()
-                ->filterByPublicationIds([$submission->getCurrentPublication()->getId()])
-                ->getMany()
-                ->toArray();
+            $submissionChecklistData = $this->getSubmissionChecklist($submission);
 
-            if (count($galleys) > 0 && $galleys[0]->getFile()) {
-                $galley = $galleys[0];
-                $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
-
-                $checklist = new DocumentChecklist($path);
-                $dataChecklist = $checklist->executeChecklist($submission);
-                $dataChecklist['placedOn'] = 'submission';
-
-                $templateMgr->assign($dataChecklist);
+            if (!is_null($submissionChecklistData)) {
+                $templateMgr->assign($submissionChecklistData);
+                $templateMgr->assign(['placedOn' => 'submission']);
 
                 $output .= $templateMgr->fetch($this->getTemplateResource('review/checklist.tpl'));
             }
@@ -168,15 +158,40 @@ class ContentAnalysisPlugin extends GenericPlugin
             $errors['documentType'] = [__('plugins.generic.contentAnalysis.ethicsCouncil.selected.notInformed')];
         }
 
+        $submissionChecklistData = $this->getSubmissionChecklist($submission);
+        if (!is_null($submissionChecklistData)) {
+            $generalStatus = $submissionChecklistData['generalStatus'];
+
+            if ($generalStatus != 'Success') {
+                $errors['documentChecklist'] = [__("plugins.generic.contentAnalysis.status.message{$generalStatus}")];
+            }
+        }
+
         return false;
     }
 
     public function addToWorkflow($hookName, $params)
     {
-        $smarty = &$params[1];
+        $templateMgr = &$params[1];
         $output = &$params[2];
 
-        $submission = $smarty->getTemplateVars('submission');
+        $submission = $templateMgr->getTemplateVars('submission');
+        $submissionChecklistData = $this->getSubmissionChecklist($submission);
+
+        if (!is_null($submissionChecklistData)) {
+            $templateMgr->assign($submissionChecklistData);
+            $templateMgr->assign(['placedOn' => 'workflow']);
+
+            $output .= sprintf(
+                '<tab id="checklistInfo" label="%s">%s</tab>',
+                __('plugins.generic.contentAnalysis.status.title'),
+                $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
+            );
+        }
+    }
+
+    private function getSubmissionChecklist($submission)
+    {
         $galleys = Repo::galley()
             ->getCollector()
             ->filterByPublicationIds([$submission->getCurrentPublication()->getId()])
@@ -188,17 +203,10 @@ class ContentAnalysisPlugin extends GenericPlugin
             $path = \Config::getVar('files', 'files_dir') . DIRECTORY_SEPARATOR . $galley->getFile()->getData('path');
 
             $checklist = new DocumentChecklist($path);
-            $dataChecklist = $checklist->executeChecklist($submission);
-            $dataChecklist['placedOn'] = 'workflow';
-
-            $smarty->assign($dataChecklist);
-
-            $output .= sprintf(
-                '<tab id="checklistInfo" label="%s">%s</tab>',
-                __('plugins.generic.contentAnalysis.status.title'),
-                $smarty->fetch($this->getTemplateResource('statusChecklist.tpl'))
-            );
+            return $checklist->executeChecklist($submission);
         }
+
+        return null;
     }
 
     public function setupAPIHandler(string $hookname, array $params): void
