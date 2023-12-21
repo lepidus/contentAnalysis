@@ -71,7 +71,41 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         cy.contains('It is necessary to correct these pending issues to complete your submission');
     }
 
-    /*it('Standard checklist execution on PDF without any pattern', function() {
+    function assertCheckingsSucceeded() {
+        cy.get('.analysisStatusElement').should('have.length', 6);
+
+        cy.get('#statusContribution').within(() => {
+            cy.get('.analysisStatusSuccess');
+            cy.contains('span', "The author's contribution statement was identified in the document");
+        });
+
+        cy.get('#statusORCID').within(() => {
+            cy.get('.analysisStatusSuccess');
+            cy.contains('span', "The ORCIDs of all authors were identified");
+        });
+
+        cy.get('#statusConflictInterest').within(() => {
+            cy.get('.analysisStatusSuccess');
+            cy.contains('span', "The conflict of interests statement was identified in the document");
+        });
+
+        cy.get('#statusKeywordsEnglish').within(() => {
+            cy.get('.analysisStatusSuccess');
+            cy.contains('span', "The keywords in english were found in the document");
+        });
+
+        cy.get('#statusAbstractEnglish').within(() => {
+            cy.get('.analysisStatusSuccess');
+            cy.contains('span', "The abstract in english was found in the document");
+        });
+
+        cy.get('#statusTitleEnglish').within(() => {
+            cy.get('.analysisStatusSuccess');
+            cy.contains('span', "The title in english was found in the document");
+        });
+    }
+
+    it('Standard checklist execution on PDF without any pattern', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
         cy.reload();
@@ -102,7 +136,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
             cy.get('.analysisStatusSkipped');
             cy.contains('span', "The author's contribution statement is not necessary in single authorship cases");
         });
-    });*/
+    });
     it('Standard checklist execution on PDF with all patterns', function () {
         cy.login('eostrom', null, 'publicknowledge');
         cy.findSubmission('myQueue', submissionData.title);
@@ -115,6 +149,20 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         cy.addSubmissionGalleys([files[1]]);
         cy.contains('button', 'Continue').click();
 
-        
+        submissionData.contributors.forEach(authorData => {
+            cy.contains('button', 'Add Contributor').click();
+            cy.get('input[name="givenName-en"]').type(authorData.given, {delay: 0});
+            cy.get('input[name="familyName-en"]').type(authorData.family, {delay: 0});
+            cy.get('input[name="email"]').type(authorData.email, {delay: 0});
+            cy.get('select[name="country"]').select(authorData.country);
+            
+            cy.get('.modal__panel:contains("Add Contributor")').find('button').contains('Save').click();
+            cy.waitJQuery();
+        });
+        cy.contains('button', 'Continue').click();
+        cy.contains('button', 'Continue').click();
+
+        cy.reload();
+        assertCheckingsSucceeded();
     });
 });
