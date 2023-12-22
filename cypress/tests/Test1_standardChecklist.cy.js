@@ -6,7 +6,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     
     before(function() {
         submissionData = {
-            title: "Kiki's Delivery Service",
+            title: "Kikis Delivery Service",
 			abstract: 'A young witch starting life in her new city',
 			keywords: ['plugin', 'testing'],
             ethicsCouncil: '0',
@@ -65,7 +65,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
 
         cy.get('#statusTitleEnglish').within(() => {
             cy.get('.analysisStatusError');
-            cy.contains('span', "The english title \"Kiki's Delivery Service\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
+            cy.contains('span', "The english title \"Kikis Delivery Service\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
         });
 
         cy.contains('It is necessary to correct these pending issues to complete your submission');
@@ -163,6 +163,20 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         cy.contains('button', 'Continue').click();
 
         cy.reload();
+        assertCheckingsSucceeded();
+        
+        cy.contains('button', 'Submit').click();
+        cy.get('.modal__panel:visible').within(() => {
+            cy.contains('button', 'Submit').click();
+        });
+        cy.waitJQuery();
+        cy.contains('h1', 'Submission complete');
+    });
+    it('Checklist execution on workflow', function () {
+        cy.login('eostrom', null, 'publicknowledge');
+        cy.findSubmission('myQueue', submissionData.title);
+
+        cy.contains('button', 'Document verification').click();
         assertCheckingsSucceeded();
     });
 });
