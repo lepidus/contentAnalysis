@@ -37,6 +37,16 @@ function contributorsStep(submissionData) {
     cy.contains('button', 'Continue').click();
 }
 
+function assertNumberOfCheckingsPerformed(checklistType) {
+    let numberCheckingForChecklistType = {
+        'standard': 6,
+        'ethicsCouncil': 7,
+        'nonArticle': 2
+    };
+    
+    cy.get('.analysisStatusElement').should('have.length', numberCheckingForChecklistType[checklistType]);
+}
+
 Cypress.Commands.add('createSubmission', function(submissionData, files) {
 	cy.get('div#myQueue a:contains("New Submission")').click();
         
@@ -55,4 +65,74 @@ Cypress.Commands.add('findSubmission', function(tab, title) {
         .parent().parent().within(() => {
             cy.get('.pkpButton:contains("View")').click();
         });
+});
+
+Cypress.Commands.add('assertCheckingsFailed', function(checklistType) {
+	assertNumberOfCheckingsPerformed(checklistType);
+
+    cy.get('#statusContribution').within(() => {
+        cy.get('.analysisStatusError');
+        cy.contains('span', "The author's contribution statement was not identified in the document. Make sure that a section called \"Authors contribution\" has been inserted in the document, following preferably the CRediT taxonomy to list the individual contributions.");
+    });
+
+    cy.get('#statusORCID').within(() => {
+        cy.get('.analysisStatusError');
+        cy.contains('span', "No ORCIDs were identified in the document. Make sure all the ORCIDs have been inserted in the document following the link format recommended by ORCID. Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship.");
+    });
+
+    cy.get('#statusConflictInterest').within(() => {
+        cy.get('.analysisStatusError');
+        cy.contains('span', "The conflict of interests statement was not identified in the document. Make sure that a section called \"Conflicts of interest\" has been inserted in the document. We recommend the following of the COPE guidelines for the formulation of the conflicts of interest declaration.");
+    });
+
+    cy.get('#statusKeywordsEnglish').within(() => {
+        cy.get('.analysisStatusError');
+        cy.contains('span', "The keywords in english were not found in the document");
+    });
+
+    cy.get('#statusAbstractEnglish').within(() => {
+        cy.get('.analysisStatusError');
+        cy.contains('span', "The abstract in english was not found in the document");
+    });
+
+    cy.get('#statusTitleEnglish').within(() => {
+        cy.get('.analysisStatusError');
+        cy.contains('span', "The english title \"Kikis Delivery Service\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
+    });
+
+    cy.contains('It is necessary to correct these pending issues to complete your submission');
+});
+
+Cypress.Commands.add('assertCheckingsSucceeded', function(checklistType) {
+    assertNumberOfCheckingsPerformed(checklistType);
+
+    cy.get('#statusContribution').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The author's contribution statement was identified in the document");
+    });
+
+    cy.get('#statusORCID').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The ORCIDs of all authors were identified");
+    });
+
+    cy.get('#statusConflictInterest').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The conflict of interests statement was identified in the document");
+    });
+
+    cy.get('#statusKeywordsEnglish').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The keywords in english were found in the document");
+    });
+
+    cy.get('#statusAbstractEnglish').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The abstract in english was found in the document");
+    });
+
+    cy.get('#statusTitleEnglish').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The title in english was found in the document");
+    });
 });
