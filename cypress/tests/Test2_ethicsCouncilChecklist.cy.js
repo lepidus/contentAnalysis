@@ -6,10 +6,9 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     
     before(function() {
         submissionData = {
-            title: "Kikis Delivery Service",
-			abstract: 'A young witch starting life in her new city',
+            title: "My Neighbor Totoro",
+			abstract: 'Two girls find a big friend in the forest',
 			keywords: ['plugin', 'testing'],
-            ethicsCouncil: '0',
             contributors: [
                 {
                     'given': 'Hayao',
@@ -35,39 +34,26 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         ];
     });
 
-    it('Standard checklist execution on PDF without any pattern', function() {
+    it('Ethics council checklist execution on PDF without any pattern', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
         cy.reload();
 
-        cy.assertCheckingsFailed(submissionData.title, 'standard');
-        cy.contains('There are one or more problems that need to be fixed before you can submit.');
-        cy.contains('button', 'Submit').should('be.disabled');
-    });
-    it('Authors contribution statement checking is skipped on single author submissions', function () {
-        cy.login('eostrom', null, 'publicknowledge');
-        cy.findSubmission('myQueue', submissionData.title);
-
+        cy.contains('You must select an option for the Ethics Council');
+        
+        cy.get('.pkpSteps__step__label:contains("Details")').click();
+        cy.get('input[name="ethicsCouncil"][value="1"]').check();
         cy.contains('button', 'Continue').click();
         cy.contains('button', 'Continue').click();
-
-        cy.get('.listPanel__itemTitle:visible:contains("Hayao Miyazaki")')
-            .parent().parent().within(() => {
-                cy.contains('button', 'Delete').click();
-            });
-        cy.contains('button', 'Delete Contributor').click();
-        cy.waitJQuery();
-
         cy.contains('button', 'Continue').click();
         cy.contains('button', 'Continue').click();
         cy.reload();
 
-        cy.get('#statusContribution').within(() => {
-            cy.get('.analysisStatusSkipped');
-            cy.contains('span', "The author's contribution statement is not necessary in single authorship cases");
-        });
+        cy.assertCheckingsFailed(submissionData.title, 'ethicsCouncil');
+        cy.contains('There are one or more problems that need to be fixed before you can submit.');
+        cy.contains('button', 'Submit').should('be.disabled');
     });
-    it('Standard checklist execution on PDF with all patterns', function () {
+    it('Ethics council checklist execution on PDF with all patterns', function () {
         cy.login('eostrom', null, 'publicknowledge');
         cy.findSubmission('myQueue', submissionData.title);
         
@@ -77,23 +63,13 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         cy.get('a.pkp_linkaction_deleteGalley').click();
         cy.get('.pkp_modal_confirmation button:contains("OK")').click();
         cy.addSubmissionGalleys([files[1]]);
+        
         cy.contains('button', 'Continue').click();
-
-        submissionData.contributors.forEach(authorData => {
-            cy.contains('button', 'Add Contributor').click();
-            cy.get('input[name="givenName-en"]').type(authorData.given, {delay: 0});
-            cy.get('input[name="familyName-en"]').type(authorData.family, {delay: 0});
-            cy.get('input[name="email"]').type(authorData.email, {delay: 0});
-            cy.get('select[name="country"]').select(authorData.country);
-            
-            cy.get('.modal__panel:contains("Add Contributor")').find('button').contains('Save').click();
-            cy.waitJQuery();
-        });
         cy.contains('button', 'Continue').click();
         cy.contains('button', 'Continue').click();
 
         cy.reload();
-        cy.assertCheckingsSucceeded('standard');
+        cy.assertCheckingsSucceeded('ethicsCouncil');
         
         cy.contains('button', 'Submit').click();
         cy.get('.modal__panel:visible').within(() => {
@@ -101,12 +77,5 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         });
         cy.waitJQuery();
         cy.contains('h1', 'Submission complete');
-    });
-    it('Checklist execution on workflow', function () {
-        cy.login('eostrom', null, 'publicknowledge');
-        cy.findSubmission('myQueue', submissionData.title);
-
-        cy.contains('button', 'Document verification').click();
-        cy.assertCheckingsSucceeded('standard');
     });
 });

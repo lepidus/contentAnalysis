@@ -133,7 +133,7 @@ class DocumentChecker
 
     public function checkAuthorsContribution()
     {
-        return $this->checkForPattern($this->patternsContribution, 5, 75, 1);
+        return $this->checkForPattern($this->patternsContribution, 3, 75, 1);
     }
 
     public function checkOrcidsNumber()
@@ -198,6 +198,6 @@ class DocumentChecker
 
     public function checkEthicsCommittee()
     {
-        return $this->checkForPattern($this->patternsEthicsCommittee, 6, 75, 1);
+        return $this->checkForPattern($this->patternsEthicsCommittee, 2, 75, 1);
     }
 }

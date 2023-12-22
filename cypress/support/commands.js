@@ -13,7 +13,11 @@ function detailsStep(submissionData) {
         cy.get('#titleAbstract-keywords-control-en').type(keyword, {delay: 0});
         cy.get('#titleAbstract-keywords-control-en').type('{enter}', {delay: 0});
     });
-    cy.get('input[name="ethicsCouncil"][value="' + submissionData.ethicsCouncil + '"]').check();
+    
+    if ('ethicsCouncil' in submissionData) {
+        cy.get('input[name="ethicsCouncil"][value="' + submissionData.ethicsCouncil + '"]').check();
+    }
+    
     cy.contains('button', 'Continue').click();
 }
 
@@ -67,7 +71,7 @@ Cypress.Commands.add('findSubmission', function(tab, title) {
         });
 });
 
-Cypress.Commands.add('assertCheckingsFailed', function(checklistType) {
+Cypress.Commands.add('assertCheckingsFailed', function(title, checklistType) {
 	assertNumberOfCheckingsPerformed(checklistType);
 
     cy.get('#statusContribution').within(() => {
@@ -97,8 +101,15 @@ Cypress.Commands.add('assertCheckingsFailed', function(checklistType) {
 
     cy.get('#statusTitleEnglish').within(() => {
         cy.get('.analysisStatusError');
-        cy.contains('span', "The english title \"Kikis Delivery Service\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
+        cy.contains('span', "The english title \"" + title + "\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
     });
+
+    if (checklistType == 'ethicsCouncil') {
+        cy.get('#statusEthicsCommittee').within(() => {
+            cy.get('.analysisStatusError');
+            cy.contains('span', "The Ethics Committee Approval Statement was not found in the document.");
+        });
+    }
 
     cy.contains('It is necessary to correct these pending issues to complete your submission');
 });
@@ -135,4 +146,11 @@ Cypress.Commands.add('assertCheckingsSucceeded', function(checklistType) {
         cy.get('.analysisStatusSuccess');
         cy.contains('span', "The title in english was found in the document");
     });
+
+    if (checklistType == 'ethicsCouncil') {
+        cy.get('#statusEthicsCommittee').within(() => {
+            cy.get('.analysisStatusSuccess');
+            cy.contains('span', "The Ethics Committee Approval Statement was found in the document");
+        });
+    }
 });

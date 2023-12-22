@@ -40,13 +40,13 @@ class ContentAnalysisHandler extends APIHandler
         $params = $slimRequest->getParsedBody();
         $submission = Repo::submission()->get($args['submissionId']);
 
-        $ethicsCouncil = $params['ethicsCouncil'];
-        $documentType = ($params['documentType']);
+        $editFields = ['researchInvolvingHumansOrAnimals' => $params['ethicsCouncil']];
 
-        Repo::submission()->edit($submission, [
-            'researchInvolvingHumansOrAnimals' => $ethicsCouncil,
-            'nonArticle' => $documentType
-        ]);
+        if(isset($params['documentType'])) {
+            $editFields['nonArticle'] = $params['documentType'];
+        }
+
+        Repo::submission()->edit($submission, $editFields);
 
         return $response->withStatus(200);
     }
