@@ -1,6 +1,6 @@
 import '../support/commands.js';
 
-describe('Content Analysis Plugin - Standard checklist execution', function() {
+describe('Content Analysis Plugin - Ethics counsil checklist execution', function() {
     let submissionData;
     let files;
     
