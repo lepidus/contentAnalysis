@@ -5,6 +5,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     let files;
     
     before(function() {
+        Cypress.config('defaultCommandTimeout', 4000);
         submissionData = {
             title: "Kikis Delivery Service",
 			abstract: 'A young witch starting life in her new city',
@@ -41,7 +42,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         cy.reload();
 
         cy.assertCheckingsFailed(submissionData.title, 'standard');
-        cy.contains('There are one or more problems that need to be fixed before you can submit.');
+        cy.contains('Theresdf are one or more problems that need to be fixed before you can submit.');
         cy.contains('button', 'Submit').should('be.disabled');
     });
     it('Authors contribution statement checking is skipped on single author submissions', function () {

@@ -5,6 +5,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     let files;
     
     before(function() {
+        Cypress.config('defaultCommandTimeout', 4000);
         submissionData = {
             title: "Spirited Away",
 			abstract: 'A girl goes on a vacation with her parents',

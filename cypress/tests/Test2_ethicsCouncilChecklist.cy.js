@@ -5,6 +5,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     let files;
     
     before(function() {
+        Cypress.config('defaultCommandTimeout', 4000);
         submissionData = {
             title: "My Neighbor Totoro",
 			abstract: 'Two girls find a big friend in the forest',
