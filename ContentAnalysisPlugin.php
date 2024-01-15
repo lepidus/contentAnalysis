@@ -279,7 +279,7 @@ class ContentAnalysisPlugin extends GenericPlugin
 
         foreach ($userGroups as $userGroup) {
             $journalGroupAbbrev = "SciELO";
-            if ($userGroup->getLocalizedData('abbrev', 'pt_BR') == $journalGroupAbbrev) {
+            if ($userGroup->getLocalizedData('abbrev', 'en') == $journalGroupAbbrev) {
                 return true;
             }
         }

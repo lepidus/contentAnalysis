@@ -6,8 +6,8 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     
     before(function() {
         submissionData = {
-            title: "My Neighbor Totoro",
-			abstract: 'Two girls find a big friend in the forest',
+            title: "Spirited Away",
+			abstract: 'A girl goes on a vacation with her parents',
 			keywords: ['plugin', 'testing'],
             contributors: [
                 {
@@ -54,5 +54,68 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
             .within(() => {
                 cy.get('input[type="checkbox"]').check();
             });
+    });
+    it('Assigns SciELO Journal role to user', function() {
+        cy.login('dbarnes', null, 'publicknowledge');
+        cy.contains('Users & Roles').click();
+        cy.contains('a', 'Search').click();
+        cy.get('input[name="search"]').type('eostrom');
+        cy.contains('button', 'Search').click();
+        cy.waitJQuery();
+        
+        cy.get('.show_extras:visible').click();
+        cy.contains('a', 'Edit User').click();
+
+        cy.get('label:contains("SciELO Journal")').within(() => {
+            cy.get('input').check();
+        });
+
+        cy.get('#userDetailsForm .submitFormButton').click();
+        cy.waitJQuery();
+    });
+    it('Non-article checklist execution on PDF without any patterns', function() {
+        cy.login('eostrom', null, 'publicknowledge');
+        cy.createSubmission(submissionData, [files[0]]);
+        cy.reload();
+
+        cy.contains('You must select an option for the document type');
+
+        cy.get('.pkpSteps__step__label:contains("Details")').click();
+        cy.get('input[name="documentType"][value="1"]').check();
+        cy.get('input[name="ethicsCouncil"][value="0"]').check();
+        cy.contains('button', 'Continue').click();
+        cy.contains('button', 'Continue').click();
+        cy.contains('button', 'Continue').click();
+        cy.contains('button', 'Continue').click();
+        cy.reload();
+
+        cy.assertCheckingsFailed(submissionData.title, 'nonArticle');
+        cy.contains('There are one or more problems that need to be fixed before you can submit.');
+        cy.contains('button', 'Submit').should('be.disabled');
+    });
+    it('Non-article checklist execution on PDF with all patterns', function () {
+        cy.login('eostrom', null, 'publicknowledge');
+        cy.findSubmission('myQueue', submissionData.title);
+        
+        cy.contains('button', 'Continue').click();
+
+        cy.get('a.show_extras').click();
+        cy.get('a.pkp_linkaction_deleteGalley').click();
+        cy.get('.pkp_modal_confirmation button:contains("OK")').click();
+        cy.addSubmissionGalleys([files[1]]);
+        
+        cy.contains('button', 'Continue').click();
+        cy.contains('button', 'Continue').click();
+        cy.contains('button', 'Continue').click();
+
+        cy.reload();
+        cy.assertCheckingsSucceeded('nonArticle');
+        
+        cy.contains('button', 'Submit').click();
+        cy.get('.modal__panel:visible').within(() => {
+            cy.contains('button', 'Submit').click();
+        });
+        cy.waitJQuery();
+        cy.contains('h1', 'Submission complete');
     });
 });
