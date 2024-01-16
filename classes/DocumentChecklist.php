@@ -8,7 +8,10 @@
  *
  * This class implements the checklist of the document using the DocumentChecker class to execute all of them
  */
-require __DIR__ . '/../autoload.inc.php';
+
+namespace APP\plugins\generic\contentAnalysis\classes;
+
+use APP\plugins\generic\contentAnalysis\classes\DocumentChecker;
 
 class DocumentChecklist
 {
@@ -45,7 +48,7 @@ class DocumentChecklist
 
     private function getStatusOfArticleExclusiveCheckings($submission)
     {
-        $numAuthors = count($submission->getAuthors());
+        $numAuthors = count($submission->getCurrentPublication()->getData('authors'));
         $returnData = [];
 
         if ($numAuthors > 1) {
@@ -67,7 +70,7 @@ class DocumentChecklist
 
     private function getStatusORCIDs($submission)
     {
-        $numAuthors = count($submission->getAuthors());
+        $numAuthors = count($submission->getCurrentPublication()->getData('authors'));
         $orcidsDetected = $this->docChecker->checkOrcidsNumber();
         if ($orcidsDetected >= $numAuthors) {
             return ['orcidStatus' => 'Success'];
@@ -84,7 +87,7 @@ class DocumentChecklist
 
     private function getTitleInEnglishStatus($submission)
     {
-        $titleInEnglish = $submission->getCurrentPublication()->getData('title')['en_US'];
+        $titleInEnglish = $submission->getCurrentPublication()->getData('title')['en'];
         $titleInEnglishStatus = $this->docChecker->checkTitleInEnglish($titleInEnglish);
 
         return [

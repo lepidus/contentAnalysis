@@ -9,6 +9,8 @@
  * This class implements a parser that breaks contents in a list of words
  */
 
+namespace APP\plugins\generic\contentAnalysis\classes;
+
 class ContentParser
 {
     private function parseWordsFromString($string)

@@ -4,7 +4,8 @@ This plugin verifies the content of the submitted document in search of certain 
 
 The content checked in analysis are:
 * Authors contribution statement
-* Interest conflict statement
+* Conflict of interests statement
+* Ethics committee review statement
 * Authors ORCID
 * Metadata in English (title, keywords and abstract)
 
@@ -12,7 +13,7 @@ The content checked in analysis are:
 
 The latest release of this plugin is compatible with the following PKP applications:
 
-* OPS 3.3.0
+* OPS 3.4.0
 
 ## Plugin Download
 
@@ -29,6 +30,6 @@ To download the plugin, go to the [Releases page](https://github.com/lepidus/con
 # License
 __This plugin is licensed under the GNU General Public License v3.0__
 
-__Copyright (c) 2020-2021 Lepidus Tecnologia__
+__Copyright (c) 2020-2024 Lepidus Tecnologia__
 
-__Copyright (c) 2020-2021 SciELO__
+__Copyright (c) 2020-2024 SciELO__

@@ -1,8 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
-require_once("DetectionOnDocumentTest.php");
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 
 class EthicsCommitteeTest extends DetectionOnDocumentTest
 {

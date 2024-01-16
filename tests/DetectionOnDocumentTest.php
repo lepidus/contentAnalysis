@@ -1,9 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+namespace APP\plugins\generic\contentAnalysis\tests;
 
-import('plugins.generic.contentAnalysis.classes.DocumentChecker');
-import('plugins.generic.contentAnalysis.classes.ContentParser');
+use PHPUnit\Framework\TestCase;
+use APP\plugins\generic\contentAnalysis\classes\DocumentChecker;
+use APP\plugins\generic\contentAnalysis\classes\ContentParser;
 
 class DetectionOnDocumentTest extends TestCase
 {

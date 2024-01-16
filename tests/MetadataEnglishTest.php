@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
-require_once("DetectionOnDocumentTest.php");
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
+use APP\plugins\generic\contentAnalysis\classes\ContentParser;
 
 class MetadataEnglishTest extends DetectionOnDocumentTest
 {

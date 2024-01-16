@@ -101,11 +101,40 @@ msgstr "Es necesario corregir estos asuntos pendientes para completar su envío"
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "No puede finalizar el envío sin corregir primero los problemas con el documento enviado"
 
-msgid "plugins.generic.contentAnalysis.checkboxTitle"
+msgid "plugins.generic.contentAnalysis.stepSection.name"
+msgstr "Detalles del manuscrito"
+
+msgid "plugins.generic.contentAnalysis.stepSection.description"
+msgstr ""
+"En cumplimiento de la Política Editorial de SciELO Preprints, por favor proporcione los siguientes detalles sobre su manuscrito.<br><br>"
+"Cuando la investigación involucre seres humanos o animales, la aprobación del Comité de Ética de la institución responsable debe ser explícitamente indicada en el manuscrito."
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.label"
 msgstr "Consejo de Ética"
 
-msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "¿La investigación que ha dado lugar al manuscrito implica a seres humanos o animales?"
 
-msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
-msgstr "Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.yes"
+msgstr "Ha seleccionado que la investigación que ha dado lugar al manuscrito implica a seres humanos o animales"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.no"
+msgstr "Ha seleccionado que la investigación que ha dado lugar al manuscrito NO implica a seres humanos o animales"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.notInformed"
+msgstr "Debe seleccionar una opción para el Consejo de Ética"
+
+msgid "plugins.generic.contentAnalysis.documentType.label"
+msgstr "Tipo de documento"
+
+msgid "plugins.generic.contentAnalysis.documentType.description"
+msgstr "¿Este envío es un Editorial, una Reseña u otro documento que no es un artículo científico?"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.yes"
+msgstr "Ha seleccionado que este envío es un Editorial, una Reseña u otro documento que no es un artículo científico"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.no"
+msgstr "Ha seleccionado que este envío es un artículo científico"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.notInformed"
+msgstr "Debe seleccionar una opción para el tipo de documento"

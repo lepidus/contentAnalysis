@@ -101,11 +101,40 @@ msgstr "É necessário corrigir esta(s) pendência(s) para concluir a sua submis
 msgid "plugins.generic.contentAnalysis.status.cantFinishSubmissionWithErrors"
 msgstr "Você não pode finalizar a submissão sem primeiro corrigir os problemas com o documento submetido"
 
-msgid "plugins.generic.contentAnalysis.checkboxTitle"
+msgid "plugins.generic.contentAnalysis.stepSection.name"
+msgstr "Detalhes do manuscrito"
+
+msgid "plugins.generic.contentAnalysis.stepSection.description"
+msgstr ""
+"Respeitando a Política Editorial do SciELO Preprints, por favor forneça os seguintes detalhes a respeito do seu manuscrito.<br><br>"
+"Quando a pesquisa envolver seres humanos ou animais, a aprovação do Comitê de Ética da instituição responsável deve estar explicitada no manuscrito."
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.label"
 msgstr "Conselho de Ética"
 
-msgid "plugins.generic.contentAnalysis.checkboxResearchInvolvingHumansOrAnimals"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.description"
 msgstr "A pesquisa que deu origem ao manuscrito envolve seres humanos ou animais?"
 
-msgid "plugins.generic.contentAnalysis.checkboxNonArticleSubmission"
-msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico"
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.yes"
+msgstr "Você selecionou que a pesquisa que deu origem ao manuscrito envolve seres humanos ou animais"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.no"
+msgstr "Você selecionou que a pesquisa que deu origem ao manuscrito NÃO envolve seres humanos ou animais"
+
+msgid "plugins.generic.contentAnalysis.ethicsCouncil.selected.notInformed"
+msgstr "Você deve selecionar uma opção para o Conselho de Ética"
+
+msgid "plugins.generic.contentAnalysis.documentType.label"
+msgstr "Tipo de documento"
+
+msgid "plugins.generic.contentAnalysis.documentType.description"
+msgstr "Esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico?"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.yes"
+msgstr "Você selecionou que esta submissão trata-se de um Editorial, Resenha ou outro documento que não é um artigo científico"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.no"
+msgstr "Você selecionou que esta submissão trata-se de um artigo científico"
+
+msgid "plugins.generic.contentAnalysis.documentType.selected.notInformed"
+msgstr "Você deve selecionar uma opção para o tipo do documento"

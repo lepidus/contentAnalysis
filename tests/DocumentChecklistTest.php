@@ -1,13 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
-require_once("DetectionOnDocumentTest.php");
-import('plugins.generic.contentAnalysis.classes.DocumentChecklist');
-import('classes.submission.Submission');
-import('classes.publication.Publication');
-import('classes.article.Author');
-
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
+use APP\plugins\generic\contentAnalysis\classes\ContentParser;
+use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
+use APP\submission\Submission;
+use APP\publication\Publication;
+use APP\author\Author;
 
 class DocumentChecklistTest extends DetectionOnDocumentTest
 {
@@ -32,7 +31,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
     {
         $publication = new Publication();
         $publication->setData('id', $this->publicationId);
-        $publication->setData('title', ['en_US' => $this->title]);
+        $publication->setData('title', ['en' => $this->title]);
 
         $publication->setData('authors', [$this->createAuthor()]);
 
