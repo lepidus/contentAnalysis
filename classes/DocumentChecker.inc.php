@@ -9,6 +9,10 @@
  * This class implements all checks made over the PDF document file
  */
 
+namespace APP\plugins\generic\contentAnalysis\classes;
+
+use APP\plugins\generic\contentAnalysis\classes\ContentParser;
+
 class DocumentChecker
 {
     private $pathFile;
