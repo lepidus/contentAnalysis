@@ -4,7 +4,8 @@ This plugin verifies the content of the submitted document in search of certain 
 
 The content checked in analysis are:
 * Authors contribution statement
-* Interest conflict statement
+* Conflict of interests statement
+* Ethics committee review statement
 * Authors ORCID
 * Metadata in English (title, keywords and abstract)
 
