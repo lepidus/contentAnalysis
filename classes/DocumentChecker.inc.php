@@ -151,14 +151,13 @@ class DocumentChecker
 
         if (empty($orcidsDetected)) { // If nothing was detected, check if ORCIDs are in image-link format
             $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
+            $orcidPattern = "~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~";
 
-            $lengthFullOrcid = 37;
-            for ($i = 0; $i < strlen($textHtml) - $lengthFullOrcid; $i++) {
-                $textFragment = substr($textHtml, $i, 37);
-
-                if (preg_match("~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $textFragment) && !in_array($textFragment, $orcidsDetected)) {
-                    $orcidsDetected[] = $textFragment;
-                    $i += 37;
+            if (preg_match_all($orcidPattern, $textHtml, $matches)) {
+                foreach ($matches[0] as $match) {
+                    if (!in_array($match, $orcidsDetected)) {
+                        $orcidsDetected[] = $match;
+                    }
                 }
             }
         }
