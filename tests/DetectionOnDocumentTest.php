@@ -27,6 +27,13 @@ class DetectionOnDocumentTest extends TestCase
         );
     }
 
+    protected function insertStringIntoTextHtml($string, $textHtml)
+    {
+        $middlePosition = (int) strlen($textHtml) / 2;
+
+        return substr_replace($textHtml, $string, $middlePosition, 0);
+    }
+
     public function testParserRemovesLineNumbering(): void
     {
         $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document_numbered.pdf";
