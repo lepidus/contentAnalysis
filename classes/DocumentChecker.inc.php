@@ -60,10 +60,9 @@ class DocumentChecker
 
     private function isORCID($text)
     {
-        if (!preg_match("~doi\.org~", $text) && preg_match("~ht[t]?p[s]?:\/\/orcid\.org\/~", $text)) {
-            preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text, $matches);
-            $orcid = str_replace("-", "", $matches[0]);
-            return $this->checksumOrcid($orcid);
+        if (preg_match("~orcid\.org\/(\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x))~", $text, $matches)) {
+            $orcidNumbers = str_replace("-", "", $matches[1]);
+            return $this->checksumOrcid($orcidNumbers);
         }
     }
 

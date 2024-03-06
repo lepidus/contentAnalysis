@@ -7,7 +7,7 @@ require_once("DetectionOnDocumentTest.php");
 class AuthorsORCIDTest extends DetectionOnDocumentTest
 {
     private $completeOrcid = "https://orcid.org/0000-0001-5727-2427";
-    private $orcidWithoutT = "htps://orcid.org/0000-0001-5727-2427";
+    private $partialOrcid = "orcid.org/0000-0001-5727-2427";
     private $orcidOnlyNumbers = "0000-0001-5727-2427";
     private $invalidOrcid = "https://orcid.org/0000-0000-0000-0000";
 
@@ -23,28 +23,28 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
         $this->assertEquals(1, $this->documentChecker->checkOrcidsNumber());
     }
 
-    public function testDetectsOrcidWithoutT(): void
+    public function testDetectsPartialOrcid(): void
     {
-        $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->orcidWithoutT], $this->documentChecker->words);
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->partialOrcid], $this->documentChecker->words);
 
         $this->assertEquals(1, $this->documentChecker->checkOrcidsNumber());
     }
 
-    public function testDoesntDetectsOrcidOnlyNumbers(): void
+    public function testDoesntDetectOrcidOnlyNumbers(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->orcidOnlyNumbers], $this->documentChecker->words);
 
         $this->assertEquals(0, $this->documentChecker->checkOrcidsNumber());
     }
 
-    public function testDoesntDetectOrcidWhenNotPresent(): void
-    {
-        $this->assertEquals(0, $this->documentChecker->checkOrcidsNumber());
-    }
-
     public function testDoesntConsiderInvalidOrcid(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList([$this->invalidOrcid], $this->documentChecker->words);
+        $this->assertEquals(0, $this->documentChecker->checkOrcidsNumber());
+    }
+
+    public function testDoesntDetectOrcidWhenNotPresent(): void
+    {
         $this->assertEquals(0, $this->documentChecker->checkOrcidsNumber());
     }
 }
