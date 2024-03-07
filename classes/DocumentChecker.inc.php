@@ -13,12 +13,14 @@ class DocumentChecker
 {
     private $pathFile;
     public $words;
+    public $textHtml;
 
     public function __construct($path)
     {
         $this->pathFile = $path;
         $parser = new ContentParser();
         $this->words = $parser->parseDocument($path);
+        $this->textHtml = shell_exec("pdftohtml -s -i -stdout $path 2>/dev/null");
     }
 
     private $patternsContribution = array(
@@ -60,10 +62,9 @@ class DocumentChecker
 
     private function isORCID($text)
     {
-        if (!preg_match("~doi\.org~", $text) && preg_match("~ht[t]?p[s]?:\/\/orcid\.org\/~", $text)) {
-            preg_match("~\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~", $text, $matches);
-            $orcid = str_replace("-", "", $matches[0]);
-            return $this->checksumOrcid($orcid);
+        if (preg_match("~orcid\.org\/(\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x))~", $text, $matches)) {
+            $orcidNumbers = strtolower(str_replace("-", "", $matches[1]));
+            return $this->checksumOrcid($orcidNumbers);
         }
     }
 
@@ -132,32 +133,30 @@ class DocumentChecker
         return $this->checkForPattern($this->patternsContribution, 5, 75, 1);
     }
 
-    public function checkOrcidsNumber()
+    public function checkTextOrcidsNumber()
     {
-        $orcidsDetected = array();
+        $orcidsDetected = [];
 
         for ($i = 0; $i < count($this->words) - 1; $i++) {
             $word = $this->words[$i];
-            $nextWord = $this->words[$i + 1];
 
             if ($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
                 $orcidsDetected[] = $word;
-                $i++;
-            } elseif ($this->isORCID($word.$nextWord) && !in_array($word.$nextWord, $orcidsDetected)) {
-                $orcidsDetected[] = $word.$nextWord;
-                $i++;
             }
         }
 
-        if (empty($orcidsDetected)) { // If nothing was detected, check if ORCIDs are in image-link format
-            $textHtml = shell_exec("pdftohtml -s -i -stdout " . $this->pathFile . " 2>/dev/null");
-            $orcidPattern = "~http[s]?:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)~";
+        return count($orcidsDetected);
+    }
 
-            if (preg_match_all($orcidPattern, $textHtml, $matches)) {
-                foreach ($matches[0] as $match) {
-                    if (!in_array($match, $orcidsDetected)) {
-                        $orcidsDetected[] = $match;
-                    }
+    public function checkHyperlinkOrcidsNumber()
+    {
+        $orcidsDetected = [];
+        $hyperlinkOrcidPattern = "~<a href=\"https:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)\">~";
+
+        if (preg_match_all($hyperlinkOrcidPattern, $this->textHtml, $matches)) {
+            foreach ($matches[0] as $match) {
+                if ($this->isORCID($match) && !in_array($match, $orcidsDetected)) {
+                    $orcidsDetected[] = $match;
                 }
             }
         }

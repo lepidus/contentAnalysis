@@ -45,15 +45,18 @@ msgstr "La declaración de contribución de los autores no se requiere en los ca
 msgid "plugins.generic.contentAnalysis.status.orcidSuccess"
 msgstr "Se identificaron los ORCID de todos los autores"
 
-msgid "plugins.generic.contentAnalysis.status.orcidWarning"
+msgid "plugins.generic.contentAnalysis.status.orcidWarning.hyperlinkOrcids"
+msgstr "No se identificaron los hipervínculos a los registros ORCID de todos los autores del documento presentado"
+
+msgid "plugins.generic.contentAnalysis.status.orcidWarning.textOrcids"
 msgstr ""
 "Solo identificamos {$numOrcids} ORCID de un total de {$numAuthors} autores, asegúrese de que los ORCID de todos los autores estén incluidos en el documento. "
-"También asegúrese de que todas los ORCIDs se hayan ingresado en el manuscrito en el <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato de enlace recomendado por ORCID</a>."
+"También asegúrese de que todas los ORCIDs se hayan ingresado en el manuscrito en el <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato de enlace recomendado por ORCID</a>, conteniendo también el hipervínculo a la página del registro ORCID."
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr ""
 "No se identificaron ORCIDs en el documento. "
-"Asegúrese de que todas los ORCIDs se hayan ingresado en el manuscrito en el <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato de enlace recomendado por ORCID</a>. "
+"Asegúrese de que todas los ORCIDs se hayan ingresado en el manuscrito en el <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">formato de enlace recomendado por ORCID</a>, conteniendo también el hipervínculo a la página del registro ORCID. "
 "También asegúrese de que los enlaces coincidan con el registro ORCID correcto para cada persona que figura en la autoría del manuscrito."
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestSuccess"
