@@ -89,7 +89,6 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
     public function testComparisonOrcidAuthors(): void
     {
         $this->publication->setData('authors', [$this->createAuthor(), $this->createAuthor()]);
-
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertEquals('Error', $statusChecklist['orcidStatus']);
 
@@ -102,7 +101,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->assertEquals('hyperlinkOrcids', $statusChecklist['orcidWarningType']);
 
         $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
-        $statusChecklist = $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
+        $statusChecklist = $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[1]);
         $this->assertEquals('Success', $statusChecklist['orcidStatus']);
     }
 
@@ -138,6 +137,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->publication->setData('authors', [$this->createAuthor()]);
 
         $this->getStatusChecklistWordsUpdating($this->textOrcids[0]);
+        $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
         $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
 
         $this->assertEquals('1', $statusChecklist['submissionIsNonArticle']);
