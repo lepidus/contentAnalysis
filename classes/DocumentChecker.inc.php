@@ -63,7 +63,7 @@ class DocumentChecker
     private function isORCID($text)
     {
         if (preg_match("~orcid\.org\/(\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x))~", $text, $matches)) {
-            $orcidNumbers = str_replace("-", "", $matches[1]);
+            $orcidNumbers = strtolower(str_replace("-", "", $matches[1]));
             return $this->checksumOrcid($orcidNumbers);
         }
     }
@@ -139,14 +139,9 @@ class DocumentChecker
 
         for ($i = 0; $i < count($this->words) - 1; $i++) {
             $word = $this->words[$i];
-            $nextWord = $this->words[$i + 1];
 
             if ($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
                 $orcidsDetected[] = $word;
-                $i++;
-            } elseif ($this->isORCID($word.$nextWord) && !in_array($word.$nextWord, $orcidsDetected)) {
-                $orcidsDetected[] = $word.$nextWord;
-                $i++;
             }
         }
 
