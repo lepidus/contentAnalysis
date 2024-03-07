@@ -95,9 +95,11 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
 
         $statusChecklist = $this->getStatusChecklistWordsUpdating($this->textOrcids[0]);
         $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
+        $this->assertEquals('textOrcids', $statusChecklist['orcidWarningType']);
 
         $statusChecklist = $this->getStatusChecklistWordsUpdating($this->textOrcids[1]);
-        $this->assertEquals('WarningHyperlinks', $statusChecklist['orcidStatus']);
+        $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
+        $this->assertEquals('hyperlinkOrcids', $statusChecklist['orcidWarningType']);
 
         $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
         $statusChecklist = $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
