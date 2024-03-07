@@ -29,9 +29,7 @@ class DetectionOnDocumentTest extends TestCase
 
     protected function insertStringIntoTextHtml($string, $textHtml)
     {
-        $middlePosition = (int) strlen($textHtml) / 2;
-
-        return substr_replace($textHtml, $string, $middlePosition, 0);
+        return $textHtml . " " . $string;
     }
 
     public function testParserRemovesLineNumbering(): void
