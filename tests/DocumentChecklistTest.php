@@ -23,7 +23,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         "<a href=\"https://orcid.org/0000-0002-1648-966X\">"
     ];
 
-    
+
     public function setUp(): void
     {
         parent::setUp();
