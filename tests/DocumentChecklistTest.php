@@ -17,8 +17,13 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
     private $title = "The curious world of the magical numbers";
     private $authorGivenName = "Sophie";
     private $authorFamilyName = "Anhalt-Zerbst";
-    private $orcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0002-1648-966X"];
+    private $textOrcids = ["https://orcid.org/0000-0001-5727-2427", "https://orcid.org/0000-0002-1648-966X"];
+    private $hyperlinkOrcids = [
+        "<a href=\"https://orcid.org/0000-0001-5727-2427\">",
+        "<a href=\"https://orcid.org/0000-0002-1648-966X\">"
+    ];
 
+    
     public function setUp(): void
     {
         parent::setUp();
@@ -65,6 +70,12 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         return $this->documentChecklist->executeChecklist($this->submission);
     }
 
+    private function getStatusChecklistTextHtmlUpdating($string)
+    {
+        $this->documentChecklist->docChecker->textHtml = $this->insertStringIntoTextHtml($string, $this->documentChecklist->docChecker->textHtml);
+        return $this->documentChecklist->executeChecklist($this->submission);
+    }
+
     public function testContributionSkippedSingleAuthor(): void
     {
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
@@ -78,15 +89,21 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
     public function testComparisonOrcidAuthors(): void
     {
         $this->publication->setData('authors', [$this->createAuthor(), $this->createAuthor()]);
-
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertEquals('Error', $statusChecklist['orcidStatus']);
 
-        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->orcids[0]);
+        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->textOrcids[0]);
         $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
+        $this->assertEquals('textOrcids', $statusChecklist['orcidWarningType']);
 
-        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->orcids[1]);
+        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->textOrcids[1]);
+        $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
+        $this->assertEquals('hyperlinkOrcids', $statusChecklist['orcidWarningType']);
+
+        $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
+        $statusChecklist = $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[1]);
         $this->assertEquals('Success', $statusChecklist['orcidStatus']);
+
     }
 
     public function testChecksEthicOnlyWhenResearchInvolvesHumansOrAnimals(): void
@@ -120,7 +137,8 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->submission->setData('researchInvolvingHumansOrAnimals', true);
         $this->publication->setData('authors', [$this->createAuthor()]);
 
-        $this->getStatusChecklistWordsUpdating($this->orcids[0]);
+        $this->getStatusChecklistWordsUpdating($this->textOrcids[0]);
+        $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
         $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
 
         $this->assertEquals('1', $statusChecklist['submissionIsNonArticle']);
