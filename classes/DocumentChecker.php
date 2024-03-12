@@ -64,12 +64,18 @@ class DocumentChecker
         return $checksum == $orcid[-1];
     }
 
-    private function isORCID($text)
+    private function isOrcid($text)
     {
         if (preg_match("~orcid\.org\/(\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x))~", $text, $matches)) {
-            $orcidNumbers = strtolower(str_replace("-", "", $matches[1]));
-            return $this->checksumOrcid($orcidNumbers);
+            $orcid = strtolower($matches[1]);
+            $orcidNumbers = str_replace("-", "", $orcid);
+
+            if ($this->checksumOrcid($orcidNumbers)) {
+                return $orcid;
+            }
         }
+
+        return "";
     }
 
     private $patternsConflictInterest = array(
@@ -137,35 +143,37 @@ class DocumentChecker
         return $this->checkForPattern($this->patternsContribution, 3, 75, 1);
     }
 
-    public function checkTextOrcidsNumber()
+    public function checkTextOrcids(): array
     {
         $orcidsDetected = [];
 
         for ($i = 0; $i < count($this->words) - 1; $i++) {
-            $word = $this->words[$i];
+            $orcid = $this->isOrcid($this->words[$i]);
 
-            if ($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
-                $orcidsDetected[] = $word;
+            if ($orcid && !in_array($orcid, $orcidsDetected)) {
+                $orcidsDetected[] = $orcid;
             }
         }
 
-        return count($orcidsDetected);
+        return $orcidsDetected;
     }
 
-    public function checkHyperlinkOrcidsNumber()
+    public function checkHyperlinkOrcids(): array
     {
         $orcidsDetected = [];
         $hyperlinkOrcidPattern = "~<a href=\"https:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)\">~";
 
         if (preg_match_all($hyperlinkOrcidPattern, $this->textHtml, $matches)) {
             foreach ($matches[0] as $match) {
-                if ($this->isORCID($match) && !in_array($match, $orcidsDetected)) {
-                    $orcidsDetected[] = $match;
+                $orcid = $this->isOrcid($match);
+
+                if ($orcid && !in_array($orcid, $orcidsDetected)) {
+                    $orcidsDetected[] = $orcid;
                 }
             }
         }
 
-        return count($orcidsDetected);
+        return $orcidsDetected;
     }
 
     public function checkConflictInterest()

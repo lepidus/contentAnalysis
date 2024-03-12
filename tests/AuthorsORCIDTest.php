@@ -8,7 +8,7 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
     private $validTextOrcids = [
         "https://orcid.org/0000-0001-5727-2427",
         "https://orcid.org/0000-0002-1648-966X",
-        "orcid.org/0000-0001-5727-2427"
+        "orcid.org/0000-0002-1825-0097"
     ];
     private $invalidTextOrcids = [
         "0000-0001-5727-2427",
@@ -32,28 +32,33 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->validTextOrcids, $this->documentChecker->words);
 
-        $this->assertEquals(3, $this->documentChecker->checkTextOrcidsNumber());
+        $numberTextOrcids = count($this->documentChecker->checkTextOrcids());
+
+        $this->assertEquals(3, $numberTextOrcids);
     }
 
     public function doesntDetectInvalidTextOrcids(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->invalidTextOrcids, $this->documentChecker->words);
+        $numberTextOrcids = count($this->documentChecker->checkTextOrcids());
 
-        $this->assertEquals(0, $this->documentChecker->checkTextOrcidsNumber());
+        $this->assertEquals(0, $numberTextOrcids);
     }
 
     public function testDetectsValidHyperlinkOrcids(): void
     {
         $this->documentChecker->textHtml = $this->insertStringIntoTextHtml(implode(' ', $this->validHyperlinkOrcids), $this->documentChecker->textHtml);
+        $numberHyperlinkOrcids = count($this->documentChecker->checkHyperlinkOrcids());
 
-        $this->assertEquals(2, $this->documentChecker->checkHyperlinkOrcidsNumber());
+        $this->assertEquals(2, $numberHyperlinkOrcids);
     }
 
     public function testDoesntDetectInvalidHyperlinkOrcids(): void
     {
         $this->documentChecker->textHtml = $this->insertStringIntoTextHtml(implode(' ', $this->invalidHyperlinkOrcids), $this->documentChecker->textHtml);
+        $numberHyperlinkOrcids = count($this->documentChecker->checkHyperlinkOrcids());
 
-        $this->assertEquals(0, $this->documentChecker->checkHyperlinkOrcidsNumber());
+        $this->assertEquals(0, $numberHyperlinkOrcids);
     }
 
 }
