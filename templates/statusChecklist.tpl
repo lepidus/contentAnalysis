@@ -22,11 +22,7 @@
         <div id="statusORCID" class="analysisStatusElement">
             <div class="analysisStatus{$orcidStatus}"></div>
             {if $orcidStatus == "Warning"}
-                {if $orcidWarningType == 'textOrcids'}
-                    <span>{translate key="plugins.generic.contentAnalysis.status.orcid{$orcidStatus}.textOrcids" numOrcids=$numOrcids numAuthors=$numAuthors}</span>
-                {else}
-                    <span>{translate key="plugins.generic.contentAnalysis.status.orcid{$orcidStatus}.hyperlinkOrcids"}</span>
-                {/if}
+                <span>{translate key="plugins.generic.contentAnalysis.status.orcid{$orcidStatus}" numOrcids=$numOrcids numAuthors=$numAuthors}</span>
             {else}
                 <span>{translate key="plugins.generic.contentAnalysis.status.orcid{$orcidStatus}"}</span>
             {/if}
