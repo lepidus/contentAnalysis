@@ -71,8 +71,8 @@ class DocumentChecklist
     private function getStatusORCIDs($submission)
     {
         $numAuthors = count($submission->getCurrentPublication()->getData('authors'));
-        $textOrcidsDetected = $this->docChecker->checkTextOrcidsNumber();
-        $hyperlinkOrcidsDetected = $this->docChecker->checkHyperlinkOrcidsNumber();
+        $textOrcidsDetected = count($this->docChecker->checkTextOrcids());
+        $hyperlinkOrcidsDetected = count($this->docChecker->checkHyperlinkOrcids());
 
         if ($textOrcidsDetected >= $numAuthors) {
             if ($hyperlinkOrcidsDetected >= $numAuthors) {
