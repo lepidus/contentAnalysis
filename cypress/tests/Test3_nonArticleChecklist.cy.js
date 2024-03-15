@@ -35,7 +35,7 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
         ];
     });
 
-    it('Creation of Scielo Journal role', function() {
+    it('Creation of SciELO Journal role', function() {
         cy.login('dbarnes', null, 'publicknowledge');
         cy.contains('Users & Roles').click();
         cy.contains('button', 'Roles').click();
