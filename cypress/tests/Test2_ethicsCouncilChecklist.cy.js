@@ -21,13 +21,13 @@ describe('Content Analysis Plugin - Ethics counsil checklist execution', functio
 		};
         files = [
             {
-                'file': 'documentNoPatterns.pdf',
+                'file': '../../plugins/generic/contentAnalysis/cypress/fixtures/documentNoPatterns.pdf',
                 'fileName': 'documentNoPatterns.pdf',
                 'mimeType': 'application/pdf',
                 'genre': 'Preprint Text'
             },
             {
-                'file': 'documentAllPatterns.pdf',
+                'file': '../../plugins/generic/contentAnalysis/cypress/fixtures/documentAllPatterns.pdf',
                 'fileName': 'documentAllPatterns.pdf',
                 'mimeType': 'application/pdf',
                 'genre': 'Preprint Text'
