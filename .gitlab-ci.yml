@@ -12,3 +12,7 @@ include:
 .unit_test_template:
   before_script:
     - apt update && apt install poppler-utils -yqq
+
+.integration_tests_template:
+  before_script:
+    - apt update && apt install poppler-utils -yqq
