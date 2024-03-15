@@ -7,7 +7,12 @@ include:
     file:
       - 'templates/groups/pkp_plugin.yml'
       - 'templates/groups/ops_3_4_plugins_unit_tests_model.yml'
+      - 'templates/groups/ops_3_4_plugins_cypress_tests_model.yml'
 
 .unit_test_template:
+  before_script:
+    - apt update && apt install poppler-utils -yqq
+
+.integration_tests_template:
   before_script:
     - apt update && apt install poppler-utils -yqq
