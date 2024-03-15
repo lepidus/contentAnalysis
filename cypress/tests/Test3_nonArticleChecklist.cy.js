@@ -21,13 +21,13 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
 		};
         files = [
             {
-                'file': '../../plugins/generic/contentAnalysis/cypress/fixtures/documentNoPatterns.pdf',
+                'file': 'documentNoPatterns.pdf',
                 'fileName': 'documentNoPatterns.pdf',
                 'mimeType': 'application/pdf',
                 'genre': 'Preprint Text'
             },
             {
-                'file': '../../plugins/generic/contentAnalysis/cypress/fixtures/documentAllPatterns.pdf',
+                'file': 'documentAllPatterns.pdf',
                 'fileName': 'documentAllPatterns.pdf',
                 'mimeType': 'application/pdf',
                 'genre': 'Preprint Text'
