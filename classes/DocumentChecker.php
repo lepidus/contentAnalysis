@@ -64,12 +64,17 @@ class DocumentChecker
         return $checksum == $orcid[-1];
     }
 
-    private function isORCID($text)
+    private function checkOrcid($text)
     {
         if (preg_match("~orcid\.org\/(\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x))~", $text, $matches)) {
-            $orcidNumbers = strtolower(str_replace("-", "", $matches[1]));
-            return $this->checksumOrcid($orcidNumbers);
+            $orcid = strtolower($matches[1]);
+            $orcidNumbers = str_replace("-", "", $orcid);
+            if ($this->checksumOrcid($orcidNumbers)) {
+                return $orcid;
+            }
         }
+
+        return "";
     }
 
     private $patternsConflictInterest = array(
@@ -143,9 +148,11 @@ class DocumentChecker
 
         for ($i = 0; $i < count($this->words) - 1; $i++) {
             $word = $this->words[$i];
+            $nextWord = $this->words[$i + 1];
+            $orcid = $this->checkOrcid($word.$nextWord);
 
-            if ($this->isORCID($word) && !in_array($word, $orcidsDetected)) {
-                $orcidsDetected[] = $word;
+            if ($orcid != '' && !in_array($orcid, $orcidsDetected)) {
+                $orcidsDetected[] = $orcid;
             }
         }
 
@@ -159,8 +166,9 @@ class DocumentChecker
 
         if (preg_match_all($hyperlinkOrcidPattern, $this->textHtml, $matches)) {
             foreach ($matches[0] as $match) {
-                if ($this->isORCID($match) && !in_array($match, $orcidsDetected)) {
-                    $orcidsDetected[] = $match;
+                $orcid = $this->checkOrcid($match);
+                if ($orcid != '' && !in_array($orcid, $orcidsDetected)) {
+                    $orcidsDetected[] = $orcid;
                 }
             }
         }
