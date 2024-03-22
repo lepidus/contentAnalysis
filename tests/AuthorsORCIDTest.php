@@ -9,7 +9,7 @@ class AuthorsORCIDTest extends DetectionOnDocumentTest
     private $validTextOrcids = [
         "https://orcid.org/0000-0001-5727-2427",
         "https://orcid.org/0000-0002-1648-966X",
-        "orcid.org/0000-0001-5727-2427"
+        "orcid.org/0000-0002-1825-0097"
     ];
     private $invalidTextOrcids = [
         "0000-0001-5727-2427",
