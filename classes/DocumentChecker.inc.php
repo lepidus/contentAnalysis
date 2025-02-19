@@ -112,8 +112,11 @@ class DocumentChecker
     private $patternsDataStatement = [
         ["data", "statement"],
         ["data", "availability", "statement"],
+        ["data", "accessibility", "statement"],
+        ["disponibilidad", "de", "datos"],
         ["datos", "de", "investigación"],
-        ["dados", "de", "pesquisa"]
+        ["dados", "de", "pesquisa"],
+        ["dados", "da", "pesquisa"]
     ];
 
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern)
