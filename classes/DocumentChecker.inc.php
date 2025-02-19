@@ -109,6 +109,13 @@ class DocumentChecker
         array("ethics", "committee"),
     );
 
+    private $patternsDataStatement = [
+        ["data", "statement"],
+        ["data", "availability", "statement"],
+        ["datos", "de", "investigación"],
+        ["dados", "de", "pesquisa"]
+    ];
+
     private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern)
     {
         for ($i = 0; $i < count($this->words) - $limit; $i++) {
@@ -201,5 +208,10 @@ class DocumentChecker
     public function checkEthicsCommittee()
     {
         return $this->checkForPattern($this->patternsEthicsCommittee, 6, 75, 1);
+    }
+
+    public function checkDataStatement()
+    {
+        return $this->checkForPattern($this->patternsDataStatement, 3, 90, 1);
     }
 }
