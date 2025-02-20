@@ -58,6 +58,13 @@
             {/if}
         </div>
 
+        {if isset($dataStatementStatus)}
+            <div id="statusDataStatement" class="analysisStatusElement">
+                <div class="analysisStatus{$dataStatementStatus}"></div>
+                <span>{translate key="plugins.generic.contentAnalysis.status.dataStatement{$dataStatementStatus}"}</span>
+            </div>
+        {/if}
+
         {if isset($ethicsCommitteeStatus)}
             <div id="statusEthicsCommittee" class="analysisStatusElement">
                 <div class="analysisStatus{$ethicsCommitteeStatus}"></div>
