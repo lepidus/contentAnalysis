@@ -62,11 +62,11 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         return $author;
     }
 
-    private function getStatusChecklistWordsUpdating($word)
+    private function executeChecklistAddingNewTextToDocument($text)
     {
         $parser = new ContentParser();
-        $patternWord = $parser->createPatternFromString($word);
-        $this->documentChecklist->docChecker->words = $this->insertWordsIntoDocWordList($patternWord, $this->documentChecklist->docChecker->words);
+        $textWords = $parser->createPatternFromString($text);
+        $this->documentChecklist->docChecker->words = $this->insertWordsIntoDocWordList($textWords, $this->documentChecklist->docChecker->words);
         return $this->documentChecklist->executeChecklist($this->submission);
     }
 
@@ -92,11 +92,11 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $statusChecklist = $this->documentChecklist->executeChecklist($this->submission);
         $this->assertEquals('Error', $statusChecklist['orcidStatus']);
 
-        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->textOrcids[0]);
+        $statusChecklist = $this->executeChecklistAddingNewTextToDocument($this->textOrcids[0]);
         $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
         $this->assertEquals('textOrcids', $statusChecklist['orcidWarningType']);
 
-        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->textOrcids[1]);
+        $statusChecklist = $this->executeChecklistAddingNewTextToDocument($this->textOrcids[1]);
         $this->assertEquals('Warning', $statusChecklist['orcidStatus']);
         $this->assertEquals('hyperlinkOrcids', $statusChecklist['orcidWarningType']);
 
@@ -125,6 +125,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->assertEquals('1', $statusChecklist['submissionIsNonArticle']);
         $this->assertTrue(array_key_exists('orcidStatus', $statusChecklist));
         $this->assertTrue(array_key_exists('titleEnglishStatus', $statusChecklist));
+        $this->assertTrue(array_key_exists('dataStatementStatus', $statusChecklist));
 
         $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
         $this->assertFalse(array_key_exists('conflictInterestStatus', $statusChecklist));
@@ -137,13 +138,15 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->submission->setData('researchInvolvingHumansOrAnimals', true);
         $this->publication->setData('authors', [$this->createAuthor()]);
 
-        $this->getStatusChecklistWordsUpdating($this->textOrcids[0]);
+        $this->executeChecklistAddingNewTextToDocument($this->textOrcids[0]);
         $this->getStatusChecklistTextHtmlUpdating($this->hyperlinkOrcids[0]);
-        $statusChecklist = $this->getStatusChecklistWordsUpdating($this->title);
+        $this->executeChecklistAddingNewTextToDocument('Data availability statement lorem ipsum dolor sit amet');
+        $statusChecklist = $this->executeChecklistAddingNewTextToDocument($this->title);
 
         $this->assertEquals('1', $statusChecklist['submissionIsNonArticle']);
         $this->assertEquals('Success', $statusChecklist['orcidStatus']);
         $this->assertEquals('Success', $statusChecklist['titleEnglishStatus']);
+        $this->assertEquals('Success', $statusChecklist['dataStatementStatus']);
         $this->assertEquals('Success', $statusChecklist['generalStatus']);
     }
 }
