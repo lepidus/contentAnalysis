@@ -84,6 +84,11 @@ Cypress.Commands.add('assertCheckingsFailed', function(title, checklistType) {
         cy.contains('span', "The english title \"" + title + "\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
     });
 
+    cy.get('#statusDataStatement').within(() => {
+        cy.get('.analysisStatusError');
+        cy.contains('span', "The data availability statement was not found in the document");
+    });
+
     if (checklistType != 'nonArticle') {
         cy.get('#statusContribution').within(() => {
             cy.get('.analysisStatusError');
@@ -127,6 +132,11 @@ Cypress.Commands.add('assertCheckingsSucceeded', function(checklistType) {
     cy.get('#statusTitleEnglish').within(() => {
         cy.get('.analysisStatusSuccess');
         cy.contains('span', "The title in english was found in the document");
+    });
+
+    cy.get('#statusDataStatement').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The data availability statement is present in the document");
     });
 
     if (checklistType != 'nonArticle') {
