@@ -89,6 +89,12 @@ msgstr "The checking for the english title in the PDF file couldn't be done, sin
 msgid "plugins.generic.contentAnalysis.status.titleEnglishError"
 msgstr "The english title \"{$titleInEnglish}\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form"
 
+msgid "plugins.generic.contentAnalysis.status.dataStatementSuccess"
+msgstr "The data availability statement is present in the document"
+
+msgid "plugins.generic.contentAnalysis.status.dataStatementError"
+msgstr "The data availability statement was not found in the document"
+
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "The Ethics Committee Approval Statement was found in the document"
 
