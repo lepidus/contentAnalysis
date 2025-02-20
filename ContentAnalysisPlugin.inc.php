@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file plugins/generic/contentAnalysis/ContentAnalysisPlugin.inc.php
  *

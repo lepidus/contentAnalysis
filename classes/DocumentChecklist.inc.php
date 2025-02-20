@@ -28,9 +28,15 @@ class DocumentChecklist
             $dataChecklist = array_merge($dataChecklist, $this->getStatusOfArticleExclusiveCheckings($submission));
         }
 
-        $dataChecklist = array_merge($dataChecklist, $this->getStatusORCIDs($submission));
-        $dataChecklist = array_merge($dataChecklist, $this->getTitleInEnglishStatus($submission));
-        $dataChecklist['submissionIsNonArticle'] = ($submissionIsArticle ? '0' : '1');
+        $dataChecklist = array_merge(
+            $dataChecklist,
+            $this->getStatusORCIDs($submission),
+            $this->getTitleInEnglishStatus($submission),
+            [
+                'dataStatementStatus' => $this->docChecker->checkDataStatement(),
+                'submissionIsNonArticle' => ($submissionIsArticle ? '0' : '1')
+            ]
+        );
 
         if (in_array('Error', $dataChecklist)) {
             $dataChecklist['generalStatus'] = 'Error';
