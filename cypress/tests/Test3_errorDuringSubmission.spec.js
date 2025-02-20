@@ -95,6 +95,11 @@ function checkErrorMesssagesInStep4() {
         expect(titleSpan).to.contain("The english title \"Submissions title\" was not found in the sent PDF file. Check if paper's title is equal to the one inserted in the submission's form");
     });
 
+    cy.get('#statusDataStatement > .analysisStatusError').should('be.visible');
+    cy.get('#statusDataStatement > span').should(dataStatementSpan => {
+        expect(dataStatementSpan).to.contain("The data availability statement was not found in the document");
+    });
+
     cy.get('#statusEthicsCommittee > .analysisStatusError').should('be.visible');
     cy.get('#statusEthicsCommittee > span').should(ethicsCommitteeSpan => {
         expect(ethicsCommitteeSpan).to.contain("The Ethics Committee Approval Statement was not found in the document. Since the research involves human beings or animals, it is necessary to state in the manuscript that the research has been approved by the Ethics Committee of the institution responsible for the research. Make sure to insert the statement in text format as an integral part of the manuscript. If the statement is in image format, please transcribe it in text format. Scanned images are not detected by the system.");
