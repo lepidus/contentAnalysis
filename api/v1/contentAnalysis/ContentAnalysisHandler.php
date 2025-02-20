@@ -42,7 +42,7 @@ class ContentAnalysisHandler extends APIHandler
 
         $editFields = ['researchInvolvingHumansOrAnimals' => $params['ethicsCouncil']];
 
-        if(isset($params['documentType'])) {
+        if (isset($params['documentType'])) {
             $editFields['nonArticle'] = $params['documentType'];
         }
 
