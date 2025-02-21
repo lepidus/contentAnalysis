@@ -89,6 +89,12 @@ msgstr "No se pudo realizar la verificación del título en inglés en el docume
 msgid "plugins.generic.contentAnalysis.status.titleEnglishError"
 msgstr "El título en inglés \"{$titleInEnglish}\" no se encontró en el archivo PDF cargado. Verifique que el título del manuscrito sea el mismo que se ingresó en el formulario de envío"
 
+msgid "plugins.generic.contentAnalysis.status.dataStatementSuccess"
+msgstr "La declaración de disponibilidad de los datos de investigación se encuentra en el documento"
+
+msgid "plugins.generic.contentAnalysis.status.dataStatementError"
+msgstr "La declaración de disponibilidad de los datos de investigación no se encontró en el documento"
+
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "La declaración de aprobación del Comité de Ética se encuentra en el documento"
 
