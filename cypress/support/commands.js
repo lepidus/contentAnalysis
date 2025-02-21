@@ -43,9 +43,9 @@ function contributorsStep(submissionData) {
 
 function assertNumberOfCheckingsPerformed(checklistType) {
     let numberCheckingForChecklistType = {
-        'standard': 6,
-        'ethicsCouncil': 7,
-        'nonArticle': 2
+        'standard': 7,
+        'ethicsCouncil': 8,
+        'nonArticle': 3
     };
     
     cy.get('.analysisStatusElement').should('have.length', numberCheckingForChecklistType[checklistType]);
