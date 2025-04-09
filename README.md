@@ -19,6 +19,10 @@ The latest release of this plugin is compatible with the following PKP applicati
 
 To download the plugin, go to the [Releases page](https://github.com/lepidus/contentAnalysis/releases) and download the tar.gz package of the latest release compatible with your website.
 
+## Installation dependencies 
+For the plugin to work, the following dependencies must be installed on the server where the PKP application is running.
+
+* [poppler-utils](https://poppler.freedesktop.org/)
 ## Installation
 
 1. Enter the administration area of ​​your OPS website through the __Dashboard__.
