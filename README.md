@@ -28,8 +28,7 @@ For the plugin to work, the following dependencies must be installed on the serv
 1. Enter the administration area of ​​your OPS website through the __Dashboard__.
 2. Navigate to `Settings`>` Website`> `Plugins`> `Upload a new plugin`.
 3. Under __Upload file__ select the file __contentAnalysis.tar.gz__.
-4. Click __Save__ and the plugin will be installed on your website.
-
+4. Click __Save__ and the plugin will be installed on your website.s
 
 # License
 __This plugin is licensed under the GNU General Public License v3.0__
