@@ -17,14 +17,12 @@ class DocumentChecker
 {
     private $pathFile;
     public $words;
-    public $textHtml;
 
     public function __construct($path)
     {
         $this->pathFile = $path;
         $parser = new ContentParser();
         $this->words = $parser->parseDocument($path);
-        $this->textHtml = shell_exec("pdftohtml -s -i -stdout $path 2>/dev/null");
     }
 
     private $patternsContribution = array(
@@ -163,23 +161,6 @@ class DocumentChecker
 
             if ($orcid != '' && !in_array($orcid, $orcidsDetected)) {
                 $orcidsDetected[] = $orcid;
-            }
-        }
-
-        return count($orcidsDetected);
-    }
-
-    public function checkHyperlinkOrcidsNumber()
-    {
-        $orcidsDetected = [];
-        $hyperlinkOrcidPattern = "~<a href=\"https:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}(\d|X|x)\">~";
-
-        if (preg_match_all($hyperlinkOrcidPattern, $this->textHtml, $matches)) {
-            foreach ($matches[0] as $match) {
-                $orcid = $this->checkOrcid($match);
-                if ($orcid != '' && !in_array($orcid, $orcidsDetected)) {
-                    $orcidsDetected[] = $orcid;
-                }
             }
         }
 
