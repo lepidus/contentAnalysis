@@ -76,7 +76,7 @@ Cypress.Commands.add('assertCheckingsFailed', function(title, checklistType) {
 
     cy.get('#statusORCID').within(() => {
         cy.get('.analysisStatusError');
-        cy.contains('span', "No ORCIDs were identified in the document. Make sure all the ORCIDs have been inserted in the document following the link format recommended by ORCID, also containing the hyperlink to the ORCID record page. Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship.");
+        cy.contains('span', "No ORCIDs were identified in the document. Make sure all the ORCIDs have been inserted in the document following the link format recommended by ORCID. Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship.");
     });
 
     cy.get('#statusTitleEnglish').within(() => {
