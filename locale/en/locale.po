@@ -45,18 +45,15 @@ msgstr "The author's contribution statement is not necessary in single authorshi
 msgid "plugins.generic.contentAnalysis.status.orcidSuccess"
 msgstr "The ORCIDs of all authors were identified"
 
-msgid "plugins.generic.contentAnalysis.status.orcidWarning.hyperlinkOrcids"
-msgstr "The hyperlinks to the ORCID records of all the authors in the submitted document were not identified"
-
-msgid "plugins.generic.contentAnalysis.status.orcidWarning.textOrcids"
+msgid "plugins.generic.contentAnalysis.status.orcidWarning"
 msgstr ""
 "We only identified {$numOrcids} ORCIDs out of a total of {$numAuthors} authors, make sure all authors' ORCIDs are included in the document. "
-"Also make sure all the ORCIDs have been inserted in the document following the <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">link format recommended by ORCID</a>, also containing the hyperlink to the ORCID record page."
+"Also make sure all the ORCIDs have been inserted in the document following the <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">link format recommended by ORCID</a>."
 
 msgid "plugins.generic.contentAnalysis.status.orcidError"
 msgstr ""
 "No ORCIDs were identified in the document. "
-"Make sure all the ORCIDs have been inserted in the document following the <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">link format recommended by ORCID</a>, also containing the hyperlink to the ORCID record page. "
+"Make sure all the ORCIDs have been inserted in the document following the <a href=\"https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier\">link format recommended by ORCID</a>. "
 "Also make sure all the links correspond to the correct ORCID registry of each person listed in the document authorship."
 
 msgid "plugins.generic.contentAnalysis.status.conflictInterestSuccess"
