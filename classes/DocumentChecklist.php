@@ -78,21 +78,12 @@ class DocumentChecklist
     {
         $numAuthors = count($submission->getCurrentPublication()->getData('authors'));
         $textOrcidsDetected = $this->docChecker->checkTextOrcidsNumber();
-        $hyperlinkOrcidsDetected = $this->docChecker->checkHyperlinkOrcidsNumber();
 
         if ($textOrcidsDetected >= $numAuthors) {
-            if ($hyperlinkOrcidsDetected >= $numAuthors) {
-                return ['orcidStatus' => 'Success'];
-            } else {
-                return [
-                    'orcidStatus' => 'Warning',
-                    'orcidWarningType' => 'hyperlinkOrcids',
-                ];
-            }
+            return ['orcidStatus' => 'Success'];
         } elseif ($textOrcidsDetected > 0 && $textOrcidsDetected < $numAuthors) {
             return [
                 'orcidStatus' => 'Warning',
-                'orcidWarningType' => 'textOrcids',
                 'numOrcids' => $textOrcidsDetected,
                 'numAuthors' => $numAuthors
             ];
