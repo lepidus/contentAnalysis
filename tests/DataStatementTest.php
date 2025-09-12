@@ -7,8 +7,10 @@ class DataStatementTest extends DetectionOnDocumentTest
 {
     private $patternsDataStatement = [
         ["data", "statement"],
+        ["declaration", "of", "research", "data", "availability"],
         ["data", "availability", "statement"],
         ["dados", "de", "pesquisa"],
+        ["declaração", "de", "disponibilidade", "de", "dados", "da", "pesquisa"],
         ["datos", "de", "investigación"]
     ];
 

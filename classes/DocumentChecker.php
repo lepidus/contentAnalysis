@@ -113,9 +113,11 @@ class DocumentChecker
 
     private $patternsDataStatement = [
         ["data", "statement"],
+        ["research", "data", "availability"],
         ["data", "availability", "statement"],
         ["data", "accessibility", "statement"],
         ["disponibilidad", "de", "datos"],
+        ["disponibilidade", "de", "dados"],
         ["datos", "de", "investigación"],
         ["dados", "de", "pesquisa"],
         ["dados", "da", "pesquisa"]
