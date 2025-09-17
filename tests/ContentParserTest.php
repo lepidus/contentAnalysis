@@ -40,6 +40,15 @@ class ContentParserTest extends TestCase
         $this->assertEquals($expectedParsedWords, $parsedWords);
     }
 
+    public function testCreatePatternFromString(): void
+    {
+        $string = 'Innovations and new advances for this world: a survey';
+        $expectedPattern = ['innovations', 'and', 'new', 'advances', 'for', 'this', 'world:', 'a', 'survey'];
+
+        $patternCreated = $this->contentParser->createPatternFromString($string);
+        $this->assertEquals($expectedPattern, $patternCreated);
+    }
+
     public function testCleansStylingFromTitle(): void
     {
         $styledTitle = '<b>Innovations</b> and <i>new</i> advances for <u>this world</u>: a survey';
