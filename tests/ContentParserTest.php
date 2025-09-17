@@ -39,4 +39,13 @@ class ContentParserTest extends TestCase
 
         $this->assertEquals($expectedParsedWords, $parsedWords);
     }
+
+    public function testCleansStylingFromTitle(): void
+    {
+        $styledTitle = '<b>Innovations</b> and <i>new</i> advances for <u>this world</u>: a survey';
+        $expectedCleanedTitle = 'Innovations and new advances for this world: a survey';
+
+        $cleanedTitle = $this->contentParser->cleanStyledText($styledTitle);
+        $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
+    }
 }
