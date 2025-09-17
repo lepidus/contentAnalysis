@@ -191,7 +191,9 @@ class DocumentChecker
         }
 
         $parser = new ContentParser();
-        $patternTitle = $parser->createPatternFromString($title);
+        $cleanedTitle = $parser->cleanStyledText($title);
+        $patternTitle = $parser->createPatternFromString($cleanedTitle);
+
         return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
     }
 

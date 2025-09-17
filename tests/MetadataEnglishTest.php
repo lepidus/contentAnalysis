@@ -9,6 +9,7 @@ class MetadataEnglishTest extends DetectionOnDocumentTest
     private $patternKeywords = array("keywords");
     private $patternAbstract = array("abstract");
     private $title = "A beautiful title";
+    private $titleWithStyling = "<b>A</b> <i>beautiful</i> <u>title</u>";
 
     public function setUp(): void
     {
@@ -29,6 +30,17 @@ class MetadataEnglishTest extends DetectionOnDocumentTest
         $statusAbstract = $this->documentChecker->checkAbstractInEnglish($this->title);
 
         $this->assertEquals("Success", $statusAbstract);
+    }
+
+    public function testDetectionTitleWithStyling(): void
+    {
+        $parser = new ContentParser();
+        $patternTitle = $parser->createPatternFromString($this->title);
+
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($patternTitle, $this->documentChecker->words);
+        $statusTitle = $this->documentChecker->checkTitleInEnglish($this->titleWithStyling);
+
+        $this->assertEquals("Success", $statusTitle);
     }
 
     public function testDetectionTitle(): void
