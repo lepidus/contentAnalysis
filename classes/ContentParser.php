@@ -90,4 +90,17 @@ class ContentParser
 
         return $pattern;
     }
+
+    public function cleanStyledText($text)
+    {
+        $patternsToClean = [
+            '<b>', '</b>', '<i>', '</i>', '<u>', '</u>'
+        ];
+
+        foreach ($patternsToClean as $pattern) {
+            $text = str_replace($pattern, '', $text);
+        }
+
+        return $text;
+    }
 }
