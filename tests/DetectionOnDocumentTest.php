@@ -8,12 +8,13 @@ use APP\plugins\generic\contentAnalysis\classes\ContentParser;
 
 class DetectionOnDocumentTest extends TestCase
 {
+    protected const FIXTURES_PATH = __DIR__ . DIRECTORY_SEPARATOR . "fixtures" . DIRECTORY_SEPARATOR;
     protected $documentChecker;
     protected $dummyDocumentPath;
 
     public function setUp(): void
     {
-        $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document.pdf";
+        $this->dummyDocumentPath = self::FIXTURES_PATH . "dummy_document.pdf";
         $this->documentChecker = new DocumentChecker($this->dummyDocumentPath);
     }
 
@@ -35,7 +36,7 @@ class DetectionOnDocumentTest extends TestCase
 
     public function testParserRemovesLineNumbering(): void
     {
-        $this->dummyDocumentPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "dummy_document_numbered.pdf";
+        $this->dummyDocumentPath = self::FIXTURES_PATH . "dummy_document_numbered.pdf";
         $this->documentChecker = new DocumentChecker($this->dummyDocumentPath);
 
         $expectedWordsFirstLine = ["lorem", "ipsum", "dolor", "sit", "amet,", "consectetur", "adipiscing", "elit."];
