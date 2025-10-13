@@ -5,7 +5,8 @@ use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 
 class ConflictInterestTest extends DetectionOnDocumentTest
 {
-    private $patternConflict = array("conflicts", "of", "interests");
+    private $patternConflict = ["conflicts", "of", "interests"];
+    private $patternConflictLigature = ["conﬂito", "de", "interesses"];
 
     public function setUp(): void
     {
@@ -15,6 +16,13 @@ class ConflictInterestTest extends DetectionOnDocumentTest
     public function testDetection(): void
     {
         $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternConflict, $this->documentChecker->words);
+
+        $this->assertEquals("Success", $this->documentChecker->checkConflictInterest());
+    }
+
+    public function testDetectionLigature(): void
+    {
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($this->patternConflictLigature, $this->documentChecker->words);
 
         $this->assertEquals("Success", $this->documentChecker->checkConflictInterest());
     }
