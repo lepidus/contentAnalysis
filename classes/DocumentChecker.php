@@ -25,28 +25,28 @@ class DocumentChecker
         $this->words = $parser->parseDocument($path);
     }
 
-    private $patternsContribution = array(
-        array("contribuição", "dos", "autores"),
-        array("contribuição", "das", "autoras"),
-        array("contribuição", "dos/das", "autores"),
-        array("contribuições", "dos", "autores"),
-        array("contribuições", "dos/das", "autores"),
-        array("contribuição", "das/dos", "autores/as"),
-        array("contribuição", "das/dos", "autoras/es"),
-        array("contribuição", "de", "autoria"),
-        array("colaborações", "individuais"),
-        array("colaboração", "da", "produção", "do", "artigo"),
-        array("authors", "contributions"),
-        array("contribution", "of", "authority"),
-        array("equal", "contribution", "as", "first", "author"),
-        array("participación", "de", "los", "autores"),
-        array("contribución", "de", "autores"),
-        array("contribución", "de", "la", "autoría"),
-        array("contribución", "de", "los", "autores"),
-        array("contribuciones", "de", "los", "autores"),
-        array("contribuciones", "de", "autoría"),
-        array("as","contribuições","de","cada","autora:"),
-    );
+    private $patternsContribution = [
+        ["contribuição", "dos", "autores"],
+        ["contribuição", "das", "autoras"],
+        ["contribuição", "dos/das", "autores"],
+        ["contribuições", "dos", "autores"],
+        ["contribuições", "dos/das", "autores"],
+        ["contribuição", "das/dos", "autores/as"],
+        ["contribuição", "das/dos", "autoras/es"],
+        ["contribuição", "de", "autoria"],
+        ["colaborações", "individuais"],
+        ["colaboração", "da", "produção", "do", "artigo"],
+        ["authors", "contributions"],
+        ["contribution", "of", "authority"],
+        ["equal", "contribution", "as", "first", "author"],
+        ["participación", "de", "los", "autores"],
+        ["contribución", "de", "autores"],
+        ["contribución", "de", "la", "autoría"],
+        ["contribución", "de", "los", "autores"],
+        ["contribuciones", "de", "los", "autores"],
+        ["contribuciones", "de", "autoría"],
+        ["as","contribuições","de","cada","autora:"],
+    ];
 
     private function checksumOrcid($orcid)
     {
@@ -75,41 +75,41 @@ class DocumentChecker
         return "";
     }
 
-    private $patternsConflictInterest = array(
-        array("conflictos", "de", "intereses"),
-        array("conflictos", "de", "interés"),
-        array("conflicts", "of", "interests"),
-        array("competing", "interests"),
-        array("conflitos", "de", "interesses"),
-        array("Não","há","conflito","de","interesses"),
-    );
+    private $patternsConflictInterest = [
+        ["conflictos", "de", "intereses"],
+        ["conflictos", "de", "interés"],
+        ["conflicts", "of", "interests"],
+        ["competing", "interests"],
+        ["conflitos", "de", "interesses"],
+        ["Não","há","conflito","de","interesses"],
+    ];
 
-    private $patternsKeywordsEnglish = array(
-        array("keywords"),
-        array("keyword"),
-        array("descriptors:"),
-        array("key", "words"),
-        array("key", "words:"),
-        array("palavras-chave")
-    );
+    private $patternsKeywordsEnglish = [
+        ["keywords"],
+        ["keyword"],
+        ["descriptors:"],
+        ["key", "words"],
+        ["key", "words:"],
+        ["palavras-chave"]
+    ];
 
-    private $patternsAbstractEnglish = array(
-        array("abstract"),
-        array("abstract:"),
-        array("summary")
-    );
+    private $patternsAbstractEnglish = [
+        ["abstract"],
+        ["abstract:"],
+        ["summary"]
+    ];
 
-    private $patternsEthicsCommittee = array(
-        array("número", "de", "identificação/aprovação", "do", "cep"),
-        array("parecer", "do", "cep"),
-        array("comitê", "de", "ética"),
-        array("comissão", "de", "ética"),
-        array("conselho", "de", "ética"),
-        array("câmara", "de", "ética"),
-        array("comissão", "nacional", "de", "ética"),
-        array("comité", "de", "ética"),
-        array("ethics", "committee"),
-    );
+    private $patternsEthicsCommittee = [
+        ["número", "de", "identificação/aprovação", "do", "cep"],
+        ["parecer", "do", "cep"],
+        ["comitê", "de", "ética"],
+        ["comissão", "de", "ética"],
+        ["conselho", "de", "ética"],
+        ["câmara", "de", "ética"],
+        ["comissão", "nacional", "de", "ética"],
+        ["comité", "de", "ética"],
+        ["ethics", "committee"],
+    ];
 
     private $patternsDataStatement = [
         ["data", "statement"],
