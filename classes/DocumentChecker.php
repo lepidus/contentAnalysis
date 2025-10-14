@@ -79,6 +79,7 @@ class DocumentChecker
         ["conflictos", "de", "intereses"],
         ["conflictos", "de", "interés"],
         ["conflicts", "of", "interests"],
+        ["conﬂict", "of", "interests"],
         ["competing", "interests"],
         ["conﬂito", "de", "interesses"],
         ["conflitos", "de", "interesses"],
