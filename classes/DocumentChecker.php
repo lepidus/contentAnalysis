@@ -45,7 +45,7 @@ class DocumentChecker
         ["contribución", "de", "los", "autores"],
         ["contribuciones", "de", "los", "autores"],
         ["contribuciones", "de", "autoría"],
-        ["as","contribuições","de","cada","autora:"],
+        ["as", "contribuições", "de", "cada", "autora:"],
     ];
 
     private function checksumOrcid($orcid)
@@ -83,7 +83,7 @@ class DocumentChecker
         ["competing", "interests"],
         ["conﬂito", "de", "interesses"],
         ["conflitos", "de", "interesses"],
-        ["Não","há","conflito","de","interesses"],
+        ["Não", "há", "conflito", "de", "interesses"],
     ];
 
     private $patternsKeywordsEnglish = [
@@ -132,7 +132,8 @@ class DocumentChecker
                 $depth = 0;
 
                 foreach ($patterns[$j] as $wordPattern) {
-                    similar_text($this->words[$i + $depth], $wordPattern, $similarity);
+                    $wordFromText = $this->words[$i + $depth];
+                    similar_text($wordFromText, $wordPattern, $similarity);
                     if ($similarity < $limiarForWord) {
                         break;
                     } else {
@@ -161,7 +162,7 @@ class DocumentChecker
         for ($i = 0; $i < count($this->words) - 1; $i++) {
             $word = $this->words[$i];
             $nextWord = $this->words[$i + 1];
-            $orcid = $this->checkOrcid($word.$nextWord);
+            $orcid = $this->checkOrcid($word . $nextWord);
 
             if ($orcid != '' && !in_array($orcid, $orcidsDetected)) {
                 $orcidsDetected[] = $orcid;

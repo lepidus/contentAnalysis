@@ -13,6 +13,16 @@ namespace APP\plugins\generic\contentAnalysis\classes;
 
 class ContentParser
 {
+    private function cleanWord($word)
+    {
+        $patternsToReplace = [
+            '“' => '"',
+            '”' => '"'
+        ];
+
+        return $this->replacePatternsInText($word, $patternsToReplace);
+    }
+
     private function parseWordsFromString($string)
     {
         $words = array();
@@ -31,7 +41,7 @@ class ContentParser
 
                 $word = mb_strtolower(substr($string, $wordStart, $wordEnd - $wordStart));
 
-                $words[] = $word;
+                $words[] = $this->cleanWord($word);
                 $i = $wordEnd;
             }
         }
@@ -93,12 +103,24 @@ class ContentParser
 
     public function cleanStyledText($text)
     {
-        $patternsToClean = [
-            '<b>', '</b>', '<i>', '</i>', '<u>', '</u>'
+        $patternsToReplace = [
+            '<b>' => '',
+            '</b>' => '',
+            '<i>' => '',
+            '</i>' => '',
+            '<u>' => '',
+            '</u>' => '',
+            '“' => '"',
+            '”' => '"'
         ];
 
-        foreach ($patternsToClean as $pattern) {
-            $text = str_replace($pattern, '', $text);
+        return $this->replacePatternsInText($text, $patternsToReplace);
+    }
+
+    private function replacePatternsInText($text, $patterns)
+    {
+        foreach ($patterns as $pattern => $replacement) {
+            $text = str_replace($pattern, $replacement, $text);
         }
 
         return $text;
