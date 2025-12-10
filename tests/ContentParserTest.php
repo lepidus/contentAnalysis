@@ -18,8 +18,27 @@ class ContentParserTest extends TestCase
     public function testParsingOfDocument(): void
     {
         $expectedParsedWords = [
-            'lorem', 'ipsum', 'dolor', 'sit', 'amet,', 'consectetur', 'adipiscing', 'elit.', 'proin', 'arcu', 'diam,',
-            'elementum', 'id', 'quam', 'id,', 'finibus', 'porttitor', 'dolor.', 'donec', 'porta', 'ullamcorper',
+            'lorem',
+            'ipsum',
+            'dolor',
+            'sit',
+            'amet,',
+            'consectetur',
+            'adipiscing',
+            'elit.',
+            'proin',
+            'arcu',
+            'diam,',
+            'elementum',
+            'id',
+            'quam',
+            'id,',
+            'finibus',
+            'porttitor',
+            'dolor.',
+            'donec',
+            'porta',
+            'ullamcorper',
             'volutpat.'
         ];
         $parsedWords = $this->contentParser->parseDocument(self::FIXTURES_PATH . 'dummy_document.pdf');
@@ -31,8 +50,24 @@ class ContentParserTest extends TestCase
     public function testParsingOfLineNumberedDocument(): void
     {
         $expectedParsedWords = [
-            'lorem', 'ipsum', 'dolor', 'sit', 'amet,', 'consectetur', 'adipiscing', 'elit.',
-            'etiam', 'ex', 'libero,', 'porttitor', 'a', 'elit', 'eget,', 'maximus', 'viverra', 'arcu.'
+            'lorem',
+            'ipsum',
+            'dolor',
+            'sit',
+            'amet,',
+            'consectetur',
+            'adipiscing',
+            'elit.',
+            'etiam',
+            'ex',
+            'libero,',
+            'porttitor',
+            'a',
+            'elit',
+            'eget,',
+            'maximus',
+            'viverra',
+            'arcu.'
         ];
         $parsedWords = $this->contentParser->parseDocument(self::FIXTURES_PATH . 'dummy_document_numbered.pdf');
         $parsedWords = array_slice($parsedWords, 0, count($expectedParsedWords));
@@ -49,12 +84,21 @@ class ContentParserTest extends TestCase
         $this->assertEquals($expectedPattern, $patternCreated);
     }
 
-    public function testCleansStylingFromTitle(): void
+    public function testCleansHtmlStylingFromTitle(): void
     {
         $styledTitle = '<b>Innovations</b> and <i>new</i> advances for <u>this world</u>: a survey';
         $expectedCleanedTitle = 'Innovations and new advances for this world: a survey';
 
         $cleanedTitle = $this->contentParser->cleanStyledText($styledTitle);
+        $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
+    }
+
+    public function testCleansOtherCharactersFromTitle(): void
+    {
+        $title = 'Reflections on “Arrival” and brazilian sign language (LIBRAS)';
+        $expectedCleanedTitle = 'Reflections on "Arrival" and brazilian sign language (LIBRAS)';
+
+        $cleanedTitle = $this->contentParser->cleanStyledText($title);
         $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
     }
 }

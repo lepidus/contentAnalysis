@@ -93,12 +93,19 @@ class ContentParser
 
     public function cleanStyledText($text)
     {
-        $patternsToClean = [
-            '<b>', '</b>', '<i>', '</i>', '<u>', '</u>'
+        $patternsToReplace = [
+            '<b>' => '',
+            '</b>' => '',
+            '<i>' => '',
+            '</i>' => '',
+            '<u>' => '',
+            '</u>' => '',
+            '“' => '"',
+            '”' => '"'
         ];
 
-        foreach ($patternsToClean as $pattern) {
-            $text = str_replace($pattern, '', $text);
+        foreach ($patternsToReplace as $pattern => $replacement) {
+            $text = str_replace($pattern, $replacement, $text);
         }
 
         return $text;
