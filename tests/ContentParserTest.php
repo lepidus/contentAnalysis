@@ -18,11 +18,11 @@ class ContentParserTest extends TestCase
     public function testParsingOfDocument(): void
     {
         $expectedParsedWords = [
-            'lorem',
+            '"lorem',
             'ipsum',
             'dolor',
             'sit',
-            'amet,',
+            'amet",',
             'consectetur',
             'adipiscing',
             'elit.',
