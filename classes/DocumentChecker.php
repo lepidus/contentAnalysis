@@ -129,19 +129,21 @@ class DocumentChecker
     {
         for ($i = 0; $i < count($this->words) - $limit; $i++) {
             for ($j = 0; $j < count($patterns); $j++) {
-                $depth = 0;
+                $depth = $similarWords = 0;
 
                 foreach ($patterns[$j] as $wordPattern) {
                     $wordFromText = $this->words[$i + $depth];
                     similar_text($wordFromText, $wordPattern, $similarity);
-                    if ($similarity < $limiarForWord) {
+                    $depth++;
+
+                    if ($similarity < $limiarForWord && $similarWords == 0) {
                         break;
-                    } else {
-                        $depth++;
+                    } else if ($similarity >= $limiarForWord) {
+                        $similarWords++;
                     }
                 }
 
-                if ($depth / count($patterns[$j]) >= $limiarForPattern) {
+                if ($similarWords / count($patterns[$j]) >= $limiarForPattern) {
                     return 'Success';
                 }
             }
