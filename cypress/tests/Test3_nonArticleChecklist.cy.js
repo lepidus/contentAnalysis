@@ -72,7 +72,7 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
         });
 
         cy.get('#userDetailsForm .submitFormButton').click();
-        cy.waitJQuery();
+        cy.wait(2000);
     });
     it('Non-article checklist execution on PDF without any patterns', function() {
         cy.login('eostrom', null, 'publicknowledge');

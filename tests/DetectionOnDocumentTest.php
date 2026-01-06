@@ -19,7 +19,7 @@ abstract class DetectionOnDocumentTest extends TestCase
 
     protected function insertWordsIntoDocWordList($words, $docWordList)
     {
-        $middlePosition = (int) count($docWordList) / 2;
+        $middlePosition = (int) (count($docWordList) / 2);
 
         return array_merge(
             array_slice($docWordList, 0, $middlePosition),

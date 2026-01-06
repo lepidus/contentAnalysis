@@ -102,5 +102,4 @@ class DocumentChecklist
             'titleInEnglish' => $titleInEnglish
         ];
     }
-
 }
