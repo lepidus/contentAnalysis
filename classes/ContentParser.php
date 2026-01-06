@@ -51,6 +51,7 @@ class ContentParser
 
     private function parseLine($line)
     {
+        $line = preg_replace('/\x{200B}/u', '', $line);
         $lineWords = $this->parseWordsFromString($line);
 
         if (!empty($lineWords) && is_numeric($lineWords[0])) {
@@ -63,7 +64,7 @@ class ContentParser
     public function parseDocument($pathFile)
     {
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext " . $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
+        shell_exec("pdftotext " . $pathFile . " " . $pathTxt . " -raw 2>/dev/null");
 
         $docText = file_get_contents($pathTxt);
         $docLines = preg_split("/\r\n|\n|\r/", $docText);
