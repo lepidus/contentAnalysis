@@ -51,7 +51,8 @@ class ContentParser
 
     private function parseLine($line)
     {
-        $line = preg_replace('/\x{200B}/u', '', $line);
+        $zeroWidthSpacePattern = '/\x{200B}/u';
+        $line = preg_replace($zeroWidthSpacePattern, '', $line);
         $lineWords = $this->parseWordsFromString($line);
 
         if (!empty($lineWords) && is_numeric($lineWords[0])) {
