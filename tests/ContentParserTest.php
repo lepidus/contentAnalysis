@@ -23,7 +23,7 @@ class ContentParserTest extends TestCase
             'dolor',
             'sit',
             'amet",',
-            'consectetur',
+            "'consectetur'",
             'adipiscing',
             'elit.',
             'proin',
@@ -97,7 +97,11 @@ class ContentParserTest extends TestCase
     {
         $title = 'Reflections on “Arrival” and brazilian sign language (LIBRAS)';
         $expectedCleanedTitle = 'Reflections on "Arrival" and brazilian sign language (LIBRAS)';
+        $cleanedTitle = $this->contentParser->cleanStyledText($title);
+        $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
 
+        $title = 'Schindler’s List: ‘absolut cinema’';
+        $expectedCleanedTitle = "Schindler's List: 'absolut cinema'";
         $cleanedTitle = $this->contentParser->cleanStyledText($title);
         $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
     }

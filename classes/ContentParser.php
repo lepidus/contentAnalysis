@@ -17,7 +17,9 @@ class ContentParser
     {
         $patternsToReplace = [
             '“' => '"',
-            '”' => '"'
+            '”' => '"',
+            '‘' => "'",
+            '’' => "'",
         ];
 
         return $this->replacePatternsInText($word, $patternsToReplace);
@@ -113,7 +115,9 @@ class ContentParser
             '<u>' => '',
             '</u>' => '',
             '“' => '"',
-            '”' => '"'
+            '”' => '"',
+            '‘' => "'",
+            '’' => "'",
         ];
 
         return $this->replacePatternsInText($text, $patternsToReplace);
