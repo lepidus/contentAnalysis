@@ -102,7 +102,11 @@ class ContentParser
                     $end++;
                 }
 
-                $pattern[] = mb_strtolower(substr($string, $start, $end - $start));
+                $word = mb_strtolower(substr($string, $start, $end - $start));
+                if (strlen($word) >= self::MIN_WORD_LENGTH) {
+                    $pattern[] = $word;
+                }
+
                 $i = $end;
             }
         }

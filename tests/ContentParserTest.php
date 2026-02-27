@@ -77,7 +77,7 @@ class ContentParserTest extends TestCase
     public function testCreatePatternFromString(): void
     {
         $string = 'Innovations and new advances for this world: a survey';
-        $expectedPattern = ['innovations', 'and', 'new', 'advances', 'for', 'this', 'world:', 'a', 'survey'];
+        $expectedPattern = ['innovations', 'and', 'new', 'advances', 'for', 'this', 'world:', 'survey'];
 
         $patternCreated = $this->contentParser->createPatternFromString($string);
         $this->assertEquals($expectedPattern, $patternCreated);
