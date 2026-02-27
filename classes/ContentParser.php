@@ -13,6 +13,9 @@ namespace APP\plugins\generic\contentAnalysis\classes;
 
 class ContentParser
 {
+    private const ZERO_WIDTH_SPACE = "\x{200B}";
+    private const MIN_WORD_LENGTH = 2;
+
     private function cleanWord($word)
     {
         $patternsToReplace = [
@@ -42,8 +45,10 @@ class ContentParser
                 }
 
                 $word = mb_strtolower(substr($string, $wordStart, $wordEnd - $wordStart));
+                if (strlen($word) >= self::MIN_WORD_LENGTH) {
+                    $words[] = $this->cleanWord($word);
+                }
 
-                $words[] = $this->cleanWord($word);
                 $i = $wordEnd;
             }
         }
@@ -53,7 +58,7 @@ class ContentParser
 
     private function parseLine($line)
     {
-        $zeroWidthSpacePattern = '/\x{200B}/u';
+        $zeroWidthSpacePattern = '/' . self::ZERO_WIDTH_SPACE . '/u';
         $line = preg_replace($zeroWidthSpacePattern, '', $line);
         $lineWords = $this->parseWordsFromString($line);
 

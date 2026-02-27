@@ -62,7 +62,6 @@ class ContentParserTest extends TestCase
             'ex',
             'libero,',
             'porttitor',
-            'a',
             'elit',
             'eget,',
             'maximus',
