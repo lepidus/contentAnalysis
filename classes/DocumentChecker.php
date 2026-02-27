@@ -138,7 +138,7 @@ class DocumentChecker
 
                     if ($similarity < $limiarForWord && $similarWords == 0) {
                         break;
-                    } else if ($similarity >= $limiarForWord) {
+                    } elseif ($similarity >= $limiarForWord) {
                         $similarWords++;
                     }
                 }

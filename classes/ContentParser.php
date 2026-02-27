@@ -13,11 +13,16 @@ namespace APP\plugins\generic\contentAnalysis\classes;
 
 class ContentParser
 {
+    private const ZERO_WIDTH_SPACE = "\x{200B}";
+    private const MIN_WORD_LENGTH = 2;
+
     private function cleanWord($word)
     {
         $patternsToReplace = [
             '“' => '"',
-            '”' => '"'
+            '”' => '"',
+            '‘' => "'",
+            '’' => "'",
         ];
 
         return $this->replacePatternsInText($word, $patternsToReplace);
@@ -40,8 +45,10 @@ class ContentParser
                 }
 
                 $word = mb_strtolower(substr($string, $wordStart, $wordEnd - $wordStart));
+                if (strlen($word) >= self::MIN_WORD_LENGTH) {
+                    $words[] = $this->cleanWord($word);
+                }
 
-                $words[] = $this->cleanWord($word);
                 $i = $wordEnd;
             }
         }
@@ -51,7 +58,7 @@ class ContentParser
 
     private function parseLine($line)
     {
-        $zeroWidthSpacePattern = '/\x{200B}/u';
+        $zeroWidthSpacePattern = '/' . self::ZERO_WIDTH_SPACE . '/u';
         $line = preg_replace($zeroWidthSpacePattern, '', $line);
         $lineWords = $this->parseWordsFromString($line);
 
@@ -95,7 +102,11 @@ class ContentParser
                     $end++;
                 }
 
-                $pattern[] = mb_strtolower(substr($string, $start, $end - $start));
+                $word = mb_strtolower(substr($string, $start, $end - $start));
+                if (strlen($word) >= self::MIN_WORD_LENGTH) {
+                    $pattern[] = $word;
+                }
+
                 $i = $end;
             }
         }
@@ -113,7 +124,9 @@ class ContentParser
             '<u>' => '',
             '</u>' => '',
             '“' => '"',
-            '”' => '"'
+            '”' => '"',
+            '‘' => "'",
+            '’' => "'",
         ];
 
         return $this->replacePatternsInText($text, $patternsToReplace);

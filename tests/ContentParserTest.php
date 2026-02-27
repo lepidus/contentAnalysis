@@ -23,7 +23,7 @@ class ContentParserTest extends TestCase
             'dolor',
             'sit',
             'amet",',
-            'consectetur',
+            "'consectetur'",
             'adipiscing',
             'elit.',
             'proin',
@@ -62,7 +62,6 @@ class ContentParserTest extends TestCase
             'ex',
             'libero,',
             'porttitor',
-            'a',
             'elit',
             'eget,',
             'maximus',
@@ -78,7 +77,7 @@ class ContentParserTest extends TestCase
     public function testCreatePatternFromString(): void
     {
         $string = 'Innovations and new advances for this world: a survey';
-        $expectedPattern = ['innovations', 'and', 'new', 'advances', 'for', 'this', 'world:', 'a', 'survey'];
+        $expectedPattern = ['innovations', 'and', 'new', 'advances', 'for', 'this', 'world:', 'survey'];
 
         $patternCreated = $this->contentParser->createPatternFromString($string);
         $this->assertEquals($expectedPattern, $patternCreated);
@@ -97,7 +96,11 @@ class ContentParserTest extends TestCase
     {
         $title = 'Reflections on “Arrival” and brazilian sign language (LIBRAS)';
         $expectedCleanedTitle = 'Reflections on "Arrival" and brazilian sign language (LIBRAS)';
+        $cleanedTitle = $this->contentParser->cleanStyledText($title);
+        $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
 
+        $title = 'Schindler’s List: ‘absolut cinema’';
+        $expectedCleanedTitle = "Schindler's List: 'absolut cinema'";
         $cleanedTitle = $this->contentParser->cleanStyledText($title);
         $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
     }
