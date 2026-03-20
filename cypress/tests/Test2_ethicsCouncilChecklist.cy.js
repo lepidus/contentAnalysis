@@ -3,9 +3,9 @@ import '../support/commands.js';
 describe('Content Analysis Plugin - Ethics counsil checklist execution', function() {
     let submissionData;
     let files;
-    
+
     before(function() {
-        Cypress.config('defaultCommandTimeout', 4000);
+        Cypress.config('defaultCommandTimeout', 10000);
         submissionData = {
             title: "My Neighbor Totoro",
 			abstract: 'Two girls find a big friend in the forest',
@@ -39,16 +39,15 @@ describe('Content Analysis Plugin - Ethics counsil checklist execution', functio
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
         cy.reload();
+        cy.advanceNSubmissionSteps(4);
 
         cy.contains('You must select an option for the Ethics Council');
-        
-        cy.get('.pkpSteps__step__label:contains("Details")').click();
+
+        cy.get('.pkpSteps__step__label:contains("Details")').click({force: true});
         cy.get('input[name="ethicsCouncil"][value="1"]').check();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
+        cy.advanceNSubmissionSteps(4);
         cy.reload();
+        cy.advanceNSubmissionSteps(4);
 
         cy.assertCheckingsFailed(submissionData.title, 'ethicsCouncil');
         cy.contains('There are one or more problems that need to be fixed before you can submit.');
@@ -56,24 +55,23 @@ describe('Content Analysis Plugin - Ethics counsil checklist execution', functio
     });
     it('Ethics council checklist execution on PDF with all patterns', function () {
         cy.login('eostrom', null, 'publicknowledge');
-        cy.findSubmission('myQueue', submissionData.title);
-        
-        cy.contains('button', 'Continue').click();
+        cy.openIncompleteSubmission(submissionData.title);
 
-        cy.get('a.show_extras').click();
-        cy.get('a.pkp_linkaction_deleteGalley').click();
-        cy.get('.pkp_modal_confirmation button:contains("OK")').click();
+        cy.advanceNSubmissionSteps(1);
+
+        cy.get('.show_extras').first().click();
+        cy.get('a.pkp_linkaction_deleteGalley').first().click();
+        cy.contains('button', 'OK').click();
         cy.addSubmissionGalleys([files[1]]);
-        
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
+
+        cy.advanceNSubmissionSteps(3);
 
         cy.reload();
+        cy.advanceNSubmissionSteps(4);
         cy.assertCheckingsSucceeded('ethicsCouncil');
-        
+
         cy.contains('button', 'Submit').click();
-        cy.get('.modal__panel:visible').within(() => {
+        cy.get('[role="dialog"]').within(() => {
             cy.contains('button', 'Submit').click();
         });
         cy.waitJQuery();

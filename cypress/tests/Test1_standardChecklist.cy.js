@@ -3,9 +3,9 @@ import '../support/commands.js';
 describe('Content Analysis Plugin - Standard checklist execution', function() {
     let submissionData;
     let files;
-    
+
     before(function() {
-        Cypress.config('defaultCommandTimeout', 4000);
+        Cypress.config('defaultCommandTimeout', 10000);
         submissionData = {
             title: "Kikis Delivery Service",
 			abstract: 'A young witch starting life in her new city',
@@ -40,6 +40,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
         cy.reload();
+        cy.advanceNSubmissionSteps(4);
 
         cy.assertCheckingsFailed(submissionData.title, 'standard');
         cy.contains('There are one or more problems that need to be fixed before you can submit.');
@@ -47,20 +48,17 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     });
     it('Authors contribution statement checking is skipped on single author submissions', function () {
         cy.login('eostrom', null, 'publicknowledge');
-        cy.findSubmission('myQueue', submissionData.title);
+        cy.openIncompleteSubmission(submissionData.title);
 
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
+        cy.advanceNSubmissionSteps(2);
 
-        cy.get('.listPanel__itemTitle:visible:contains("Hayao Miyazaki")')
-            .parent().parent().within(() => {
-                cy.contains('button', 'Delete').click();
-            });
-        cy.contains('button', 'Delete Contributor').click();
+        cy.get('.listPanel__item:contains("Hayao Miyazaki")').within(() => {
+            cy.contains('button', 'Delete').click();
+        });
+        cy.get('div[role=dialog]').find('button').contains('Delete Contributor').click();
         cy.waitJQuery();
 
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
+        cy.advanceNSubmissionSteps(2);
         cy.reload();
 
         cy.get('#statusContribution').within(() => {
@@ -70,34 +68,35 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     });
     it('Standard checklist execution on PDF with all patterns', function () {
         cy.login('eostrom', null, 'publicknowledge');
-        cy.findSubmission('myQueue', submissionData.title);
-        
-        cy.contains('button', 'Continue').click();
+        cy.openIncompleteSubmission(submissionData.title);
 
-        cy.get('a.show_extras').click();
-        cy.get('a.pkp_linkaction_deleteGalley').click();
-        cy.get('.pkp_modal_confirmation button:contains("OK")').click();
+        cy.advanceNSubmissionSteps(1);
+
+        cy.get('.show_extras').first().click();
+        cy.get('a.pkp_linkaction_deleteGalley').first().click();
+        cy.contains('button', 'OK').click();
         cy.addSubmissionGalleys([files[1]]);
-        cy.contains('button', 'Continue').click();
+        cy.advanceNSubmissionSteps(1);
 
         submissionData.contributors.forEach(authorData => {
             cy.contains('button', 'Add Contributor').click();
-            cy.get('input[name="givenName-en"]').type(authorData.given, {delay: 0});
-            cy.get('input[name="familyName-en"]').type(authorData.family, {delay: 0});
-            cy.get('input[name="email"]').type(authorData.email, {delay: 0});
-            cy.get('select[name="country"]').select(authorData.country);
-            
-            cy.get('.modal__panel:contains("Add Contributor")').find('button').contains('Save').click();
-            cy.waitJQuery();
+            cy.wait(1000);
+            cy.get('.pkpFormField:contains("Given Name")').find('input[name*="givenName-en"]').type(authorData.given, {delay: 0});
+            cy.get('.pkpFormField:contains("Family Name")').find('input[name*="familyName-en"]').type(authorData.family, {delay: 0});
+            cy.get('.pkpFormField:contains("Email")').find('input').type(authorData.email, {delay: 0});
+            cy.get('.pkpFormField:contains("Country")').find('select').select(authorData.country);
+
+            cy.get('div[role=dialog]:contains("Add Contributor")').find('button').contains('Save').click();
+            cy.wait(2000);
         });
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
+        cy.advanceNSubmissionSteps(2);
 
         cy.reload();
+        cy.advanceNSubmissionSteps(4);
         cy.assertCheckingsSucceeded('standard');
-        
+
         cy.contains('button', 'Submit').click();
-        cy.get('.modal__panel:visible').within(() => {
+        cy.get('[role="dialog"]').within(() => {
             cy.contains('button', 'Submit').click();
         });
         cy.waitJQuery();
@@ -105,9 +104,17 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     });
     it('Checklist execution on workflow', function () {
         cy.login('eostrom', null, 'publicknowledge');
-        cy.findSubmission('myQueue', submissionData.title);
+        cy.openSubmission('Active submissions', submissionData.title);
 
-        cy.contains('button', 'Document verification').click();
-        cy.assertCheckingsSucceeded('standard');
+        cy.openWorkflowMenu('Document verification');
+
+        cy.get('.analysisStatusElement').should('have.length', 7);
+        cy.contains('span', "The ORCIDs of all authors were identified");
+        cy.contains('span', "The title in english was found in the document");
+        cy.contains('span', "The data availability statement is present in the document");
+        cy.contains('span', "The author's contribution statement was identified in the document");
+        cy.contains('span', "The conflict of interests statement was identified in the document");
+        cy.contains('span', "The keywords in english were found in the document");
+        cy.contains('span', "The abstract in english was found in the document");
     });
 });
