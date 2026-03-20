@@ -22,9 +22,13 @@ use APP\template\TemplateManager;
 use APP\facades\Repo;
 use PKP\security\Role;
 use APP\pages\submission\SubmissionHandler;
-use APP\plugins\generic\contentAnalysis\api\v1\contentAnalysis\ContentAnalysisHandler;
+use APP\plugins\generic\contentAnalysis\classes\api\v1\ContentAnalysisController;
 use APP\plugins\generic\contentAnalysis\classes\components\forms\ContentAnalysisForm;
 use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
+use PKP\core\APIRouter;
+use PKP\handler\APIHandler;
+use PKP\stageAssignment\StageAssignment;
+use PKP\userGroup\UserGroup;
 
 class ContentAnalysisPlugin extends GenericPlugin
 {
@@ -38,12 +42,35 @@ class ContentAnalysisPlugin extends GenericPlugin
 
         if ($success && $this->getEnabled($mainContextId)) {
             Hook::add('TemplateManager::display', [$this, 'addToDetailsStep']);
-            Hook::add('Template::Workflow::Publication', [$this, 'addToWorkflow']);
             Hook::add('Template::SubmissionWizard::Section::Review', [$this, 'addToReviewStep']);
             Hook::add('Submission::validateSubmit', [$this, 'validateSubmissionFields']);
-
-            Hook::add('Dispatcher::dispatch', [$this, 'setupAPIHandler']);
             Hook::add('Schema::get::submission', [$this, 'addOurFieldsToSubmissionSchema']);
+
+            Hook::add('Dispatcher::dispatch', function (string $hookName, array $params): bool {
+                $request = $params[0];
+                $router = $request->getRouter();
+
+                if (!($router instanceof APIRouter)) {
+                    return Hook::CONTINUE;
+                }
+
+                if (!str_contains($request->getRequestPath(), 'api/v1/contentAnalysis')) {
+                    return Hook::CONTINUE;
+                }
+
+                $handler = new APIHandler(new ContentAnalysisController());
+                $router->setHandler($handler);
+                $handler->runRoutes();
+                exit;
+            });
+
+            try {
+                $request = Application::get()->getRequest();
+                $templateMgr = TemplateManager::getManager($request);
+                $this->registerWorkflowAssets($request, $templateMgr);
+            } catch (\Throwable $e) {
+                error_log('ContentAnalysis registerWorkflowAssets error: ' . $e->getMessage());
+            }
         }
 
         return $success;
@@ -171,26 +198,6 @@ class ContentAnalysisPlugin extends GenericPlugin
         return false;
     }
 
-    public function addToWorkflow($hookName, $params)
-    {
-        $templateMgr = &$params[1];
-        $output = &$params[2];
-
-        $submission = $templateMgr->getTemplateVars('submission');
-        $submissionChecklistData = $this->getSubmissionChecklist($submission);
-
-        if (!is_null($submissionChecklistData)) {
-            $templateMgr->assign($submissionChecklistData);
-            $templateMgr->assign(['placedOn' => 'workflow']);
-
-            $output .= sprintf(
-                '<tab id="checklistInfo" label="%s">%s</tab>',
-                __('plugins.generic.contentAnalysis.status.title'),
-                $templateMgr->fetch($this->getTemplateResource('statusChecklist.tpl'))
-            );
-        }
-    }
-
     private function getSubmissionChecklist($submission)
     {
         $galleys = Repo::galley()
@@ -208,28 +215,6 @@ class ContentAnalysisPlugin extends GenericPlugin
         }
 
         return null;
-    }
-
-    public function setupAPIHandler(string $hookname, array $params): void
-    {
-        $request = $params[0];
-        $router = $request->getRouter();
-
-        if (!($router instanceof \PKP\core\APIRouter)) {
-            return;
-        }
-
-        if (str_contains($request->getRequestPath(), 'api/v1/contentAnalysis')) {
-            $handler = new ContentAnalysisHandler();
-        }
-
-        if (!isset($handler)) {
-            return;
-        }
-
-        $router->setHandler($handler);
-        $handler->getApp()->run();
-        exit;
     }
 
     public function addOurFieldsToSubmissionSchema($hookName, $params)
@@ -253,18 +238,23 @@ class ContentAnalysisPlugin extends GenericPlugin
     private function userIsAuthor($submission)
     {
         $currentUser = Application::get()->getRequest()->getUser();
-        $currentUserAssignedRoles = array();
-        if ($currentUser) {
-            $stageAssignmentDao = DAORegistry::getDAO('StageAssignmentDAO');
-            $stageAssignmentsResult = $stageAssignmentDao->getBySubmissionAndUserIdAndStageId($submission->getId(), $currentUser->getId(), $submission->getData('stageId'));
+        if (!$currentUser) {
+            return false;
+        }
 
-            while ($stageAssignment = $stageAssignmentsResult->next()) {
-                $userGroup = Repo::userGroup()->get($stageAssignment->getUserGroupId(), $submission->getData('contextId'));
-                $currentUserAssignedRoles[] = (int) $userGroup->getRoleId();
+        $stageAssignments = StageAssignment::withSubmissionIds([$submission->getId()])
+            ->withStageIds([$submission->getData('stageId')])
+            ->withUserId($currentUser->getId())
+            ->get();
+
+        foreach ($stageAssignments as $stageAssignment) {
+            $userGroup = UserGroup::find($stageAssignment->userGroupId);
+            if ($userGroup && (int) $userGroup->roleId === Role::ROLE_ID_AUTHOR) {
+                return true;
             }
         }
 
-        return $currentUserAssignedRoles[0] == Role::ROLE_ID_AUTHOR;
+        return false;
     }
 
     private function submitterHasJournalRole()
@@ -273,10 +263,9 @@ class ContentAnalysisPlugin extends GenericPlugin
         $context = $request->getContext();
         $currentUser = $request->getUser();
 
-        $userGroups = Repo::userGroup()->getCollector()
-            ->filterByUserIds([$currentUser->getId()])
-            ->filterByContextIds([$context->getId()])
-            ->getMany();
+        $userGroups = UserGroup::withContextIds([$context->getId()])
+            ->withUserIds([$currentUser->getId()])
+            ->get();
 
         foreach ($userGroups as $userGroup) {
             $journalGroupAbbrev = "SciELO";
@@ -286,5 +275,29 @@ class ContentAnalysisPlugin extends GenericPlugin
         }
 
         return false;
+    }
+
+    private function registerWorkflowAssets($request, $templateMgr): void
+    {
+        $baseUrl = $request->getBaseUrl();
+        $pluginPath = $this->getPluginPath();
+
+        $templateMgr->addJavaScript(
+            'contentAnalysis',
+            "{$baseUrl}/{$pluginPath}/public/build/build.iife.js",
+            [
+                'inline' => false,
+                'contexts' => ['backend'],
+                'priority' => TemplateManager::STYLE_SEQUENCE_LAST,
+            ]
+        );
+
+        $templateMgr->addStyleSheet(
+            'contentAnalysisStyles',
+            "{$baseUrl}/{$pluginPath}/public/build/build.css",
+            [
+                'contexts' => ['backend'],
+            ]
+        );
     }
 }
