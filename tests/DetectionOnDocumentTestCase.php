@@ -5,7 +5,7 @@ namespace APP\plugins\generic\contentAnalysis\tests;
 use PHPUnit\Framework\TestCase;
 use APP\plugins\generic\contentAnalysis\classes\DocumentChecker;
 
-abstract class DetectionOnDocumentTest extends TestCase
+abstract class DetectionOnDocumentTestCase extends TestCase
 {
     protected const FIXTURES_PATH = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
     protected $documentChecker;

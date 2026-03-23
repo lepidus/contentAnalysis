@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTestCase;
 
-class AuthorsContributionTest extends DetectionOnDocumentTest
+class AuthorsContributionTest extends DetectionOnDocumentTestCase
 {
     private $patternContribution = array("contribuição", "dos", "autores");
 
