@@ -34,6 +34,6 @@ For the plugin to work, the following dependencies must be installed on the serv
 # License
 __This plugin is licensed under the GNU General Public License v3.0__
 
-__Copyright (c) 2020-2024 Lepidus Tecnologia__
+__Copyright (c) 2020-2026 Lepidus Tecnologia__
 
-__Copyright (c) 2020-2024 SciELO__
+__Copyright (c) 2020-2026 SciELO__
