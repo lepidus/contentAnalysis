@@ -32,29 +32,37 @@
         <div
           :class="'analysisStatus' + checklistData.contributionStatus"
         ></div>
-        <span>{{
-          t(
-            "plugins.generic.contentAnalysis.status.authorsContribution" +
-              checklistData.contributionStatus
-          )
-        }}</span>
+        <span
+          v-html="
+            t(
+              'plugins.generic.contentAnalysis.status.authorsContribution' +
+                checklistData.contributionStatus
+            )
+          "
+        ></span>
       </div>
 
       <!-- ORCID -->
       <div class="analysisStatusElement">
         <div :class="'analysisStatus' + checklistData.orcidStatus"></div>
-        <span v-if="checklistData.orcidStatus === 'Warning'">{{
-          t("plugins.generic.contentAnalysis.status.orcidWarning", {
-            numOrcids: checklistData.numOrcids,
-            numAuthors: checklistData.numAuthors,
-          })
-        }}</span>
-        <span v-else>{{
-          t(
-            "plugins.generic.contentAnalysis.status.orcid" +
-              checklistData.orcidStatus
-          )
-        }}</span>
+        <span
+          v-if="checklistData.orcidStatus === 'Warning'"
+          v-html="
+            t('plugins.generic.contentAnalysis.status.orcidWarning', {
+              numOrcids: checklistData.numOrcids,
+              numAuthors: checklistData.numAuthors,
+            })
+          "
+        ></span>
+        <span
+          v-else
+          v-html="
+            t(
+              'plugins.generic.contentAnalysis.status.orcid' +
+                checklistData.orcidStatus
+            )
+          "
+        ></span>
       </div>
 
       <!-- Conflict of Interest -->
@@ -65,12 +73,14 @@
         <div
           :class="'analysisStatus' + checklistData.conflictInterestStatus"
         ></div>
-        <span>{{
-          t(
-            "plugins.generic.contentAnalysis.status.conflictInterest" +
-              checklistData.conflictInterestStatus
-          )
-        }}</span>
+        <span
+          v-html="
+            t(
+              'plugins.generic.contentAnalysis.status.conflictInterest' +
+                checklistData.conflictInterestStatus
+            )
+          "
+        ></span>
       </div>
 
       <!-- Keywords English -->
