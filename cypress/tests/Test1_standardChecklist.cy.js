@@ -39,8 +39,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     it('Standard checklist execution on PDF without any pattern', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
 
         cy.assertCheckingsFailed(submissionData.title, 'standard');
         cy.contains('There are one or more problems that need to be fixed before you can submit.');
@@ -59,7 +58,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
         cy.waitJQuery();
 
         cy.advanceNSubmissionSteps(2);
-        cy.reload();
+        cy.get('#statusContribution', { timeout: 15000 }).should('exist');
 
         cy.get('#statusContribution').within(() => {
             cy.get('.analysisStatusSkipped');
@@ -90,9 +89,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
             cy.wait(2000);
         });
         cy.advanceNSubmissionSteps(2);
-
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
         cy.assertCheckingsSucceeded('standard');
 
         cy.contains('button', 'Submit').click();

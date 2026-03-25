@@ -1,8 +1,14 @@
 import ContentAnalysisChecklist from "./components/ContentAnalysisChecklist.vue";
+import ContentAnalysisWizardChecklist from "./components/ContentAnalysisWizardChecklist.vue";
 
 pkp.registry.registerComponent(
   "ContentAnalysisChecklist",
   ContentAnalysisChecklist
+);
+
+pkp.registry.registerComponent(
+  "ContentAnalysisWizardChecklist",
+  ContentAnalysisWizardChecklist
 );
 
 pkp.registry.storeExtend("workflow", (piniaContext) => {

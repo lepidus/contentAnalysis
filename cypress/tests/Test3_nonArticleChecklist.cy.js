@@ -73,7 +73,6 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
     it('Non-article checklist execution on PDF without any patterns', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
-        cy.reload();
 
         cy.contains('You must select an option for the document type');
 
@@ -84,8 +83,7 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
         cy.contains('button', 'Continue').click();
         cy.contains('button', 'Continue').click();
         cy.contains('button', 'Continue').click();
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
 
         cy.assertCheckingsFailed(submissionData.title, 'nonArticle');
         cy.contains('There are one or more problems that need to be fixed before you can submit.');
@@ -105,9 +103,7 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
         cy.contains('button', 'Continue').click();
         cy.contains('button', 'Continue').click();
         cy.contains('button', 'Continue').click();
-
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
         cy.assertCheckingsSucceeded('nonArticle');
 
         cy.contains('button', 'Submit').click();
