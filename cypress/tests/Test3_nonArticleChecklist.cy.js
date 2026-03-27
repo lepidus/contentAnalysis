@@ -3,7 +3,7 @@ import '../support/commands.js';
 describe('Content Analysis Plugin - Non-article checklist execution', function() {
     let submissionData;
     let files;
-    
+
     before(function() {
         Cypress.config('defaultCommandTimeout', 4000);
         submissionData = {
@@ -37,7 +37,8 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
 
     it('Creation of SciELO Journal role', function() {
         cy.login('dbarnes', null, 'publicknowledge');
-        cy.contains('Users & Roles').click();
+        cy.get('nav').contains('Settings').click();
+        cy.get('nav').contains('Users & Roles').click();
         cy.contains('button', 'Roles').click();
         cy.contains('a', 'Create New Role').click();
 
@@ -49,27 +50,22 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
 
         cy.get('#userGroupForm button:contains("OK")').click();
         cy.waitJQuery();
-
-        cy.contains('span', 'SciELO Journal')
-            .parent().parent().parent()
-            .within(() => {
-                cy.get('input[type="checkbox"]').check();
-            });
     });
-    it('Assigns SciELO Journal role to user', function() {
-        cy.login('dbarnes', null, 'publicknowledge');
-        cy.contains('Users & Roles').click();
-        cy.contains('a', 'Search').click();
-        cy.get('input[name="search"]').type('eostrom');
-        cy.contains('button', 'Search').click();
+    it('Assigns SciELO Journal role to user via Settings Wizard', function() {
+        cy.login('admin', 'admin');
+        cy.visit('index.php/index/en/admin/wizard/1');
+        cy.get('button[id="users-button"]').click();
         cy.waitJQuery();
-        
-        cy.get('.show_extras:visible').click();
-        cy.contains('a', 'Edit User').click();
 
-        cy.get('label:contains("SciELO Journal")').within(() => {
-            cy.get('input').check();
-        });
+        cy.get('#userGridContainer .pkp_linkaction_search').click();
+        cy.get('#userSearchForm input[name="search"]').type('eostrom', {force: true});
+        cy.get('#userSearchForm .submitFormButton').click();
+        cy.waitJQuery();
+
+        cy.get('#userGridContainer .show_extras:visible').first().click();
+        cy.get('#userGridContainer').contains('a', 'Edit User').click();
+
+        cy.get('label:contains("SciELO Journal")').first().find('input').check();
 
         cy.get('#userDetailsForm .submitFormButton').click();
         cy.wait(2000);
@@ -77,18 +73,14 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
     it('Non-article checklist execution on PDF without any patterns', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
-        cy.reload();
 
         cy.contains('You must select an option for the document type');
 
-        cy.get('.pkpSteps__step__label:contains("Details")').click();
+        cy.get('.pkpSteps__step__label:contains("Details")').click({force: true});
         cy.get('input[name="documentType"][value="1"]').check();
         cy.get('input[name="ethicsCouncil"][value="0"]').check();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.reload();
+        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
 
         cy.assertCheckingsFailed(submissionData.title, 'nonArticle');
         cy.contains('There are one or more problems that need to be fixed before you can submit.');
@@ -96,24 +88,21 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
     });
     it('Non-article checklist execution on PDF with all patterns', function () {
         cy.login('eostrom', null, 'publicknowledge');
-        cy.findSubmission('myQueue', submissionData.title);
-        
-        cy.contains('button', 'Continue').click();
+        cy.openIncompleteSubmission(submissionData.title);
 
-        cy.get('a.show_extras').click();
-        cy.get('a.pkp_linkaction_deleteGalley').click();
-        cy.get('.pkp_modal_confirmation button:contains("OK")').click();
+        cy.advanceNSubmissionSteps(1);
+
+        cy.get('.show_extras').first().click();
+        cy.get('a.pkp_linkaction_deleteGalley').first().click();
+        cy.contains('button', 'OK').click();
         cy.addSubmissionGalleys([files[1]]);
-        
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
 
-        cy.reload();
+        cy.advanceNSubmissionSteps(3);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
         cy.assertCheckingsSucceeded('nonArticle');
-        
+
         cy.contains('button', 'Submit').click();
-        cy.get('.modal__panel:visible').within(() => {
+        cy.get('[role="dialog"]').within(() => {
             cy.contains('button', 'Submit').click();
         });
         cy.waitJQuery();

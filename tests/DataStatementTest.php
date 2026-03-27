@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTestCase;
 
-class DataStatementTest extends DetectionOnDocumentTest
+class DataStatementTest extends DetectionOnDocumentTestCase
 {
     private $patternsDataStatement = [
         ["data", "statement"],

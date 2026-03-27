@@ -1,14 +1,14 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTestCase;
 use APP\plugins\generic\contentAnalysis\classes\ContentParser;
 use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
 use APP\submission\Submission;
 use APP\publication\Publication;
 use APP\author\Author;
 
-class DocumentChecklistTest extends DetectionOnDocumentTest
+class DocumentChecklistTest extends DetectionOnDocumentTestCase
 {
     private $documentChecklist;
     private $submission;
