@@ -128,6 +128,16 @@ class ContentAnalysisPlugin extends GenericPlugin
 
         $templateMgr->setState(['steps' => $steps]);
 
+        $reviewSteps = $templateMgr->getTemplateVars('reviewSteps') ?: [];
+        $reviewSteps[] = [
+            'id' => 'contentAnalysisChecklist',
+            'component' => 'ContentAnalysisWizardChecklist',
+            'props' => [
+                'submissionId' => $submission->getId(),
+            ]
+        ];
+        $templateMgr->assign('reviewSteps', $reviewSteps);
+
         return false;
     }
 
@@ -155,17 +165,6 @@ class ContentAnalysisPlugin extends GenericPlugin
             ]);
 
             $output .= $templateMgr->fetch($this->getTemplateResource('review/details.tpl'));
-        }
-
-        if ($step === 'files') {
-            $submissionChecklistData = $this->getSubmissionChecklist($submission);
-
-            if (!is_null($submissionChecklistData)) {
-                $templateMgr->assign($submissionChecklistData);
-                $templateMgr->assign(['placedOn' => 'submission']);
-
-                $output .= $templateMgr->fetch($this->getTemplateResource('review/checklist.tpl'));
-            }
         }
 
         return false;

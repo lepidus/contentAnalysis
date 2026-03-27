@@ -38,16 +38,14 @@ describe('Content Analysis Plugin - Ethics counsil checklist execution', functio
     it('Ethics council checklist execution on PDF without any pattern', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
 
         cy.contains('You must select an option for the Ethics Council');
 
         cy.get('.pkpSteps__step__label:contains("Details")').click({force: true});
         cy.get('input[name="ethicsCouncil"][value="1"]').check();
         cy.advanceNSubmissionSteps(4);
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
 
         cy.assertCheckingsFailed(submissionData.title, 'ethicsCouncil');
         cy.contains('There are one or more problems that need to be fixed before you can submit.');
@@ -65,9 +63,7 @@ describe('Content Analysis Plugin - Ethics counsil checklist execution', functio
         cy.addSubmissionGalleys([files[1]]);
 
         cy.advanceNSubmissionSteps(3);
-
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
         cy.assertCheckingsSucceeded('ethicsCouncil');
 
         cy.contains('button', 'Submit').click();

@@ -73,19 +73,14 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
     it('Non-article checklist execution on PDF without any patterns', function() {
         cy.login('eostrom', null, 'publicknowledge');
         cy.createSubmission(submissionData, [files[0]]);
-        cy.reload();
 
         cy.contains('You must select an option for the document type');
 
-        cy.get('.pkpSteps__step__label:contains("Details")').click();
+        cy.get('.pkpSteps__step__label:contains("Details")').click({force: true});
         cy.get('input[name="documentType"][value="1"]').check();
         cy.get('input[name="ethicsCouncil"][value="0"]').check();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.reload();
         cy.advanceNSubmissionSteps(4);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
 
         cy.assertCheckingsFailed(submissionData.title, 'nonArticle');
         cy.contains('There are one or more problems that need to be fixed before you can submit.');
@@ -95,19 +90,15 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
         cy.login('eostrom', null, 'publicknowledge');
         cy.openIncompleteSubmission(submissionData.title);
 
-        cy.contains('button', 'Continue').click();
+        cy.advanceNSubmissionSteps(1);
 
-        cy.get('a.show_extras').click();
+        cy.get('.show_extras').first().click();
         cy.get('a.pkp_linkaction_deleteGalley').first().click();
         cy.contains('button', 'OK').click();
         cy.addSubmissionGalleys([files[1]]);
 
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-        cy.contains('button', 'Continue').click();
-
-        cy.reload();
-        cy.advanceNSubmissionSteps(4);
+        cy.advanceNSubmissionSteps(3);
+        cy.get('.analysisStatusElement', { timeout: 15000 }).should('exist');
         cy.assertCheckingsSucceeded('nonArticle');
 
         cy.contains('button', 'Submit').click();

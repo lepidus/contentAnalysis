@@ -1,20 +1,18 @@
 <template>
-  <div class="contentAnalysisArea">
-    <div class="contentAnalysisHeader">
-      <h2>{{ t("plugins.generic.contentAnalysis.status.title") }}</h2>
-    </div>
-
+  <div id="statusChecklist">
     <div v-if="isLoading" class="contentAnalysisLoading">
       <PkpSpinner />
     </div>
+
+    <div v-else-if="noGalley"></div>
 
     <div v-else-if="error" class="contentAnalysisError">
       <p>{{ error }}</p>
     </div>
 
-    <div v-else class="contentAnalysisBody">
-      <div class="contentAnalysisGeneralStatus">
-        <h4>
+    <div v-else id="checklistBody" :class="'checklist' + checklistData.generalStatus">
+      <div id="titleMessage">
+        <h4 id="analysisStatusGeneral">
           {{
             t(
               "plugins.generic.contentAnalysis.status.message" +
@@ -27,6 +25,7 @@
       <!-- Authors Contribution -->
       <div
         v-if="checklistData.contributionStatus"
+        id="statusContribution"
         class="analysisStatusElement"
       >
         <div
@@ -43,7 +42,7 @@
       </div>
 
       <!-- ORCID -->
-      <div class="analysisStatusElement">
+      <div id="statusORCID" class="analysisStatusElement">
         <div :class="'analysisStatus' + checklistData.orcidStatus"></div>
         <span
           v-if="checklistData.orcidStatus === 'Warning'"
@@ -68,6 +67,7 @@
       <!-- Conflict of Interest -->
       <div
         v-if="checklistData.conflictInterestStatus"
+        id="statusConflictInterest"
         class="analysisStatusElement"
       >
         <div
@@ -86,6 +86,7 @@
       <!-- Keywords English -->
       <div
         v-if="checklistData.keywordsEnglishStatus"
+        id="statusKeywordsEnglish"
         class="analysisStatusElement"
       >
         <div
@@ -102,6 +103,7 @@
       <!-- Abstract English -->
       <div
         v-if="checklistData.abstractEnglishStatus"
+        id="statusAbstractEnglish"
         class="analysisStatusElement"
       >
         <div
@@ -116,7 +118,7 @@
       </div>
 
       <!-- Title English -->
-      <div class="analysisStatusElement">
+      <div id="statusTitleEnglish" class="analysisStatusElement">
         <div
           :class="'analysisStatus' + checklistData.titleEnglishStatus"
         ></div>
@@ -136,6 +138,7 @@
       <!-- Data Statement -->
       <div
         v-if="checklistData.dataStatementStatus"
+        id="statusDataStatement"
         class="analysisStatusElement"
       >
         <div
@@ -152,6 +155,7 @@
       <!-- Ethics Committee -->
       <div
         v-if="checklistData.ethicsCommitteeStatus"
+        id="statusEthicsCommittee"
         class="analysisStatusElement"
       >
         <div
@@ -169,7 +173,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const { useLocalize } = pkp.modules.useLocalize;
 const { useUrl } = pkp.modules.useUrl;
@@ -178,8 +182,8 @@ const { useFetch } = pkp.modules.useFetch;
 const { t } = useLocalize();
 
 const props = defineProps({
-  submission: {
-    type: Object,
+  submissionId: {
+    type: [Number, String],
     required: true,
   },
 });
@@ -187,18 +191,22 @@ const props = defineProps({
 const checklistData = ref({});
 const isLoading = ref(true);
 const error = ref(null);
+const noGalley = ref(false);
 
-const { apiUrl } = useUrl(
-  `contentAnalysis/checklist/${props.submission.id}`
-);
+const { apiUrl } = useUrl(`contentAnalysis/checklist/${props.submissionId}`);
 const { data, fetch: fetchChecklist } = useFetch(apiUrl);
 
 async function loadChecklistData() {
   isLoading.value = true;
   error.value = null;
+  noGalley.value = false;
   try {
     await fetchChecklist();
-    checklistData.value = data.value || {};
+    if (data.value?.noGalley) {
+      noGalley.value = true;
+    } else {
+      checklistData.value = data.value || {};
+    }
   } catch (e) {
     error.value = "Failed to load checklist data";
   } finally {
@@ -206,56 +214,49 @@ async function loadChecklistData() {
   }
 }
 
-onMounted(() => {
-  loadChecklistData();
-});
+let hashPollInterval = null;
+let lastHash = "";
 
-watch(
-  () => props.submission.id,
-  () => {
+function checkHash() {
+  const currentHash = window.location.hash;
+  if (currentHash !== lastHash) {
+    lastHash = currentHash;
+    if (currentHash === "#review") {
+      loadChecklistData();
+    }
+  }
+}
+
+onMounted(() => {
+  lastHash = window.location.hash;
+  if (lastHash === "#review") {
     loadChecklistData();
   }
-);
+  hashPollInterval = setInterval(checkHash, 300);
+});
+
+onBeforeUnmount(() => {
+  if (hashPollInterval) {
+    clearInterval(hashPollInterval);
+  }
+});
 </script>
 
-<style scoped>
-.contentAnalysisArea {
-  padding: 1rem;
-}
-
-.contentAnalysisHeader {
-  margin-bottom: 1.5rem;
-}
-
-.contentAnalysisHeader h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-}
-
-.contentAnalysisLoading {
+<style>
+#statusChecklist .contentAnalysisLoading {
   display: flex;
   justify-content: center;
   padding: 2rem;
 }
 
-.contentAnalysisError {
+#statusChecklist .contentAnalysisError {
   color: #d00;
   padding: 1rem;
   background: #fee;
   border-radius: 4px;
 }
 
-.contentAnalysisBody {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.contentAnalysisGeneralStatus h4 {
-  margin-top: 0;
-}
-
-.analysisStatusElement {
+#statusChecklist .analysisStatusElement {
   display: flex;
   align-items: center;
   background-color: #dcdcdc;
@@ -264,14 +265,14 @@ watch(
   margin-bottom: 18px;
 }
 
-.analysisStatusElement span {
+#statusChecklist .analysisStatusElement span {
   line-height: 24px;
   margin: 0 0.5rem;
   text-align: justify;
 }
 
-.analysisStatusSuccess,
-.analysisStatusSkipped {
+#statusChecklist .analysisStatusSuccess,
+#statusChecklist .analysisStatusSkipped {
   width: 1.4rem;
   height: 1.4rem;
   flex-shrink: 0;
@@ -279,9 +280,9 @@ watch(
   background-color: #00b28d;
 }
 
-.analysisStatusWarning,
-.analysisStatusError,
-.analysisStatusUnable {
+#statusChecklist .analysisStatusWarning,
+#statusChecklist .analysisStatusError,
+#statusChecklist .analysisStatusUnable {
   width: 1.4rem;
   height: 1.4rem;
   flex-shrink: 0;

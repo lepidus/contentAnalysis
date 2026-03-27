@@ -87,8 +87,8 @@ class ContentAnalysisController extends PKPBaseController
 
         if (count($galleys) === 0 || !$galleys[0]->getFile()) {
             return response()->json(
-                ['error' => 'No galley file found'],
-                Response::HTTP_NOT_FOUND
+                ['noGalley' => true],
+                Response::HTTP_OK
             );
         }
 
