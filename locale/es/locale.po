@@ -144,3 +144,6 @@ msgstr "Ha seleccionado que este envío es un artículo científico"
 
 msgid "plugins.generic.contentAnalysis.documentType.selected.notInformed"
 msgstr "Debe seleccionar una opción para el tipo de documento"
+
+msgid "plugins.generic.contentAnalysis.status.loadError"
+msgstr "Error al cargar los datos de la verificación"

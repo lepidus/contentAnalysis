@@ -144,3 +144,6 @@ msgstr "You selected that this submission is a scientific article"
 
 msgid "plugins.generic.contentAnalysis.documentType.selected.notInformed"
 msgstr "You must select an option for the document type"
+
+msgid "plugins.generic.contentAnalysis.status.loadError"
+msgstr "Failed to load checklist data"

@@ -175,7 +175,7 @@ class ContentAnalysisPlugin extends GenericPlugin
         $errors = &$params[0];
         $submission = $params[1];
         $ethicsCouncilNotInformed = is_null($submission->getData('researchInvolvingHumansOrAnimals'));
-        $documentTypeNotInformed = is_null($submission->getData('researchInvolvingHumansOrAnimals'));
+        $documentTypeNotInformed = is_null($submission->getData('nonArticle'));
 
         if ($ethicsCouncilNotInformed) {
             $errors['ethicsCouncil'] = [__('plugins.generic.contentAnalysis.ethicsCouncil.selected.notInformed')];

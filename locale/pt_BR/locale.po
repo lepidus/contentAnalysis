@@ -144,3 +144,6 @@ msgstr "Você selecionou que esta submissão trata-se de um artigo científico"
 
 msgid "plugins.generic.contentAnalysis.documentType.selected.notInformed"
 msgstr "Você deve selecionar uma opção para o tipo do documento"
+
+msgid "plugins.generic.contentAnalysis.status.loadError"
+msgstr "Falha ao carregar os dados da verificação"

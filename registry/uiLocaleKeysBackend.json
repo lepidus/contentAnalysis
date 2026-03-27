@@ -18,6 +18,7 @@
   "plugins.generic.contentAnalysis.status.keywordsEnglish",
   "plugins.generic.contentAnalysis.status.keywordsEnglishError",
   "plugins.generic.contentAnalysis.status.keywordsEnglishSuccess",
+  "plugins.generic.contentAnalysis.status.loadError",
   "plugins.generic.contentAnalysis.status.message",
   "plugins.generic.contentAnalysis.status.messageError",
   "plugins.generic.contentAnalysis.status.messageSuccess",

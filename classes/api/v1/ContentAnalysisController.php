@@ -11,6 +11,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use PKP\core\PKPBaseController;
 use PKP\security\Role;
+use PKP\stageAssignment\StageAssignment;
+use PKP\userGroup\UserGroup;
 
 class ContentAnalysisController extends PKPBaseController
 {
@@ -55,11 +57,32 @@ class ContentAnalysisController extends PKPBaseController
             );
         }
 
-        $params = $request->all();
-        $editFields = ['researchInvolvingHumansOrAnimals' => $params['ethicsCouncil']];
+        if (!$this->userHasAccessToSubmission($submission)) {
+            return response()->json(
+                ['error' => 'Unauthorized'],
+                Response::HTTP_FORBIDDEN
+            );
+        }
 
-        if (isset($params['documentType'])) {
-            $editFields['nonArticle'] = $params['documentType'];
+        $ethicsCouncil = $request->input('ethicsCouncil');
+        if ($ethicsCouncil === null || !in_array((string) $ethicsCouncil, ['0', '1'], true)) {
+            return response()->json(
+                ['error' => 'Invalid ethicsCouncil value'],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        $editFields = ['researchInvolvingHumansOrAnimals' => (string) $ethicsCouncil];
+
+        $documentType = $request->input('documentType');
+        if ($documentType !== null) {
+            if (!in_array((string) $documentType, ['0', '1'], true)) {
+                return response()->json(
+                    ['error' => 'Invalid documentType value'],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+            $editFields['nonArticle'] = (string) $documentType;
         }
 
         Repo::submission()->edit($submission, $editFields);
@@ -76,6 +99,13 @@ class ContentAnalysisController extends PKPBaseController
             return response()->json(
                 ['error' => 'Submission not found'],
                 Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if (!$this->userHasAccessToSubmission($submission)) {
+            return response()->json(
+                ['error' => 'Unauthorized'],
+                Response::HTTP_FORBIDDEN
             );
         }
 
@@ -99,5 +129,33 @@ class ContentAnalysisController extends PKPBaseController
         $checklistData = $checklist->executeChecklist($submission);
 
         return response()->json($checklistData, Response::HTTP_OK);
+    }
+
+    private function userHasAccessToSubmission($submission): bool
+    {
+        $request = Application::get()->getRequest();
+        $currentUser = $request->getUser();
+        if (!$currentUser) {
+            return false;
+        }
+
+        $context = $request->getContext();
+        if ($context) {
+            $userGroups = UserGroup::withContextIds([$context->getId()])
+                ->withUserIds([$currentUser->getId()])
+                ->get();
+
+            foreach ($userGroups as $userGroup) {
+                if (in_array((int) $userGroup->roleId, [Role::ROLE_ID_MANAGER, Role::ROLE_ID_SUB_EDITOR])) {
+                    return true;
+                }
+            }
+        }
+
+        $stageAssignments = StageAssignment::withSubmissionIds([$submission->getId()])
+            ->withUserId($currentUser->getId())
+            ->get();
+
+        return $stageAssignments->isNotEmpty();
     }
 }
