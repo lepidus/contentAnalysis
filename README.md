@@ -1,4 +1,6 @@
-# Content Analysis Plugin 
+**English** | [Português Brasileiro](/docs/README-pt_BR.md) | [Español](/docs/README-es.md)
+
+# Content Analysis Plugin
 
 This plugin verifies the content of the submitted document in search of certain elements and submission's metadata. Then, it shows a report of which elements had been found on the submission view.
 
