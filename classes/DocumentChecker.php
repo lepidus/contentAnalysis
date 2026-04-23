@@ -17,12 +17,14 @@ class DocumentChecker
 {
     private $pathFile;
     public $words;
+    public $secondaryWords;
 
     public function __construct($path)
     {
         $this->pathFile = $path;
         $parser = new ContentParser();
         $this->words = $parser->parseDocument($path);
+        $this->secondaryWords = $parser->parseDocument($path, false);
     }
 
     private $patternsContribution = [

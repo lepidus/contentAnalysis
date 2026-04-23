@@ -5,7 +5,7 @@ namespace APP\plugins\generic\contentAnalysis\tests;
 use PHPUnit\Framework\TestCase;
 use APP\plugins\generic\contentAnalysis\classes\DocumentChecker;
 
-abstract class DetectionOnDocumentTest extends TestCase
+class DetectionOnDocumentTest extends TestCase
 {
     protected const FIXTURES_PATH = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
     protected $documentChecker;
@@ -28,14 +28,12 @@ abstract class DetectionOnDocumentTest extends TestCase
         );
     }
 
-    protected function insertStringIntoTextHtml($string, $textHtml)
-    {
-        return $textHtml . " " . $string;
-    }
-
     public function testCheckerHasWords(): void
     {
         $this->assertNotNull($this->documentChecker->words);
+        $this->assertNotEmpty($this->documentChecker->words);
+
         $this->assertNotNull($this->documentChecker->secondaryWords);
+        $this->assertNotEmpty($this->documentChecker->secondaryWords);
     }
 }
