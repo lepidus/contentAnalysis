@@ -5,7 +5,7 @@ namespace APP\plugins\generic\contentAnalysis\tests;
 use PHPUnit\Framework\TestCase;
 use APP\plugins\generic\contentAnalysis\classes\DocumentChecker;
 
-abstract class DetectionOnDocumentTest extends TestCase
+class DetectionOnDocumentTest extends TestCase
 {
     protected const FIXTURES_PATH = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
     protected $documentChecker;
@@ -28,8 +28,30 @@ abstract class DetectionOnDocumentTest extends TestCase
         );
     }
 
-    protected function insertStringIntoTextHtml($string, $textHtml)
+    public function testCheckerHasWords(): void
     {
-        return $textHtml . " " . $string;
+        $this->assertNotNull($this->documentChecker->words);
+        $this->assertNotEmpty($this->documentChecker->words);
+
+        $this->assertNotNull($this->documentChecker->secondaryWords);
+        $this->assertNotEmpty($this->documentChecker->secondaryWords);
+    }
+
+    public function testGeneralPatternDetectionOnPrimaryWords(): void
+    {
+        $pattern = ['expected', 'pattern', 'to', 'be', 'found'];
+        $backupSecondaryWords = $this->documentChecker->secondaryWords;
+
+        $checkResult = $this->documentChecker->checkForPatterns([$pattern], 5, 50, 1);
+        $this->assertEquals('Error', $checkResult);
+
+        $this->documentChecker->secondaryWords = $this->insertWordsIntoDocWordList($pattern, $this->documentChecker->secondaryWords);
+        $checkResult = $this->documentChecker->checkForPatterns([$pattern], 5, 50, 1);
+        $this->assertEquals('Success', $checkResult);
+
+        $this->documentChecker->secondaryWords = $backupSecondaryWords;
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($pattern, $this->documentChecker->words);
+        $checkResult = $this->documentChecker->checkForPatterns([$pattern], 5, 50, 1);
+        $this->assertEquals('Success', $checkResult);
     }
 }
