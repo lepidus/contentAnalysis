@@ -32,4 +32,10 @@ abstract class DetectionOnDocumentTest extends TestCase
     {
         return $textHtml . " " . $string;
     }
+
+    public function testCheckerHasWords(): void
+    {
+        $this->assertNotNull($this->documentChecker->words);
+        $this->assertNotNull($this->documentChecker->secondaryWords);
+    }
 }
