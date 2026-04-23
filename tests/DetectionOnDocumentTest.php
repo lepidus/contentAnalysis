@@ -36,4 +36,22 @@ class DetectionOnDocumentTest extends TestCase
         $this->assertNotNull($this->documentChecker->secondaryWords);
         $this->assertNotEmpty($this->documentChecker->secondaryWords);
     }
+
+    public function generalPatternDetectionOnPrimaryWords(): void
+    {
+        $pattern = ['expected', 'pattern', 'to', 'be', 'found'];
+        $backupSecondaryWords = $this->documentChecker->secondaryWords;
+
+        $checkResult = $this->documentChecker->checkForPatterns([$pattern], 5, 50, 1);
+        $this->assertEquals('Error', $checkResult);
+
+        $this->documentChecker->secondaryWords = $this->insertWordsIntoDocWordList($pattern, $this->documentChecker->secondaryWords);
+        $checkResult = $this->documentChecker->checkForPatterns([$pattern], 5, 50, 1);
+        $this->assertEquals('Success', $checkResult);
+
+        $this->documentChecker->secondaryWords = $backupSecondaryWords;
+        $this->documentChecker->words = $this->insertWordsIntoDocWordList($pattern, $this->documentChecker->words);
+        $checkResult = $this->documentChecker->checkForPatterns([$pattern], 5, 50, 1);
+        $this->assertEquals('Success', $checkResult);
+    }
 }
