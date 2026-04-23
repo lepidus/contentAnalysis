@@ -37,7 +37,7 @@ class DetectionOnDocumentTest extends TestCase
         $this->assertNotEmpty($this->documentChecker->secondaryWords);
     }
 
-    public function generalPatternDetectionOnPrimaryWords(): void
+    public function testGeneralPatternDetectionOnPrimaryWords(): void
     {
         $pattern = ['expected', 'pattern', 'to', 'be', 'found'];
         $backupSecondaryWords = $this->documentChecker->secondaryWords;
