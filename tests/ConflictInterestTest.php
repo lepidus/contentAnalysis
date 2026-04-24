@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTestCase;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 
-class ConflictInterestTest extends DetectionOnDocumentTestCase
+class ConflictInterestTest extends DetectionOnDocumentTest
 {
     private $patternConflict = ["conflicts", "of", "interests"];
     private $patternConflictLigature = ["conﬂito", "de", "interesses"];

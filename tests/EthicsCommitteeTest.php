@@ -1,11 +1,11 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTestCase;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 
-class EthicsCommitteeTest extends DetectionOnDocumentTestCase
+class EthicsCommitteeTest extends DetectionOnDocumentTest
 {
-    private $patternCommittee = array("aprovação","do","comitê","de","ética");
+    private $patternCommittee = array("aprovação", "do", "comitê", "de", "ética");
 
     public function setUp(): void
     {

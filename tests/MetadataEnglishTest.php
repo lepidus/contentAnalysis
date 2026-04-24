@@ -1,10 +1,10 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTestCase;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 use APP\plugins\generic\contentAnalysis\classes\ContentParser;
 
-class MetadataEnglishTest extends DetectionOnDocumentTestCase
+class MetadataEnglishTest extends DetectionOnDocumentTest
 {
     private $patternKeywords = array("keywords");
     private $patternAbstract = array("abstract");
