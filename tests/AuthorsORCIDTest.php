@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTestCase;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 
-class AuthorsORCIDTest extends DetectionOnDocumentTestCase
+class AuthorsORCIDTest extends DetectionOnDocumentTest
 {
     private $validTextOrcids = [
         "https://orcid.org/0000-0001-5727-2427",
