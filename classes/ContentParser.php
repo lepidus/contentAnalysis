@@ -69,10 +69,11 @@ class ContentParser
         return $lineWords;
     }
 
-    public function parseDocument($pathFile)
+    public function parseDocument($pathFile, $useRawMode = true)
     {
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext " . $pathFile . " " . $pathTxt . " -raw 2>/dev/null");
+        $command = "pdftotext $pathFile $pathTxt" . ($useRawMode ? ' -raw ' : '') . " 2>/dev/null";
+        shell_exec($command);
 
         $docText = file_get_contents($pathTxt);
         $docLines = preg_split("/\r\n|\n|\r/", $docText);

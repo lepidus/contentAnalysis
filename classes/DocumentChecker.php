@@ -17,12 +17,14 @@ class DocumentChecker
 {
     private $pathFile;
     public $words;
+    public $secondaryWords;
 
     public function __construct($path)
     {
         $this->pathFile = $path;
         $parser = new ContentParser();
         $this->words = $parser->parseDocument($path);
+        $this->secondaryWords = $parser->parseDocument($path, false);
     }
 
     private $patternsContribution = [
@@ -125,14 +127,14 @@ class DocumentChecker
         ["dados", "da", "pesquisa"]
     ];
 
-    private function checkForPattern($patterns, $limit, $limiarForWord, $limiarForPattern)
+    private function checkForPatternsInWordList($wordList, $patterns, $limit, $limiarForWord, $limiarForPattern)
     {
-        for ($i = 0; $i < count($this->words) - $limit; $i++) {
+        for ($i = 0; $i < count($wordList) - $limit; $i++) {
             for ($j = 0; $j < count($patterns); $j++) {
                 $depth = $similarWords = 0;
 
                 foreach ($patterns[$j] as $wordPattern) {
-                    $wordFromText = $this->words[$i + $depth];
+                    $wordFromText = $wordList[$i + $depth];
                     similar_text($wordFromText, $wordPattern, $similarity);
                     $depth++;
 
@@ -152,9 +154,20 @@ class DocumentChecker
         return 'Error';
     }
 
+    public function checkForPatterns($patterns, $limit, $limiarForWord, $limiarForPattern)
+    {
+        $result = $this->checkForPatternsInWordList($this->words, $patterns, $limit, $limiarForWord, $limiarForPattern);
+
+        if ($result == 'Error') {
+            $result = $this->checkForPatternsInWordList($this->secondaryWords, $patterns, $limit, $limiarForWord, $limiarForPattern);
+        }
+
+        return $result;
+    }
+
     public function checkAuthorsContribution()
     {
-        return $this->checkForPattern($this->patternsContribution, 3, 75, 1);
+        return $this->checkForPatterns($this->patternsContribution, 3, 75, 1);
     }
 
     public function checkTextOrcidsNumber()
@@ -176,17 +189,17 @@ class DocumentChecker
 
     public function checkConflictInterest()
     {
-        return $this->checkForPattern($this->patternsConflictInterest, 3, 75, 1);
+        return $this->checkForPatterns($this->patternsConflictInterest, 3, 75, 1);
     }
 
     public function checkKeywordsInEnglish()
     {
-        return $this->checkForPattern($this->patternsKeywordsEnglish, 2, 92, 1);
+        return $this->checkForPatterns($this->patternsKeywordsEnglish, 2, 92, 1);
     }
 
     public function checkAbstractInEnglish()
     {
-        return $this->checkForPattern($this->patternsAbstractEnglish, 2, 92, 1);
+        return $this->checkForPatterns($this->patternsAbstractEnglish, 2, 92, 1);
     }
 
     public function checkTitleInEnglish($title)
@@ -199,16 +212,16 @@ class DocumentChecker
         $cleanedTitle = $parser->cleanStyledText($title);
         $patternTitle = $parser->createPatternFromString($cleanedTitle);
 
-        return $this->checkForPattern(array($patternTitle), count($patternTitle), 75, 0.75);
+        return $this->checkForPatterns(array($patternTitle), count($patternTitle), 75, 0.75);
     }
 
     public function checkEthicsCommittee()
     {
-        return $this->checkForPattern($this->patternsEthicsCommittee, 2, 75, 1);
+        return $this->checkForPatterns($this->patternsEthicsCommittee, 2, 75, 1);
     }
 
     public function checkDataStatement()
     {
-        return $this->checkForPattern($this->patternsDataStatement, 3, 90, 1);
+        return $this->checkForPatterns($this->patternsDataStatement, 3, 90, 1);
     }
 }
