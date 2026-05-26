@@ -32,6 +32,7 @@ class ContentParserTest extends TestCase
             'elementum',
             'id',
             'quam',
+            '10',
             'id,',
             'finibus',
             'porttitor',
@@ -45,6 +46,36 @@ class ContentParserTest extends TestCase
         $parsedWords = array_slice($parsedWords, 0, count($expectedParsedWords));
 
         $this->assertEquals($expectedParsedWords, $parsedWords);
+    }
+
+    public function testDetectsDocumentLinesAreNumbered(): void
+    {
+        $nonNumberedDummyDocLines = [
+            ['Lorem', 'ipsum', 'dolor'],
+            ['sit', 'amet', 'consectetur'],
+            ['adipiscing', 'elit'],
+            ['Proin', 'arcu', 'diam'],
+            ['elementum', 'id', 'quam']
+        ];
+        $this->assertFalse($this->contentParser->checkDocumentIsNumbered($nonNumberedDummyDocLines));
+
+        $partiallyNumberedDummyDocLines = [
+            ['Lorem', 'ipsum', 'dolor'],
+            ['1', 'sit', 'amet', 'consectetur'],
+            ['adipiscing', 'elit'],
+            ['3', 'Proin', 'arcu', 'diam'],
+            ['elementum', 'id', 'quam']
+        ];
+        $this->assertFalse($this->contentParser->checkDocumentIsNumbered($partiallyNumberedDummyDocLines));
+
+        $numberedDummyDocLines = [
+            ['1', 'Lorem', 'ipsum', 'dolor'],
+            ['2', 'sit', 'amet', 'consectetur'],
+            ['3', 'adipiscing', 'elit'],
+            ['4', 'Proin', 'arcu', 'diam'],
+            ['5', 'elementum', 'id', 'quam']
+        ];
+        $this->assertTrue($this->contentParser->checkDocumentIsNumbered($numberedDummyDocLines));
     }
 
     public function testParsingOfLineNumberedDocument(): void
