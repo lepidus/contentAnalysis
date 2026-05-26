@@ -15,6 +15,7 @@ class ContentParser
 {
     private const ZERO_WIDTH_SPACE = "\x{200B}";
     private const MIN_WORD_LENGTH = 2;
+    private const NUM_DOC_LINES_SAMPLE = 5;
 
     private function cleanWord($word)
     {
@@ -30,7 +31,7 @@ class ContentParser
 
     private function parseWordsFromString($string)
     {
-        $words = array();
+        $words = [];
 
         for ($i = 0; $i < strlen($string); $i++) {
             while ($i < strlen($string) && ctype_space($string[$i])) {
@@ -56,17 +57,30 @@ class ContentParser
         return $words;
     }
 
-    private function parseLine($line)
+    private function parseLine(string $line, bool $docIsNumbered)
     {
         $zeroWidthSpacePattern = '/' . self::ZERO_WIDTH_SPACE . '/u';
         $line = preg_replace($zeroWidthSpacePattern, '', $line);
         $lineWords = $this->parseWordsFromString($line);
 
-        if (!empty($lineWords) && is_numeric($lineWords[0])) {
+        if ($docIsNumbered && !empty($lineWords) && is_numeric($lineWords[0])) {
             array_shift($lineWords);
         }
 
         return $lineWords;
+    }
+
+    public function checkDocumentIsNumbered(array $docLines): bool
+    {
+        for ($i = 0; $i < self::NUM_DOC_LINES_SAMPLE; $i++) {
+            $parsedLine = explode(' ', $docLines[$i]);
+            $firstWord = $parsedLine[0];
+
+            if (!is_numeric($firstWord)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function parseDocument($pathFile, $useRawMode = true)
@@ -77,11 +91,13 @@ class ContentParser
 
         $docText = file_get_contents($pathTxt);
         $docLines = preg_split("/\r\n|\n|\r/", $docText);
-        $docWords = array();
+        $docWords = [];
         unlink($pathTxt);
 
+        $docIsNumbered = $this->checkDocumentIsNumbered($docLines);
+
         foreach ($docLines as $line) {
-            $docWords = array_merge($docWords, $this->parseLine($line));
+            $docWords = array_merge($docWords, $this->parseLine($line, $docIsNumbered));
         }
 
         return $docWords;

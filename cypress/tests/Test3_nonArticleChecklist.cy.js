@@ -39,12 +39,14 @@ describe('Content Analysis Plugin - Non-article checklist execution', function()
         cy.login('dbarnes', null, 'publicknowledge');
         cy.contains('Users & Roles').click();
         cy.contains('button', 'Roles').click();
+
         cy.contains('a', 'Create New Role').click();
+        cy.wait(1000);
 
         cy.get('#roleId').select('Author');
-        cy.get('input[name="name[en]"]').type('SciELO Journal');
+        cy.get('input[name="name[en]"]').type('SciELO Journal', {delay: 0});
         cy.contains('label', 'Role Name').click();
-        cy.get('input[name="abbrev[en]"]').type('SciELO');
+        cy.get('input[name="abbrev[en]"]').type('SciELO', {delay: 0});
         cy.contains('label', 'Abbreviation').click();
 
         cy.get('#userGroupForm button:contains("OK")').click();
