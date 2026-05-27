@@ -24,7 +24,7 @@ class DocumentChecklist
 
     public function executeChecklist($submission)
     {
-        $dataChecklist = array();
+        $dataChecklist = [];
         $submissionIsArticle = !$submission->getData('nonArticle');
 
         if ($submissionIsArticle) {

@@ -6,8 +6,8 @@ use APP\plugins\generic\contentAnalysis\classes\ContentParser;
 
 class MetadataEnglishTest extends DetectionOnDocumentTest
 {
-    private $patternKeywords = array("keywords");
-    private $patternAbstract = array("abstract");
+    private $patternKeywords = ["keywords"];
+    private $patternAbstract = ["abstract"];
     private $title = "A beautiful title";
     private $titleWithStyling = "<b>A</b> <i>beautiful</i> <u>title</u>";
 

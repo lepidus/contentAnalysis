@@ -212,7 +212,7 @@ class DocumentChecker
         $cleanedTitle = $parser->cleanStyledText($title);
         $patternTitle = $parser->createPatternFromString($cleanedTitle);
 
-        return $this->checkForPatterns(array($patternTitle), count($patternTitle), 75, 0.75);
+        return $this->checkForPatterns([$patternTitle], count($patternTitle), 75, 0.75);
     }
 
     public function checkEthicsCommittee()

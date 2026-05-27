@@ -5,7 +5,7 @@ use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 
 class EthicsCommitteeTest extends DetectionOnDocumentTest
 {
-    private $patternCommittee = array("aprovação", "do", "comitê", "de", "ética");
+    private $patternCommittee = ["aprovação", "do", "comitê", "de", "ética"];
 
     public function setUp(): void
     {
