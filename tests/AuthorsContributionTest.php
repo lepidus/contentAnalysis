@@ -5,7 +5,7 @@ use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
 
 class AuthorsContributionTest extends DetectionOnDocumentTest
 {
-    private $patternContribution = array("contribuição", "dos", "autores");
+    private $patternContribution = ["contribuição", "dos", "autores"];
 
     public function setUp(): void
     {
