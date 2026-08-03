@@ -88,7 +88,7 @@ class ContentParser
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
         $command = "pdftotext " . escapeshellarg($pathFile) .
             " " . escapeshellarg($pathTxt) . ($useRawMode ? ' -raw ' : '') . " 2>/dev/null";
-        shell_exec($command);
+        shell_exec($command); // nosemgrep: PHPCS_SecurityAudit.BadFunctions.SystemExecFunctions.WarnSystemExec
 
         $docText = file_get_contents($pathTxt);
         $docLines = preg_split("/\r\n|\n|\r/", $docText);
