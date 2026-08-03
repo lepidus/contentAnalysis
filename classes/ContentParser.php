@@ -86,7 +86,8 @@ class ContentParser
     public function parseDocument($pathFile, $useRawMode = true)
     {
         $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        $command = "pdftotext $pathFile $pathTxt" . ($useRawMode ? ' -raw ' : '') . " 2>/dev/null";
+        $command = "pdftotext " . escapeshellarg($pathFile) .
+            " " . escapeshellarg($pathTxt) . ($useRawMode ? ' -raw ' : '') . " 2>/dev/null";
         shell_exec($command);
 
         $docText = file_get_contents($pathTxt);
