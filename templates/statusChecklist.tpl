@@ -64,6 +64,13 @@
             </div>
         {/if}
 
+        {if isset($aiStatementStatus)}
+            <div id="statusAIStatement" class="analysisStatusElement">
+                <div class="analysisStatus{$aiStatementStatus}"></div>
+                <span>{translate key="plugins.generic.contentAnalysis.status.aiStatement{$aiStatementStatus}"}</span>
+            </div>
+        {/if}
+
         {if isset($ethicsCommitteeStatus)}
             <div id="statusEthicsCommittee" class="analysisStatusElement">
                 <div class="analysisStatus{$ethicsCommitteeStatus}"></div>

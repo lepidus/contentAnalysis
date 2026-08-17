@@ -92,6 +92,12 @@ msgstr "The data availability statement is present in the document"
 msgid "plugins.generic.contentAnalysis.status.dataStatementError"
 msgstr "The data availability statement was not found in the document"
 
+msgid "plugins.generic.contentAnalysis.status.aiStatementSuccess"
+msgstr "The statement for use of Artificial Intelligence is present in the document"
+
+msgid "plugins.generic.contentAnalysis.status.aiStatementWarning"
+msgstr "The statement for use of Artificial Intelligence was not found in the document"
+
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "The Ethics Committee Approval Statement was found in the document"
 
