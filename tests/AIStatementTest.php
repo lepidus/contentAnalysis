@@ -29,7 +29,7 @@ class AIStatementTest extends DetectionOnDocumentTest
 
     public function testDoesntDetectAiStatementWhenNotPresent(): void
     {
-        $this->assertEquals("Error", $this->documentChecker->checkAIStatement());
+        $this->assertEquals("Warning", $this->documentChecker->checkAIStatement());
     }
 
     public function testDoesntDetectAiStatementFalsePositives(): void
@@ -38,7 +38,7 @@ class AIStatementTest extends DetectionOnDocumentTest
 
         foreach ($this->falsePositivePatterns as $falsePositive) {
             $this->documentChecker->words = $this->insertWordsIntoDocWordList($falsePositive, $documentWords);
-            $this->assertEquals("Error", $this->documentChecker->checkAIStatement());
+            $this->assertEquals("Warning", $this->documentChecker->checkAIStatement());
         }
     }
 }
