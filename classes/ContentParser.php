@@ -85,14 +85,19 @@ class ContentParser
 
     public function parseDocument($pathFile, $useRawMode = true)
     {
-        $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        $command = "pdftotext $pathFile $pathTxt" . ($useRawMode ? ' -raw ' : '') . " 2>/dev/null";
-        shell_exec($command);
+        $pathTxt = tempnam(sys_get_temp_dir(), 'content-analysis-');
 
-        $docText = file_get_contents($pathTxt);
-        $docLines = preg_split("/\r\n|\n|\r/", $docText);
-        $docWords = [];
-        unlink($pathTxt);
+        try {
+            $this->convertPdfToText($pathFile, $pathTxt, $useRawMode);
+
+            $docText = file_get_contents($pathTxt);
+            $docLines = preg_split("/\r\n|\n|\r/", $docText);
+            $docWords = [];
+        } finally {
+            if (file_exists($pathTxt)) {
+                unlink($pathTxt);
+            }
+        }
 
         $docIsNumbered = $this->checkDocumentIsNumbered($docLines);
 
@@ -101,6 +106,36 @@ class ContentParser
         }
 
         return $docWords;
+    }
+
+    private function convertPdfToText($pathFile, $pathTxt, $useRawMode)
+    {
+        $command = ['pdftotext'];
+
+        if ($useRawMode) {
+            $command[] = '-raw';
+        }
+
+        $command[] = $pathFile;
+        $command[] = $pathTxt;
+
+        $process = proc_open(
+            $command,
+            [
+                0 => ['pipe', 'r'],
+                1 => ['pipe', 'w'],
+                2 => ['file', '/dev/null', 'w'],
+            ],
+            $pipes
+        );
+
+        if (!is_resource($process)) {
+            return;
+        }
+
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        proc_close($process);
     }
 
     public function createPatternFromString($string)
