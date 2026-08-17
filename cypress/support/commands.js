@@ -43,9 +43,9 @@ function contributorsStep(submissionData) {
 
 function assertNumberOfCheckingsPerformed(checklistType) {
     let numberCheckingForChecklistType = {
-        'standard': 7,
-        'ethicsCouncil': 8,
-        'nonArticle': 3
+        'standard': 8,
+        'ethicsCouncil': 9,
+        'nonArticle': 4
     };
     
     cy.get('.analysisStatusElement').should('have.length', numberCheckingForChecklistType[checklistType]);
@@ -87,6 +87,11 @@ Cypress.Commands.add('assertCheckingsFailed', function(title, checklistType) {
     cy.get('#statusDataStatement').within(() => {
         cy.get('.analysisStatusError');
         cy.contains('span', "The data availability statement was not found in the document");
+    });
+
+    cy.get('#statusAIStatement').within(() => {
+        cy.get('.analysisStatusWarning');
+        cy.contains('span', "The statement for use of Artificial Intelligence was not found in the document");
     });
 
     if (checklistType != 'nonArticle') {
@@ -137,6 +142,11 @@ Cypress.Commands.add('assertCheckingsSucceeded', function(checklistType) {
     cy.get('#statusDataStatement').within(() => {
         cy.get('.analysisStatusSuccess');
         cy.contains('span', "The data availability statement is present in the document");
+    });
+
+    cy.get('#statusAIStatement').within(() => {
+        cy.get('.analysisStatusSuccess');
+        cy.contains('span', "The statement for use of Artificial Intelligence is present in the document");
     });
 
     if (checklistType != 'nonArticle') {

@@ -92,6 +92,12 @@ msgstr "La declaración de disponibilidad de los datos de investigación se encu
 msgid "plugins.generic.contentAnalysis.status.dataStatementError"
 msgstr "La declaración de disponibilidad de los datos de investigación no se encontró en el documento"
 
+msgid "plugins.generic.contentAnalysis.status.aiStatementSuccess"
+msgstr "La declaración de uso de la Inteligencia Artificial se encuentra en el documento"
+
+msgid "plugins.generic.contentAnalysis.status.aiStatementWarning"
+msgstr "La declaración de uso de la Inteligencia Artificial no se encontró en el documento"
+
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "La declaración de aprobación del Comité de Ética se encuentra en el documento"
 

@@ -36,8 +36,9 @@ class DocumentChecklist
             $this->getStatusORCIDs($submission),
             $this->getTitleInEnglishStatus($submission),
             [
+                'submissionIsNonArticle' => ($submissionIsArticle ? '0' : '1'),
                 'dataStatementStatus' => $this->docChecker->checkDataStatement(),
-                'submissionIsNonArticle' => ($submissionIsArticle ? '0' : '1')
+                'aiStatementStatus' => $this->docChecker->checkAIStatement()
             ]
         );
 
