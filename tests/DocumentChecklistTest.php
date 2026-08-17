@@ -1,12 +1,11 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
-use APP\plugins\generic\contentAnalysis\classes\ContentParser;
-use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
 use APP\submission\Submission;
 use APP\publication\Publication;
 use APP\author\Author;
+use APP\plugins\generic\contentAnalysis\tests\DetectionOnDocumentTest;
+use APP\plugins\generic\contentAnalysis\classes\ContentParser;
+use APP\plugins\generic\contentAnalysis\classes\DocumentChecklist;
 
 class DocumentChecklistTest extends DetectionOnDocumentTest
 {
@@ -62,6 +61,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $parser = new ContentParser();
         $textWords = $parser->createPatternFromString($text);
         $this->documentChecklist->docChecker->words = $this->insertWordsIntoDocWordList($textWords, $this->documentChecklist->docChecker->words);
+        // error_log(print_r($this->documentChecklist->docChecker->words, true));
         return $this->documentChecklist->executeChecklist($this->submission);
     }
 
@@ -108,6 +108,7 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->assertTrue(array_key_exists('orcidStatus', $statusChecklist));
         $this->assertTrue(array_key_exists('titleEnglishStatus', $statusChecklist));
         $this->assertTrue(array_key_exists('dataStatementStatus', $statusChecklist));
+        $this->assertTrue(array_key_exists('aiStatementStatus', $statusChecklist));
 
         $this->assertFalse(array_key_exists('ethicsCommitteeStatus', $statusChecklist));
         $this->assertFalse(array_key_exists('conflictInterestStatus', $statusChecklist));
@@ -120,14 +121,18 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $this->submission->setData('researchInvolvingHumansOrAnimals', true);
         $this->publication->setData('authors', [$this->createAuthor()]);
 
-        $this->executeChecklistAddingNewTextToDocument($this->textOrcids[0]);
-        $this->executeChecklistAddingNewTextToDocument('Data availability statement lorem ipsum dolor sit amet');
-        $statusChecklist = $this->executeChecklistAddingNewTextToDocument($this->title);
+        $statusChecklist = $this->executeChecklistAddingNewTextToDocument(
+            $this->textOrcids[0]
+            . ' Data availability statement lorem ipsum dolor sit amet '
+            . ' Use of artificial intelligence '
+            . $this->title
+        );
 
         $this->assertEquals('1', $statusChecklist['submissionIsNonArticle']);
         $this->assertEquals('Success', $statusChecklist['orcidStatus']);
         $this->assertEquals('Success', $statusChecklist['titleEnglishStatus']);
         $this->assertEquals('Success', $statusChecklist['dataStatementStatus']);
+        $this->assertEquals('Success', $statusChecklist['aiStatementStatus']);
         $this->assertEquals('Success', $statusChecklist['generalStatus']);
     }
 }
