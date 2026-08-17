@@ -85,14 +85,53 @@ class ContentParser
 
     public function parseDocument($pathFile, $useRawMode = true)
     {
-        $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        $command = "pdftotext $pathFile $pathTxt" . ($useRawMode ? ' -raw ' : '') . " 2>/dev/null";
-        shell_exec($command);
+        $pathTxt = tempnam(sys_get_temp_dir(), 'contentAnalysis_');
+        if ($pathTxt === false) {
+            return [];
+        }
 
-        $docText = file_get_contents($pathTxt);
+        try {
+            $command = ['pdftotext'];
+            if ($useRawMode) {
+                $command[] = '-raw';
+            }
+            $command[] = $pathFile;
+            $command[] = $pathTxt;
+
+            // nosemgrep: PHPCS_SecurityAudit.BadFunctions.SystemExecFunctions.WarnSystemExec
+            $process = proc_open(
+                $command,
+                [
+                    1 => ['pipe', 'w'],
+                    2 => ['pipe', 'w'],
+                ],
+                $pipes
+            );
+
+            if (!is_resource($process)) {
+                return [];
+            }
+
+            foreach ($pipes as $pipe) {
+                fclose($pipe);
+            }
+
+            if (proc_close($process) !== 0 || !is_readable($pathTxt)) {
+                return [];
+            }
+
+            $docText = file_get_contents($pathTxt);
+            if ($docText === false) {
+                return [];
+            }
+        } finally {
+            if (file_exists($pathTxt)) {
+                unlink($pathTxt);
+            }
+        }
+
         $docLines = preg_split("/\r\n|\n|\r/", $docText);
         $docWords = [];
-        unlink($pathTxt);
 
         $docIsNumbered = $this->checkDocumentIsNumbered($docLines);
 
