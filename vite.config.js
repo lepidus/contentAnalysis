@@ -25,6 +25,8 @@ export default defineConfig({
         "plugins.generic.contentAnalysis.status.titleEnglishUnable",
         "plugins.generic.contentAnalysis.status.dataStatementSuccess",
         "plugins.generic.contentAnalysis.status.dataStatementError",
+        "plugins.generic.contentAnalysis.status.aiStatementSuccess",
+        "plugins.generic.contentAnalysis.status.aiStatementWarning",
         "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess",
         "plugins.generic.contentAnalysis.status.ethicsCommitteeError",
       ],

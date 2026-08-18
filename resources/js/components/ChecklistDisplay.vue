@@ -135,6 +135,22 @@
     </div>
 
     <div
+      v-if="checklistData.aiStatementStatus"
+      :id="idPrefix ? 'statusAiStatement' : undefined"
+      class="analysisStatusElement"
+    >
+      <div
+        :class="'analysisStatus' + checklistData.aiStatementStatus"
+      ></div>
+      <span>{{
+        t(
+          "plugins.generic.contentAnalysis.status.aiStatement" +
+            checklistData.aiStatementStatus
+        )
+      }}</span>
+    </div>
+
+    <div
       v-if="checklistData.ethicsCommitteeStatus"
       :id="idPrefix ? 'statusEthicsCommittee' : undefined"
       class="analysisStatusElement"
