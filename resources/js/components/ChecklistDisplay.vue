@@ -136,7 +136,7 @@
 
     <div
       v-if="checklistData.aiStatementStatus"
-      :id="idPrefix ? 'statusAiStatement' : undefined"
+      :id="idPrefix ? 'statusAIStatement' : undefined"
       class="analysisStatusElement"
     >
       <div
