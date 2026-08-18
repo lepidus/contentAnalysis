@@ -127,6 +127,13 @@ class DocumentChecker
         ["dados", "da", "pesquisa"]
     ];
 
+    private $patternsAIStatement = [
+        ["use", "of", "ai"],
+        ["use", "of", "artificial", "intelligence"],
+        ["uso", "de", "la", "inteligencia", "artificial"],
+        ["uso", "de", "inteligência", "artificial"]
+    ];
+
     private function checkForPatternsInWordList($wordList, $patterns, $limit, $limiarForWord, $limiarForPattern)
     {
         for ($i = 0; $i < count($wordList) - $limit; $i++) {
@@ -223,5 +230,12 @@ class DocumentChecker
     public function checkDataStatement()
     {
         return $this->checkForPatterns($this->patternsDataStatement, 3, 90, 1);
+    }
+
+    public function checkAIStatement()
+    {
+        $status = $this->checkForPatterns($this->patternsAIStatement, 3, 90, 1);
+
+        return ($status == 'Error') ? 'Warning' : $status;
     }
 }
