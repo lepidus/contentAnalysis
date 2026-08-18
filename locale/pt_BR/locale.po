@@ -91,6 +91,12 @@ msgstr "A declaração de disponibilidade de dados de pesquisa está presente no
 msgid "plugins.generic.contentAnalysis.status.dataStatementError"
 msgstr "A declaração de disponibilidade de dados de pesquisa não foi encontrada no documento"
 
+msgid "plugins.generic.contentAnalysis.status.aiStatementSuccess"
+msgstr "A declaração de uso de Inteligência Artificial está presente no documento"
+
+msgid "plugins.generic.contentAnalysis.status.aiStatementWarning"
+msgstr "A declaração de uso de Inteligência Artificial não foi encontrada no documento"
+
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
 msgstr "A Declaração de Aprovação do Comitê de Ética foi encontrada no documento"
 
