@@ -105,10 +105,11 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
 
         cy.openWorkflowMenu('Document verification');
 
-        cy.get('.analysisStatusElement').should('have.length', 7);
+        cy.get('.analysisStatusElement').should('have.length', 8);
         cy.contains('span', "The ORCIDs of all authors were identified");
         cy.contains('span', "The title in english was found in the document");
         cy.contains('span', "The data availability statement is present in the document");
+        cy.contains('span', "The statement for use of Artificial Intelligence is present in the document");
         cy.contains('span', "The author's contribution statement was identified in the document");
         cy.contains('span', "The conflict of interests statement was identified in the document");
         cy.contains('span', "The keywords in english were found in the document");
