@@ -61,7 +61,6 @@ class DocumentChecklistTest extends DetectionOnDocumentTest
         $parser = new ContentParser();
         $textWords = $parser->createPatternFromString($text);
         $this->documentChecklist->docChecker->words = $this->insertWordsIntoDocWordList($textWords, $this->documentChecklist->docChecker->words);
-        // error_log(print_r($this->documentChecklist->docChecker->words, true));
         return $this->documentChecklist->executeChecklist($this->submission);
     }
 
