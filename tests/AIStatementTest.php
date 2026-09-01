@@ -8,8 +8,12 @@ class AIStatementTest extends DetectionOnDocumentTest
         ["uso", "de", "inteligência", "artificial"],
         ["declaração", "de", "uso", "de", "inteligência", "artificial", "generativa"],
         ["declaração", "de", "uso", "de", "inteligência", "artificial"],
+        ["declaração", "de", "uso", "de", "ia"],
+        ["declaración", "de", "uso", "de", "inteligencia", "artificial"],
         ["statement", "on", "the", "use", "of", "artificial", "intelligence"],
-        ["use", "of", "ai"]
+        ["use", "of", "ai"],
+        ["use", "of", "generative", "ai", "tools"],
+        ["ai", "use", "statement"]
     ];
     private $falsePositivePatterns = [
         ["inteligência", "artificial"],
@@ -23,7 +27,11 @@ class AIStatementTest extends DetectionOnDocumentTest
 
         foreach ($this->patternsAIStatement as $pattern) {
             $this->documentChecker->words = $this->insertWordsIntoDocWordList($pattern, $documentWords);
-            $this->assertEquals("Success", $this->documentChecker->checkAIStatement());
+            $this->assertEquals(
+                "Success",
+                $this->documentChecker->checkAIStatement(),
+                implode(' ', $pattern)
+            );
         }
     }
 
@@ -38,7 +46,11 @@ class AIStatementTest extends DetectionOnDocumentTest
 
         foreach ($this->falsePositivePatterns as $falsePositive) {
             $this->documentChecker->words = $this->insertWordsIntoDocWordList($falsePositive, $documentWords);
-            $this->assertEquals("Warning", $this->documentChecker->checkAIStatement());
+            $this->assertEquals(
+                "Warning",
+                $this->documentChecker->checkAIStatement(),
+                implode(' ', $falsePositive)
+            );
         }
     }
 }
