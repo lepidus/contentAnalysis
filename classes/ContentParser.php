@@ -24,6 +24,7 @@ class ContentParser
             '”' => '"',
             '‘' => "'",
             '’' => "'",
+            ':' => ''
         ];
 
         return $this->replacePatternsInText($word, $patternsToReplace);
@@ -106,30 +107,7 @@ class ContentParser
 
     public function createPatternFromString($string)
     {
-        $pattern = [];
-
-        for ($i = 0; $i < strlen($string); $i++) {
-            while ($i < strlen($string) && ctype_space($string[$i])) {
-                $i++;
-            }
-
-            if ($i < strlen($string)) {
-                $start = $end = $i;
-
-                while ($end < strlen($string) && !ctype_space($string[$end])) {
-                    $end++;
-                }
-
-                $word = mb_strtolower(substr($string, $start, $end - $start));
-                if (strlen($word) >= self::MIN_WORD_LENGTH) {
-                    $pattern[] = $word;
-                }
-
-                $i = $end;
-            }
-        }
-
-        return $pattern;
+        return $this->parseWordsFromString($string);
     }
 
     public function cleanStyledText($text)

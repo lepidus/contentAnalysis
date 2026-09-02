@@ -129,9 +129,13 @@ class DocumentChecker
 
     private $patternsAIStatement = [
         ["use", "of", "ai"],
+        ["use", "of", "generative", "ai"],
+        ["ai", "use", "statement"],
         ["use", "of", "artificial", "intelligence"],
         ["uso", "de", "la", "inteligencia", "artificial"],
-        ["uso", "de", "inteligência", "artificial"]
+        ["uso", "de", "ia"],
+        ["uso", "de", "inteligência", "artificial"],
+        ["uso", "de", "inteligencia", "artificial"]
     ];
 
     private function checkForPatternsInWordList($wordList, $patterns, $limit, $limiarForWord, $limiarForPattern)
