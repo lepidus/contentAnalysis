@@ -238,8 +238,6 @@ class DocumentChecker
 
     public function checkAIStatement()
     {
-        $status = $this->checkForPatterns($this->patternsAIStatement, 3, 90, 1);
-
-        return ($status == 'Error') ? 'Warning' : $status;
+        return $this->checkForPatterns($this->patternsAIStatement, 3, 90, 1);
     }
 }

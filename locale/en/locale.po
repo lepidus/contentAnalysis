@@ -95,7 +95,7 @@ msgstr "The data availability statement was not found in the document"
 msgid "plugins.generic.contentAnalysis.status.aiStatementSuccess"
 msgstr "The statement for use of Artificial Intelligence is present in the document"
 
-msgid "plugins.generic.contentAnalysis.status.aiStatementWarning"
+msgid "plugins.generic.contentAnalysis.status.aiStatementError"
 msgstr "The statement for use of Artificial Intelligence was not found in the document"
 
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
