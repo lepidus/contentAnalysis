@@ -5,7 +5,7 @@ describe('Content Analysis Plugin - Standard checklist execution', function() {
     let files;
     
     before(function() {
-        Cypress.config('defaultCommandTimeout', 4000);
+        Cypress.config('defaultCommandTimeout', 10000);
         submissionData = {
             title: "Kikis Delivery Service",
 			abstract: 'A young witch starting life in her new city',

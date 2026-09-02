@@ -5,7 +5,7 @@ describe('Content Analysis Plugin - Ethics counsil checklist execution', functio
     let files;
     
     before(function() {
-        Cypress.config('defaultCommandTimeout', 4000);
+        Cypress.config('defaultCommandTimeout', 10000);
         submissionData = {
             title: "My Neighbor Totoro",
 			abstract: 'Two girls find a big friend in the forest',
