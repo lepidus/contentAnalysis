@@ -95,7 +95,7 @@ msgstr "La declaración de disponibilidad de los datos de investigación no se e
 msgid "plugins.generic.contentAnalysis.status.aiStatementSuccess"
 msgstr "La declaración de uso de la Inteligencia Artificial se encuentra en el documento"
 
-msgid "plugins.generic.contentAnalysis.status.aiStatementWarning"
+msgid "plugins.generic.contentAnalysis.status.aiStatementError"
 msgstr "La declaración de uso de la Inteligencia Artificial no se encontró en el documento"
 
 msgid "plugins.generic.contentAnalysis.status.ethicsCommitteeSuccess"
