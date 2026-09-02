@@ -129,9 +129,13 @@ class DocumentChecker
 
     private $patternsAIStatement = [
         ["use", "of", "ai"],
+        ["use", "of", "generative", "ai"],
+        ["ai", "use", "statement"],
         ["use", "of", "artificial", "intelligence"],
         ["uso", "de", "la", "inteligencia", "artificial"],
-        ["uso", "de", "inteligência", "artificial"]
+        ["uso", "de", "ia"],
+        ["uso", "de", "inteligência", "artificial"],
+        ["uso", "de", "inteligencia", "artificial"]
     ];
 
     private function checkForPatternsInWordList($wordList, $patterns, $limit, $limiarForWord, $limiarForPattern)
@@ -219,7 +223,7 @@ class DocumentChecker
         $cleanedTitle = $parser->cleanStyledText($title);
         $patternTitle = $parser->createPatternFromString($cleanedTitle);
 
-        return $this->checkForPatterns(array($patternTitle), count($patternTitle), 75, 0.75);
+        return $this->checkForPatterns([$patternTitle], count($patternTitle), 75, 0.75);
     }
 
     public function checkEthicsCommittee()
@@ -234,8 +238,6 @@ class DocumentChecker
 
     public function checkAIStatement()
     {
-        $status = $this->checkForPatterns($this->patternsAIStatement, 3, 90, 1);
-
-        return ($status == 'Error') ? 'Warning' : $status;
+        return $this->checkForPatterns($this->patternsAIStatement, 3, 90, 1);
     }
 }

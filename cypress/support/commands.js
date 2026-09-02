@@ -90,7 +90,7 @@ Cypress.Commands.add('assertCheckingsFailed', function(title, checklistType) {
     });
 
     cy.get('#statusAIStatement').within(() => {
-        cy.get('.analysisStatusWarning');
+        cy.get('.analysisStatusError');
         cy.contains('span', "The statement for use of Artificial Intelligence was not found in the document");
     });
 
