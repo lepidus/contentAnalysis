@@ -114,6 +114,20 @@ class ContentParserTest extends TestCase
         $this->assertEquals($expectedPattern, $patternCreated);
     }
 
+    public function testCleansDirtyWords(): void
+    {
+        $dirtyWords = [
+            '“arrival”' => '"arrival"',
+            '‘absolut’' => "'absolut'",
+            'word:' => 'word',
+            'ﬁnancial' => 'financial',
+        ];
+
+        foreach ($dirtyWords as $dirtyWord => $expectedCleanedWord) {
+            $this->assertEquals($expectedCleanedWord, $this->contentParser->cleanWord($dirtyWord));
+        }
+    }
+
     public function testCleansHtmlStylingFromTitle(): void
     {
         $styledTitle = '<b>Innovations</b> and <i>new</i> advances for <u>this world</u>: a survey';

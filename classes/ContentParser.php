@@ -17,19 +17,6 @@ class ContentParser
     private const MIN_WORD_LENGTH = 2;
     private const NUM_DOC_LINES_SAMPLE = 5;
 
-    private function cleanWord($word)
-    {
-        $patternsToReplace = [
-            '“' => '"',
-            '”' => '"',
-            '‘' => "'",
-            '’' => "'",
-            ':' => ''
-        ];
-
-        return $this->replacePatternsInText($word, $patternsToReplace);
-    }
-
     private function parseWordsFromString($string)
     {
         $words = [];
@@ -148,7 +135,21 @@ class ContentParser
         return $this->parseWordsFromString($string);
     }
 
-    public function cleanStyledText($text)
+    public function cleanWord(string $word): string
+    {
+        $patternsToReplace = [
+            '“' => '"',
+            '”' => '"',
+            '‘' => "'",
+            '’' => "'",
+            ':' => '',
+            'ﬁ' => 'fi'
+        ];
+
+        return $this->replacePatternsInText($word, $patternsToReplace);
+    }
+
+    public function cleanStyledText(string $text): string
     {
         $patternsToReplace = [
             '<b>' => '',
@@ -166,7 +167,7 @@ class ContentParser
         return $this->replacePatternsInText($text, $patternsToReplace);
     }
 
-    private function replacePatternsInText($text, $patterns)
+    private function replacePatternsInText(string $text, array $patterns): string
     {
         foreach ($patterns as $pattern => $replacement) {
             $text = str_replace($pattern, $replacement, $text);
