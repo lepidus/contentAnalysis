@@ -121,6 +121,10 @@ class ContentParserTest extends TestCase
             '‘absolut’' => "'absolut'",
             'word:' => 'word',
             'ﬁnancial' => 'financial',
+            'contribuição' => 'contribuição',
+            'ética' => 'ética',
+            'comissão' => 'comissão',
+            'participación' => 'participación'
         ];
 
         foreach ($dirtyWords as $dirtyWord => $expectedCleanedWord) {
