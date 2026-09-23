@@ -11,6 +11,8 @@
 
 namespace APP\plugins\generic\contentAnalysis\classes;
 
+use Normalizer;
+
 class ContentParser
 {
     private const ZERO_WIDTH_SPACE = "\x{200B}";
@@ -137,13 +139,17 @@ class ContentParser
 
     public function cleanWord(string $word): string
     {
+        $normalized = Normalizer::normalize($word, Normalizer::FORM_KC);
+        if ($normalized !== false) {
+            $word = $normalized;
+        }
+
         $patternsToReplace = [
             '“' => '"',
             '”' => '"',
             '‘' => "'",
             '’' => "'",
             ':' => '',
-            'ﬁ' => 'fi'
         ];
 
         return $this->replacePatternsInText($word, $patternsToReplace);
