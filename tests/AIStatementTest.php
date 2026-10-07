@@ -11,9 +11,11 @@ class AIStatementTest extends DetectionOnDocumentTest
         ["declaração", "de", "uso", "de", "ia"],
         ["declaración", "de", "uso", "de", "inteligencia", "artificial"],
         ["statement", "on", "the", "use", "of", "artificial", "intelligence"],
+        ["declaration", "of", "ai", "use"],
         ["use", "of", "ai"],
         ["use", "of", "generative", "ai", "tools"],
-        ["ai", "use", "statement"]
+        ["ai", "use", "statement"],
+        ["ai", "usage", "statement"]
     ];
     private $falsePositivePatterns = [
         ["inteligência", "artificial"],
