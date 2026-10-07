@@ -128,9 +128,11 @@ class DocumentChecker
     ];
 
     private $patternsAIStatement = [
+        ["declaration", "of", "ai", "use"],
         ["use", "of", "ai"],
         ["use", "of", "generative", "ai"],
         ["ai", "use", "statement"],
+        ["ai", "usage", "statement"],
         ["use", "of", "artificial", "intelligence"],
         ["uso", "de", "la", "inteligencia", "artificial"],
         ["uso", "de", "ia"],
