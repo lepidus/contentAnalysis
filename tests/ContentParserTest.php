@@ -153,4 +153,29 @@ class ContentParserTest extends TestCase
         $cleanedTitle = $this->contentParser->cleanStyledText($title);
         $this->assertEquals($expectedCleanedTitle, $cleanedTitle);
     }
+
+    public function testParsingDoesNotRemoveDocumentStoredWithTxtExtension(): void
+    {
+        $workDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'contentAnalysisParserTest_' . uniqid();
+        mkdir($workDir);
+        $documentPath = $workDir . DIRECTORY_SEPARATOR . 'galleyFile.txt';
+        copy(self::FIXTURES_PATH . 'dummy_document.pdf', $documentPath);
+        $originalHash = sha1_file($documentPath);
+
+        try {
+            $parsedWords = $this->contentParser->parseDocument($documentPath);
+
+            $this->assertFileExists($documentPath);
+            $this->assertSame($originalHash, sha1_file($documentPath));
+            $this->assertEquals(
+                $this->contentParser->parseDocument(self::FIXTURES_PATH . 'dummy_document.pdf'),
+                $parsedWords
+            );
+        } finally {
+            if (file_exists($documentPath)) {
+                unlink($documentPath);
+            }
+            rmdir($workDir);
+        }
+    }
 }
