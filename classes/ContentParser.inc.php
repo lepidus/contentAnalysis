@@ -58,6 +58,8 @@ class ContentParser
         try {
             // A command string is used because PHP 7.3, supported by this branch, does not accept an argument array
             $command = 'pdftotext -layout ' . escapeshellarg($pathFile) . ' ' . escapeshellarg($pathTxt);
+            // Both paths are escaped with escapeshellarg() above
+            // nosemgrep: PHPCS_SecurityAudit.BadFunctions.SystemExecFunctions.WarnSystemExec
             $process = proc_open(
                 $command,
                 array(
