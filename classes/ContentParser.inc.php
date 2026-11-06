@@ -56,8 +56,10 @@ class ContentParser
         }
 
         try {
+            // A command string is used because PHP 7.3, supported by this branch, does not accept an argument array
+            $command = 'pdftotext -layout ' . escapeshellarg($pathFile) . ' ' . escapeshellarg($pathTxt);
             $process = proc_open(
-                array('pdftotext', '-layout', $pathFile, $pathTxt),
+                $command,
                 array(
                     1 => array('file', '/dev/null', 'w'),
                     2 => array('file', '/dev/null', 'w'),
