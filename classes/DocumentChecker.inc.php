@@ -20,7 +20,9 @@ class DocumentChecker
         $this->pathFile = $path;
         $parser = new ContentParser();
         $this->words = $parser->parseDocument($path);
-        $this->textHtml = shell_exec("pdftohtml -s -i -stdout $path 2>/dev/null");
+        // The path is escaped with escapeshellarg()
+        // nosemgrep: PHPCS_SecurityAudit.BadFunctions.SystemExecFunctions.WarnSystemExec
+        $this->textHtml = shell_exec('pdftohtml -s -i -stdout ' . escapeshellarg($path) . ' 2>/dev/null');
     }
 
     private $patternsContribution = array(

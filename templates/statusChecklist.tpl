@@ -52,7 +52,7 @@
         <div id="statusTitleEnglish" class="analysisStatusElement">
             <div class="analysisStatus{$titleEnglishStatus}"></div>
             {if $titleEnglishStatus == "Error"}
-                <span>{translate key="plugins.generic.contentAnalysis.status.titleEnglish{$titleEnglishStatus}" titleInEnglish=$titleInEnglish}</span>
+                <span v-pre>{translate key="plugins.generic.contentAnalysis.status.titleEnglish{$titleEnglishStatus}" titleInEnglish=$titleInEnglish|escape}</span>
             {else}
                 <span>{translate key="plugins.generic.contentAnalysis.status.titleEnglish{$titleEnglishStatus}"}</span>
             {/if}

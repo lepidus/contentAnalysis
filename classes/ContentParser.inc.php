@@ -50,13 +50,45 @@ class ContentParser
 
     public function parseDocument($pathFile)
     {
-        $pathTxt = substr($pathFile, 0, -3) . 'txt';
-        shell_exec("pdftotext " . $pathFile . " " . $pathTxt . " -layout 2>/dev/null");
+        $pathTxt = tempnam(sys_get_temp_dir(), 'contentAnalysis_');
+        if ($pathTxt === false) {
+            return array();
+        }
 
-        $docText = file_get_contents($pathTxt, FILE_TEXT);
+        try {
+            // A command string is used because PHP 7.3, supported by this branch, does not accept an argument array
+            $command = 'pdftotext -layout ' . escapeshellarg($pathFile) . ' ' . escapeshellarg($pathTxt);
+            // Both paths are escaped with escapeshellarg() above
+            // nosemgrep: PHPCS_SecurityAudit.BadFunctions.SystemExecFunctions.WarnSystemExec
+            $process = proc_open(
+                $command,
+                array(
+                    1 => array('file', '/dev/null', 'w'),
+                    2 => array('file', '/dev/null', 'w'),
+                ),
+                $pipes
+            );
+
+            if (!is_resource($process)) {
+                return array();
+            }
+
+            if (proc_close($process) !== 0 || !is_readable($pathTxt)) {
+                return array();
+            }
+
+            $docText = file_get_contents($pathTxt);
+            if ($docText === false) {
+                return array();
+            }
+        } finally {
+            if (file_exists($pathTxt)) {
+                unlink($pathTxt);
+            }
+        }
+
         $docLines = preg_split("/\r\n|\n|\r/", $docText);
         $docWords = array();
-        unlink($pathTxt);
 
         foreach ($docLines as $line) {
             $docWords = array_merge($docWords, $this->parseLine($line));
