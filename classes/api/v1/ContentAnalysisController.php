@@ -10,9 +10,11 @@ use Illuminate\Http\Request as IlluminateRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use PKP\core\PKPBaseController;
+use PKP\core\PKPRequest;
+use PKP\security\authorization\ContextAccessPolicy;
+use PKP\security\authorization\SubmissionAccessPolicy;
+use PKP\security\authorization\UserRolesRequiredPolicy;
 use PKP\security\Role;
-use PKP\stageAssignment\StageAssignment;
-use PKP\userGroup\UserGroup;
 
 class ContentAnalysisController extends PKPBaseController
 {
@@ -34,6 +36,15 @@ class ContentAnalysisController extends PKPBaseController
         ];
     }
 
+    public function authorize(PKPRequest $request, array &$args, array $roleAssignments): bool
+    {
+        $this->addPolicy(new UserRolesRequiredPolicy($request), true);
+        $this->addPolicy(new ContextAccessPolicy($request, $roleAssignments));
+        $this->addPolicy(new SubmissionAccessPolicy($request, $args, $roleAssignments));
+
+        return parent::authorize($request, $args, $roleAssignments);
+    }
+
     public function getGroupRoutes(): void
     {
         Route::put('saveForm/{submissionId}', $this->saveForm(...))
@@ -47,22 +58,7 @@ class ContentAnalysisController extends PKPBaseController
 
     public function saveForm(IlluminateRequest $request): JsonResponse
     {
-        $submissionId = (int) $request->route('submissionId');
-        $submission = Repo::submission()->get($submissionId);
-
-        if (!$submission) {
-            return response()->json(
-                ['error' => 'Submission not found'],
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        if (!$this->userHasAccessToSubmission($submission)) {
-            return response()->json(
-                ['error' => 'Unauthorized'],
-                Response::HTTP_FORBIDDEN
-            );
-        }
+        $submission = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
 
         $ethicsCouncil = $request->input('ethicsCouncil');
         if ($ethicsCouncil === null || !in_array((string) $ethicsCouncil, ['0', '1'], true)) {
@@ -92,22 +88,7 @@ class ContentAnalysisController extends PKPBaseController
 
     public function getChecklist(IlluminateRequest $request): JsonResponse
     {
-        $submissionId = (int) $request->route('submissionId');
-        $submission = Repo::submission()->get($submissionId);
-
-        if (!$submission) {
-            return response()->json(
-                ['error' => 'Submission not found'],
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        if (!$this->userHasAccessToSubmission($submission)) {
-            return response()->json(
-                ['error' => 'Unauthorized'],
-                Response::HTTP_FORBIDDEN
-            );
-        }
+        $submission = $this->getAuthorizedContextObject(Application::ASSOC_TYPE_SUBMISSION);
 
         $galleys = Repo::galley()
             ->getCollector()
@@ -129,33 +110,5 @@ class ContentAnalysisController extends PKPBaseController
         $checklistData = $checklist->executeChecklist($submission);
 
         return response()->json($checklistData, Response::HTTP_OK);
-    }
-
-    private function userHasAccessToSubmission($submission): bool
-    {
-        $request = Application::get()->getRequest();
-        $currentUser = $request->getUser();
-        if (!$currentUser) {
-            return false;
-        }
-
-        $context = $request->getContext();
-        if ($context) {
-            $userGroups = UserGroup::withContextIds([$context->getId()])
-                ->withUserIds([$currentUser->getId()])
-                ->get();
-
-            foreach ($userGroups as $userGroup) {
-                if (in_array((int) $userGroup->roleId, [Role::ROLE_ID_MANAGER, Role::ROLE_ID_SUB_EDITOR])) {
-                    return true;
-                }
-            }
-        }
-
-        $stageAssignments = StageAssignment::withSubmissionIds([$submission->getId()])
-            ->withUserId($currentUser->getId())
-            ->get();
-
-        return $stageAssignments->isNotEmpty();
     }
 }
